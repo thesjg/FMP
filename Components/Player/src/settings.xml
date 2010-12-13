@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<settings>
+ <id>489a25da-04b1-0001-f228-95e467836d49</id>
+ <key>70c32a85-1fdd-4650-107a-4198058cf30f</key>
+ <style>default</style>
+ <features>
+<feature>embed</feature><feature>share</feature><feature>email</feature><feature>sms</feature><feature>popout</feature><feature>lighting</feature><feature>autoplay</feature>
+
+ </features>
+</settings>

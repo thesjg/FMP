@@ -1,0 +1,15 @@
+CREATE TABLE transcode_video_framerates (
+  id            SERIAL8 PRIMARY KEY,
+  framerate     NUMERIC(3) NOT NULL,
+UNIQUE(framerate)
+);
+
+INSERT INTO transcode_video_framerates (framerate) VALUES (5);
+INSERT INTO transcode_video_framerates (framerate) VALUES (8);
+INSERT INTO transcode_video_framerates (framerate) VALUES (12);
+INSERT INTO transcode_video_framerates (framerate) VALUES (15);
+INSERT INTO transcode_video_framerates (framerate) VALUES (23.976);
+INSERT INTO transcode_video_framerates (framerate) VALUES (24);
+INSERT INTO transcode_video_framerates (framerate) VALUES (25);
+INSERT INTO transcode_video_framerates (framerate) VALUES (29.97);
+INSERT INTO transcode_video_framerates (framerate) VALUES (30);

@@ -1,0 +1,84 @@
+<script type="text/javascript" src="/js/jquery.tablesorter.min.js"></script> 
+<!--<script type="text/javascript" src="/js/jquery.tablesorter.pager.js"></script>-->
+<script type="text/javascript" src="/js/jquery.metadata.js"></script>
+<script type="text/javascript">
+$(document).ready(function() 
+    { 
+        $("#index_table").tablesorter({
+            headers:
+                {
+                    6: {sorter: false}
+                }
+            });
+        //.tablesorterPager({container: $("#pager")});
+    } 
+); 
+</script>
+
+<div class="window" title="Profiles" id="transcode_profiles" wwidth="675" wheight="500">
+    <form action="<?= str_replace("/error/1/", "", $this->Path)  ?>" method="post">
+        <table style="width: 667px" id="index_table" class="tablesorter">
+            <thead>
+            <tr style='background-color: #ccc; width: 100%; font-size: small; height: 25px;'>
+                <th>Profile Name:</th>
+                <th>Video Format:</th>
+                <th>Framerate:</th>
+                <th>Width:</th>
+                <th>Height:</th>
+                <th>Audio Format:</th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+        <?
+        foreach ($this->transcodeObjects as $o)
+        {
+         
+
+            if(!strlen($o['aformat']))
+            {
+                $o['aformat'] = "Auto";
+            }
+            
+            if (!(is_numeric($o['abitrate'])))
+            {
+                $o['abitrate'] = " ";
+            }
+                else
+            {
+                $o['abitrate'] = " - " . $o['abitrate'] . " kb/s";
+            }
+            
+            if ($o['framerate'] == null || $o['framerate'] == "" )
+            {
+                $o['framerate'] = "Auto";
+            }
+         
+            echo '<tr><td style="font-weight: bold">'.$o['name'].'</td><td>'.$o['vformat'].' - '.$o['vbitrate'].'kb/s</td><td>'.$o['framerate'].'</td><td>'.$o['width'].'</td><td>'.$o['height'].'</td><td>'.$o['aformat'] . $o['abitrate'].' </td><td><a href="/transcode/settings/profile/'.$o['id'].'"><img src="/img/edit.png" /></a></td></tr>';            
+        }
+        ?>
+            </tbody>
+        </table>
+        
+        <!--
+    <div id="pager" class="pager">
+        <form>
+            <img src="../addons/pager/icons/first.png" class="first"/>
+            <img src="../addons/pager/icons/prev.png" class="prev"/>
+            <input type="text" class="pagedisplay"/>
+            <img src="../addons/pager/icons/next.png" class="next"/>
+            <img src="../addons/pager/icons/last.png" class="last"/>
+            <select class="pagesize">
+                <option selected="selected"  value="10">10</option>
+    
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option  value="40">40</option>
+            </select>
+        </form>
+    </div>
+-->
+        
+    </form>
+</div>
+

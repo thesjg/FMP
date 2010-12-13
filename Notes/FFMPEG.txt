@@ -1,0 +1,64 @@
+-title
+-timestamp
+-author
+-copyright
+-comment
+
+-v # logging verbosity
+-vstats_file file
+
+
+# General Options:
+# -y            Overwrite output files
+# -i            Specify input file
+# -threads      Number of threads to use
+
+#  Video:
+    # -s            Size (resolution) in WxH
+    # -r            Framerate
+    # -vcodec       Video codec [libx264]
+    # -b            Target video bitrate
+    # -pass         Specify pass number
+    # -me           Motion estimation method
+    # -me_range     ???
+    # -subq         ???
+    # -trellis      ???
+    # -directpred   ???
+    # -b_strategy   ???
+    # -coder        ???
+    # -bidir_refine ???
+    # -i_qfactor    qp factor between P- and I-frames
+    # -bt           Bitrate tolerance
+    # -qcomp
+    # -qmin
+    # -qmax
+    # -qdiff
+    # -flags
+      # loop        Loop filter
+      # cmp
+      # chroma
+    # -flags2
+      # brdo        B-frame rate-distortion optimization
+      # dct8x8      High profile 8x8 transform
+      # wpred       Weighted prediction for B-frames
+      # mixed_refs  One reference per partition (as opposed to per macroblock)
+    # -partitions   Intra partition selection
+    # -rc_eq        Rate control equation ('blurCplx^(1-qComp)')
+    # -g            GOP (group of pictures) size
+    # -keyint_min   Minimum GOP length, the minimum distance between I-frames. (25)
+    # -sc_threshold Scene Cut detection threshold. (40)
+    # -bf           Number of B-Frames (16)
+    # -refs         Number of reference frames to use (6)
+    # -deblockalpha In-loop deblocker strength (0)
+    # -deblockbeta  In-loop deblocker threshold (0)
+
+#  Audio:
+    # -an           Disable audio recording
+    # -acodec       Specify audio codec (libfaac, mp3)
+    # -ab           Audio bitrate
+
+# XXX : Other options
+# -aspect 16:9 4:3 2.35
+# -pad[bottom,left,right,top] pixels
+# -padcolor hex
+# -crop[bottom,left,right,top] pixels

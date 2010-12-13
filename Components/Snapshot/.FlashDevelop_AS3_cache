@@ -1,0 +1,3 @@
+
+#file-cache C:\Users\SJG\Projects\Flixn\Components\Snapshot\Main.mxml
+package{ class Main extends Object{private function attachCamera () : void;private function captureBitmap () : void;}}

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
+         xmlns:ulv="com.flixn.uploader.view.*"
+         width="100%"
+         height="100%"
+         verticalGap="0">
+
+    <mx:Script>
+        <![CDATA[
+            import com.flixn.uploader.controller.Uploader;
+            import com.flixn.uploader.model.Settings;
+
+            [Bindable]
+            public var uploader:Uploader;
+
+            [Bindable]
+            public var settings:Settings;
+        ]]>
+    </mx:Script>
+
+    <mx:DataGrid id="files" width="100%" height="100%" bottom="0" allowMultipleSelection="true">
+        <mx:columns>
+            <mx:DataGridColumn headerText="File" dataField="name" wordWrap="true" />
+            <mx:DataGridColumn headerText="Size" dataField="size" textAlign="right" width="70" />
+        </mx:columns>
+    </mx:DataGrid>
+
+    <ulv:ControlPanel id="control_panel"
+                      uploader="{uploader}"
+                      settings="{settings}"
+                      top="0" />
+
+</mx:VBox>

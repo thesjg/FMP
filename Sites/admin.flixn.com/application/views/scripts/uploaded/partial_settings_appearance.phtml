@@ -1,0 +1,27 @@
+<div class="window" title="Appearance" id="uploader_appearance" wwidth="340" wheight="180" style="overflow: hidden">
+    <form id="uploader_appearance" action="<?= $this->Path ?>" method="post">
+        <div class="spacer">&nbsp;</div>
+
+        <div class="row" id="a_width_text">
+            <span class="label">Width</span>
+            <span class="formw">
+                <input id="component_width" type="text" value="<?= $this->componentWidth ?>" onchange='componentUpdatePreviews()'/> Pixels
+            </span>
+        </div>
+
+        <div class="row" id="a_height_text">
+            <span class="label">Height</span>
+            <span class="formw">
+                <input id="component_height" type="text" value="<?= $this->componentHeight ?>" onchange='componentUpdatePreviews()' /> Pixels
+            </span>
+        </div>
+        
+        <div class="spacer">&nbsp;</div>
+
+        <div class="row">
+            <div class="f_submit">
+                <div id="style_response" class="response_pre"></div><input id="appearance_submit_button" type="button" name="a_submit" class="save" value="" />
+            </div>
+        </div>
+    </form>
+</div>

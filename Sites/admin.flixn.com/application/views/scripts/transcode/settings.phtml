@@ -1,0 +1,114 @@
+<script type="text/javascript">
+var profileId = <?= $this->profile_id ?>;
+$(document).ready(function(){
+    $("#settings_submit_button").click (
+        function() {
+            var v_format = document.getElementById("v_format").options[document.getElementById("v_format").options.selectedIndex].value;
+            var a_format = document.getElementById("a_format").options[document.getElementById("a_format").options.selectedIndex].value;
+            var frames = document.getElementById("framerate").options[document.getElementById("framerate").options.selectedIndex].value;
+
+            $('#settings_submit_button').attr('disabled','true');
+            $.ajax({
+            type: "POST",
+            url: '/transcode/ajax/profile/' + profileId,
+            data:   "width="+$("input[@name='width']").val()+
+                    //"&profile_id="+profileId+
+                    "&height="+$("input[@name='height']").val()+
+                    "&framerate="+frames+
+                    "&bitrate="+$("input[@name='bitrate']").val()+
+                    "&video_format="+v_format+
+                    "&audio_format="+a_format,
+            success: function(data, status){
+                    $('#settings_submit_button').removeAttr('disabled');
+                    $('#instance_selected').html($("input[@name='s_name']").val());
+                    $('#instance_name').html($("input[@name='s_name']").val());
+                    $('#s_settings_response').show();
+                    $('#s_settings_response').removeClass("response_pre")
+                            .stop()
+                            .addClass("response_post")
+                            .html("Your settings have been saved.")
+                            .fadeTo(4000,100).fadeOut(4000);
+                    },
+            error: function(XMLHttp, error) {
+                    $('#s_settings_response').removeClass("response_pre")
+                            .stop()
+                            .addClass("response_post")
+                            .html("An error occured. Please Try again.")
+                            .fadeTo(12000,100).fadeOut(5000).css("color: 'red'");
+                    $('#settings_submit_button').removeAttr('disabled');
+                    }
+            });
+        });
+});
+</script>
+
+<div class="window" title="Settings" id="transcode_settings" wwidth="370" wheight="401" style="overflow: hidden">
+<!--<form action="/transcode/settings/profile/<?= $this->profile_id ?>" method="post">-->
+    <div class="spacer">&nbsp;</div>
+    <div style="color: red"><?= $this->errorText; ?></div>
+    <div class="row" id="recorder_name">
+        <span class="label">Video Format</span><span class="formw">
+        <select name="video_format" id="v_format">
+            
+            <?
+            foreach($this->videoOptions as $option)
+                echo "<option value='".$option['id']."' ".$option['checked']." >".$option['format']."</option>\n";
+            ?>
+                
+        </select>
+        </span>
+    </div>
+    <div class="spacer">&nbsp;</div>
+    <div class="row" id="recorder_name">
+        <span class="label">Video Bitrate</span><span class="formw">
+        <input type="text" name="bitrate" value="<?= $this->v_bitrate ?>" />kb/s
+        </span>
+    </div>
+    <div class="spacer">&nbsp;</div>
+    <div class="row" id="recorder_name">
+        <span class="label">Audio Format</span><span class="formw">
+        <select name="audio_format" id="a_format">
+            <option value="null">Auto</option>
+            <?
+            foreach($this->audioOptions as $option)
+                echo "<option value='".$option['id']."' ".$option['checked']." >".$option['format'].": ".($option['bitrate']/1024)."kb/s</option>\n";
+            ?>
+        </select>
+        </span>
+    </div>
+    
+    <div class="spacer">&nbsp;</div>
+    <div class="row" id="recorder_name">
+        <span class="label">Video Width</span><span class="formw">
+        <input type="text" name="width" value="<?= $this->p_width ?>" />pixels
+        </span>
+    </div>
+    
+    <div class="spacer">&nbsp;</div>
+    <div class="row" id="recorder_name">
+        <span class="label">Video Height</span><span class="formw">
+        <input type="text" name="height" value="<?= $this->p_height ?>" />pixels
+        </span>
+    </div>
+    
+    <div class="spacer">&nbsp;</div>
+      <div class="row" id="recorder_name">
+        <span class="label">Framerate</span><span class="formw">
+        <select id="framerate" name="framerate"><option value="null">Auto</option>
+        <?
+        foreach($this->framerate_options as $f)
+            echo '<option value="' . $f['id'] . '" '.$f['checked'].' >'.$f['framerate'].'</option>';
+        ?>
+        </select> frames/second
+        </span>
+    </div>
+    
+    <div class="spacer">&nbsp;</div>
+
+    <div class="row">
+        <div class="f_submit" style="text-align: right;">
+            <div id="s_settings_response" class="response_pre"></div><input id="settings_submit_button" type="submit" name="submit" value="" />
+        </div>
+    </div>
+
+</div>

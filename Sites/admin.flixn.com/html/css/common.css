@@ -1,0 +1,56 @@
+@charset "utf-8";
+
+html {
+	margin: 0;
+	padding:0;
+}
+body {
+	margin: 0;
+	padding:0;
+	background-color:#1d2e50;
+}
+
+a.dashboard {
+	width: 101px;
+	height: 28px;
+	background: url(/img/dashboard.png) 0 0 no-repeat;
+	display: block;
+	float: left;
+}
+a:hover.dashboard {
+	background: url(/img/dashboard.png) -101px 0 no-repeat;
+}
+a.logout {
+	width: 70px;
+	height: 28px;
+	background: url(/img/logout.png) 0 0 no-repeat;
+	display: block;
+	float: right;
+}
+a:hover.logout {
+	background: url(/img/logout.png) -70px 0 no-repeat;
+}
+
+img {
+	border: 0;
+}
+
+#instance_select {
+ float: right;
+ clear: right;
+ margin-right: 5px;
+}
+
+.response_pre {
+display: none;
+}
+.response_post
+{
+
+margin-left: 5px;
+color: #27781f;
+font-weight: bold;
+display: block;
+}
+
+.ui-tabs-hide { display: none; }

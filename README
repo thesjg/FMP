@@ -1,0 +1,38 @@
+This repository contains various pieces of software and libraries that make
+up what was formerly known as the Flixn Media Platform (FMP). FMP was intended
+to be a sort of "Swiss Army Knife" for web-based rich media, video in
+particular. A great deal of functionality is provided in this repository, much
+of it is not documented and some of it is not complete. Although contained in
+this repository is code that will enable one to relatively easily implement
+many of the most complex rich media scenarios in common use today that uses the
+web browser as a platform, this project is considered dead by Flixn, Inc., and
+its other contributors. There will be no further documentation or updates
+provided.
+
+Some of the contents of this repository include:
+  * Flash Components
+    - A complete and fairly feature-rich flash-based player component, allowing
+      playback of video and audio content.
+    - A recorder component, to facilitate recording from a users microphone
+      and/or webcam to a Flash Media Server installation
+    - An uploader component, for uploading any type of file to a configurable
+      destination.
+    - Live publisher and viewer components, for implementing rich A/V chat
+      functionality (Release date not yet determined).
+    - An extensive library implementing the common functionality of each of
+      these components. The library also enables runtime configuration of
+      component instances and other features necessary for a mass-deployment
+      scenario.
+  * A number of scripts enabling S3 storage of media, database-driven
+    transcoding ala ffmpeg, statistics, usage information and automated
+    metadata gathering ala mediainfo.
+  * Partitioned web frontends that provide a means for both end-user
+    configuration as well as supporting component deployment.
+
+Little to none of this software will work without additional development or
+customization. You cannot simply "install" FMP, development and administrative
+expertise are definite requirements to get this platform working. Absolutely
+no unpaid/free support will be provided.
+
+This software is provided under the terms of a 3-clause BSD license, see the
+file named COPYING in the root of this repository.

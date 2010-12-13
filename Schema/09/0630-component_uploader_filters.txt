@@ -1,0 +1,4 @@
+CREATE TABLE component_uploader_filters (
+  id            SERIAL8 PRIMARY KEY,
+  description   VARCHAR(255) NOT NULL
+);

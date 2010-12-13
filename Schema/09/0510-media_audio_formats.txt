@@ -1,0 +1,9 @@
+CREATE TABLE media_audio_formats (
+  id            SERIAL8 PRIMARY KEY,
+  format        VARCHAR(63) NOT NULL,
+  description   TEXT
+);
+
+INSERT INTO media_audio_formats (format) VALUES ('AAC');
+INSERT INTO media_audio_formats (format) VALUES ('MP3');
+INSERT INTO media_audio_formats (format) VALUES ('OGG');

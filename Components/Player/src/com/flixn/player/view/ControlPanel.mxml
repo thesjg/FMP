@@ -1,0 +1,159 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fxc:FXCanvas xmlns:mx="http://www.adobe.com/2006/mxml"
+              xmlns:fxc="com.flixn.containers.*"
+              width="100%"
+              height="50"
+              creationComplete="init();">
+
+    <mx:Script>
+        <![CDATA[
+            import com.flixn.player.controller.Panel;
+            import com.flixn.player.model.Settings;
+            import com.flixn.player.view.ControlPanel;
+
+            import flash.events.MouseEvent;
+            import flash.filters.DropShadowFilter;
+
+            [Bindable]
+            public var panel:Panel;
+
+            [Bindable]
+            public var iconSize:int;
+
+            [Bindable]
+            public var subIconWidth:int;
+
+            [Bindable]
+            private var _menuWidth:int;
+            [Bindable]
+            private var _tagWidth:int;
+            [Bindable]
+            private var _commentWidth:int;
+
+            private var _settings:Settings;
+
+            private function init():void
+            {
+                iconSize = height;
+                subIconWidth = iconSize * .8;
+
+                progress.setStyle('trackHeight', height);
+
+                _settings = new Settings();
+
+                _menuWidth = (_settings.menuEnable) ? subIconWidth + 1 : 0;
+                _tagWidth = (_settings.tagEnable) ? subIconWidth + 1 : 0;
+                _commentWidth = (_settings.commentEnable) ? subIconWidth + 1 : 0;
+
+                currentState = 'Paused';
+
+                if (width < 400)
+                    info_container.setStyle('fontSize', 16);
+            }
+
+            private function onMouseDown(ev:MouseEvent):void
+            {
+                trace('MOUSE DOWN ON SCRUBBER: ' + ev.localX + ' - ' + progress.width);
+                panel.seek(ev.localX, progress.width);
+            }
+        ]]>
+    </mx:Script>
+
+    <fxc:states>
+
+        <mx:State name="Paused">
+            <mx:AddChild relativeTo="{control_panel}" position="firstChild">
+                <mx:Button id="button_play"
+                           toolTip="Play"
+                           styleName="playButtonStyle"
+                           width="{iconSize}"
+                           height="{iconSize}"
+                           click="panel.playButtonClick()" />
+            </mx:AddChild>
+        </mx:State>
+
+        <mx:State name="Playing" basedOn="Paused">
+            <mx:RemoveChild target="{button_play}"></mx:RemoveChild>
+            <mx:AddChild relativeTo="{control_panel}" position="firstChild">
+                <mx:Button id="button_pause"
+                           toolTip="Pause"
+                           styleName="pauseButtonStyle"
+                           width="{iconSize}"
+                           height="{iconSize}"
+                           click="panel.pauseButtonClick()" />
+            </mx:AddChild>
+        </mx:State>
+
+    </fxc:states>
+
+            <mx:HBox id="control_panel"
+                     styleName="controlPanelStyle"
+                     horizontalGap="0"
+                     width="100%"
+                     height="100%">
+
+                <mx:VRule percentHeight="100" width="1" />
+
+                <mx:ProgressBar id="progress"
+                                width="100%"
+                                height="100%"
+                                left="0"
+                                right="0"
+                                alpha=".9"
+                                label=""
+                                mode="manual"
+                                mouseDown="onMouseDown(event);" />
+
+                <mx:HBox id="tag_container" horizontalGap="0" height="100%" width="{_tagWidth}">
+                    <mx:VRule percentHeight="100" width="1" />
+                    <mx:Button id="xxx_d"
+                               toolTip="Tag"
+                               styleName="tagButtonStyle"
+                               width="{subIconWidth}"
+                               height="{iconSize}"
+                               click="panel.tagButtonClick()" />
+                </mx:HBox>
+
+                <mx:HBox id="comment_container" horizontalGap="0" height="100%" width="{_commentWidth}">
+                    <mx:VRule percentHeight="100" width="1" />
+                    <mx:Button id="xxx_c"
+                               toolTip="Comments"
+                               styleName="commentButtonStyle"
+                               width="{subIconWidth}"
+                               height="{iconSize}"
+                               click="panel.commentButtonClick()" />
+                </mx:HBox>
+
+                <mx:HBox id="menu_container" horizontalGap="0" height="100%" width="{_menuWidth}">
+                    <mx:VRule percentHeight="100" width="1" />
+                    <mx:Button id="xxx_b"
+                               toolTip="Menu"
+                               styleName="menuButtonStyle"
+                               width="{subIconWidth}"
+                               height="{iconSize}"
+                               click="panel.menuButtonClick()" />
+                </mx:HBox>
+
+                <mx:HBox id="volume_container" horizontalGap="0" height="100%">
+                    <mx:VRule percentHeight="100" width="1" />
+                    <mx:Button id="xxx_a"
+                               toolTip="Volume"
+                               styleName="volumeButtonStyle"
+                               width="{subIconWidth}"
+                               height="{iconSize}"
+                               click="panel.volumeButtonClick()" />
+                </mx:HBox>
+
+            </mx:HBox>
+
+            <mx:HBox id="info_container"
+                     height="100%"
+                     styleName="infoContainerStyle">
+
+                <mx:Label id="info"
+                          text="00:00:00 / 00:00:00"
+                          filters="{[new DropShadowFilter(2, 60)]}" />
+
+            </mx:HBox>
+
+</fxc:FXCanvas>

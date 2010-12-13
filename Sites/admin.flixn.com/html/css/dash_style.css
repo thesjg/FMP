@@ -1,0 +1,13 @@
+html{margin:0;padding:0}
+body{margin:0;padding:0;background:url(/img/bg_body.jpg) no-repeat rgb(29,46,80) top center}
+img{border: 0}
+#main{width:800px;height: 630px;margin-top:184px;margin-left:auto;margin-right:auto;padding-left:1px;padding-right:1px}
+#header{margin-left:1px;margin-right:1px;height:75px;color:rgb(50,64,85);font-family:Arial,Helvetica,sans-serif;font-size:12px}
+#h_c_1{float:left;padding-left:1px}
+#h_c_2{font-size:smaller;line-height:20px;float:right}
+
+#content{width:797px; font-size:10px;color:rgb(94,94,94);font-family:Arial,Helvetica,sans-serif; margin-left: 1px;margin-top:9px;line-height:12px; padding: 0px;}
+
+.table1{border-spacing:12pt}
+.table2{border-spacing:8pt}
+div {margin:0;padding:0;}

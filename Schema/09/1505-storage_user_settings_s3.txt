@@ -1,0 +1,6 @@
+CREATE TABLE storage_user_settings_s3 (
+  id            SERIAL8 PRIMARY KEY,
+  user_id       INT8 UNIQUE NOT NULL REFERENCES users,
+  bucket        VARCHAR(63) UNIQUE NULL,
+  token         TEXT UNIQUE NULL
+);

@@ -1,0 +1,9 @@
+CREATE TABLE media_metadata (
+  id            SERIAL8 PRIMARY KEY,
+  media_id      INT8 NOT NULL REFERENCES media,
+  key           VARCHAR(255) NOT NULL,
+  value         TEXT NOT NULL
+);
+CREATE INDEX media_metadata_media_id_key_index ON media_metadata (media_id, key);
+
+--flixn_origin_url

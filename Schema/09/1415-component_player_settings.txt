@@ -1,0 +1,15 @@
+CREATE TABLE component_player_settings (
+  id            SERIAL8 PRIMARY KEY,
+  instance_id   INT8 UNIQUE NOT NULL REFERENCES component_instances,
+  embed		BOOLEAN NOT NULL DEFAULT TRUE,
+  share		BOOLEAN NOT NULL DEFAULT TRUE,
+  email		BOOLEAN NOT NULL DEFAULT TRUE,
+  sms		BOOLEAN NOT NULL DEFAULT TRUE,
+  info		BOOLEAN NOT NULL DEFAULT TRUE,
+  fullscreen	BOOLEAN NOT NULL DEFAULT TRUE,
+  popout	BOOLEAN NOT NULL DEFAULT TRUE,
+  lighting	BOOLEAN NOT NULL DEFAULT TRUE,
+  autoplay	BOOLEAN NOT NULL DEFAULT TRUE,
+  domainlock	INT8 REFERENCES component_domain_list,
+UNIQUE(instance_id)
+);

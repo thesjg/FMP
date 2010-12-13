@@ -1,0 +1,6 @@
+CREATE TABLE transcode_component_audio (
+  id            SERIAL8 PRIMARY KEY,
+  component_id  INT8 NOT NULL REFERENCES component_instances,
+  audio_id      INT8 NOT NULL REFERENCES transcode_audio,
+  UNIQUE(component_id, audio_id)
+);

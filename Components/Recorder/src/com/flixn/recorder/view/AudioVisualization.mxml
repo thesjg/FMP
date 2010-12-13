@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+	       height="100%"
+	       width="100%"
+	       horizontalScrollPolicy="off"
+	       verticalScrollPolicy="off"
+	       initialize="init()">
+
+	<mx:Script>
+		<![CDATA[
+		import mx.utils.ArrayUtil;
+		import mx.collections.XMLListCollection;
+		import mx.controls.Alert;
+		import mx.graphics.SolidColor;
+		import mx.graphics.Stroke;
+        import mx.collections.ArrayCollection;
+		
+        [Bindable]
+        public var timeData:ArrayCollection = new ArrayCollection();
+
+        private var nn:Number=501;
+
+      	private function init():void
+        {
+        	//rangeChart.dataProvider=timeData;
+        }
+
+
+		]]>
+	</mx:Script>
+<!--
+	<mx:AreaChart id="rangeChart"
+				  showDataTips="false"
+				  left="2"
+				  top="15"
+				  bottom="10"
+				  right="2"
+				  horizontalAxisStyleNames="noAxisStyle">
+			
+        <mx:horizontalAxis>
+            <mx:CategoryAxis id="hAxis"
+            	             categoryField="time" />
+        </mx:horizontalAxis>
+
+		<mx:horizontalAxisRenderers>
+            <mx:AxisRenderer axis="{hAxis}"
+            	             styleName="noAxisStyle" />
+        </mx:horizontalAxisRenderers>
+		
+        <mx:verticalAxis>
+            <mx:LinearAxis id="vAxis"
+            	           baseAtZero="false" />
+        </mx:verticalAxis>
+		
+        <mx:verticalAxisRenderers>
+            <mx:AxisRenderer axis="{vAxis}"
+            	             width="0"
+            	             height="0"
+            	             styleName="noAxisStyle"  />
+        </mx:verticalAxisRenderers>
+			
+		<mx:series>
+            <mx:AreaSeries areaFill="{new SolidColor(0xcde2f8, 0.20)}"
+		            	   areaStroke="{new Stroke(0xff0000, 1)}"
+		            	   yField="volume"
+		            	   form="curve"
+		            	   displayName="volume" />
+        </mx:series>
+
+    </mx:AreaChart>
+-->
+</mx:Canvas>

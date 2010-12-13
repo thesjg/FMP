@@ -1,0 +1,6 @@
+CREATE TABLE usage_storage (
+  id            SERIAL8 PRIMARY KEY,
+  user_id       INT8 NOT NULL REFERENCES users,
+  storage       INT8 NOT NULL,
+  time          TIMESTAMP NOT NULL DEFAULT NOW()
+);

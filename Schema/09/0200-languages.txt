@@ -1,0 +1,32 @@
+CREATE TABLE languages (
+  id            SERIAL8 PRIMARY KEY,
+  country_id    INT8 NULL DEFAULT NULL REFERENCES countries,
+  code          VARCHAR(63) NOT NULL,
+  name          VARCHAR(63) NOT NULL,
+  UNIQUE(code, country_id),
+  UNIQUE(code, name)
+);
+INSERT INTO languages (code, name) VALUES ('en', 'English');
+INSERT INTO languages (code, name) VALUES ('cs', 'Czech');
+INSERT INTO languages (code, name) VALUES ('da', 'Danish');
+INSERT INTO languages (code, name) VALUES ('nl', 'Dutch');
+INSERT INTO languages (code, name) VALUES ('fi', 'Finnish');
+INSERT INTO languages (code, name) VALUES ('fr', 'French');
+INSERT INTO languages (code, name) VALUES ('de', 'German');
+INSERT INTO languages (code, name) VALUES ('hu', 'Hungarian');
+INSERT INTO languages (code, name) VALUES ('it', 'Italian');
+INSERT INTO languages (code, name) VALUES ('ja', 'Japanese');
+INSERT INTO languages (code, name) VALUES ('ko', 'Korean');
+INSERT INTO languages (code, name) VALUES ('no', 'Norwegian');
+INSERT INTO languages (code, name) VALUES ('pl', 'Polish');
+INSERT INTO languages (code, name) VALUES ('pt', 'Portuguese');
+INSERT INTO languages (code, name) VALUES ('ru', 'Russuan');
+INSERT INTO languages (code, name) VALUES ('es', 'Spanish');
+INSERT INTO languages (code, name) VALUES ('sv', 'Swedish');
+INSERT INTO languages (code, name) VALUES ('tr', 'Turkish');
+INSERT INTO languages (code, name) VALUES ('xu', 'Other');
+
+INSERT INTO languages (country_id, code, name) VALUES
+    ((SELECT id FROM countries WHERE code='CN'), 'zh', 'Simplified Chinese');
+INSERT INTO languages (country_id, code, name) VALUES
+    ((SELECT id FROM countries WHERE code='TW'), 'zh', 'Traditional Chinese');

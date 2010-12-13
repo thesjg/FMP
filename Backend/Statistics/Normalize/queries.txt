@@ -1,0 +1,409 @@
+BEGIN;
+
+INSERT INTO
+    event_hour_load (component_instance_id, url_id, count, timestamp)
+    (SELECT
+        el.component_instance_id AS component_instance_id,
+        el.url_id AS url_id,
+        COUNT(*) AS count,
+        date_trunc('hour', el.timestamp) AS hour
+    FROM
+        event_load el
+    WHERE
+        date_trunc('hour', el.timestamp) < date_trunc('hour', NOW())
+    GROUP BY
+        hour, component_instance_id, url_id);
+
+INSERT INTO
+    event_hour_load_media (url_id, media_id, count, timestamp)
+    (SELECT
+        el.url_id AS url_id,
+        elm.media_id AS media_id,
+        COUNT(*) AS count,
+        date_trunc('hour', elm.timestamp) AS hour
+    FROM
+        event_load el,
+        event_load_media elm
+    WHERE
+        elm.load_id=el.id
+    AND
+        date_trunc('hour', elm.timestamp) < date_trunc('hour', NOW())
+    GROUP BY
+        hour, url_id, media_id);
+
+INSERT INTO
+    event_hour_play (media_id, count, timestamp)
+    (SELECT
+        elm.media_id AS media_id,
+        COUNT(*) AS count,
+        date_trunc('hour', ep.timestamp) AS hour
+    FROM
+        event_load_media elm,
+        event_play ep
+    WHERE
+        elm.id=ep.load_media_id
+    AND
+        date_trunc('hour', ep.timestamp) < date_trunc('hour', NOW())
+    GROUP BY
+        hour, media_id);
+
+INSERT INTO
+    event_hour_play_complete (media_id, count, timestamp)
+    (SELECT
+        elm.media_id AS media_id,
+        COUNT(*) AS count,
+        date_trunc('hour', epc.timestamp) AS hour
+    FROM
+        event_load_media elm,
+        event_play ep,
+        event_play_complete epc
+    WHERE
+        elm.id=ep.load_media_id
+    AND
+        ep.id=epc.play_id
+    AND
+        date_trunc('hour', epc.timestamp) < date_trunc('hour', NOW())
+    GROUP BY
+        hour, media_id);
+
+INSERT INTO
+    event_hour_record (component_instance_id, count, timestamp)
+    (SELECT
+        el.component_instance_id AS component_instance_id,
+        COUNT(*) AS count,
+        date_trunc('hour', er.timestamp) AS hour
+    FROM
+        event_load el,
+        event_record er
+    WHERE
+        el.id=er.load_id
+    AND
+        date_trunc('hour', er.timestamp) < date_trunc('hour', NOW())
+    GROUP BY
+        hour, component_instance_id);
+
+INSERT INTO
+    event_hour_record_complete (component_instance_id, count, timestamp)
+    (SELECT
+        el.component_instance_id AS component_instance_id,
+        COUNT(*) AS count,
+        date_trunc('hour', erc.timestamp) AS hour
+    FROM
+        event_load el,
+        event_record er,
+        event_record_complete erc
+    WHERE
+        el.id=er.load_id
+    AND
+        er.id=erc.record_id
+    AND
+        date_trunc('hour', erc.timestamp) < date_trunc('hour', NOW())
+    GROUP BY
+        hour, component_instance_id);
+
+INSERT INTO
+    event_hour_upload (component_instance_id, count, timestamp)
+    (SELECT
+        el.component_instance_id AS component_instance_id,
+        COUNT(*) AS count,
+        date_trunc('hour', eu.timestamp_end) AS hour
+    FROM
+        event_load el,
+        event_upload eu
+    WHERE
+        el.id=eu.load_id
+    AND
+        date_trunc('hour', eu.timestamp_end) < date_trunc('hour', NOW())
+    GROUP BY
+        hour, component_instance_id);
+
+
+DELETE FROM event_upload WHERE date_trunc('hour', timestamp_end) < date_trunc('hour', NOW());
+DELETE FROM event_record_complete WHERE date_trunc('hour', timestamp) < date_trunc('hour', NOW());
+DELETE FROM event_record_review WHERE date_trunc('hour', timestamp) < date_trunc('hour', NOW());
+-- DELETE FROM event_record WHERE date_trunc('hour', timestamp) < date_trunc('hour', NOW());
+DELETE FROM event_play_complete WHERE date_trunc('hour', timestamp) < date_trunc('hour', NOW());
+DELETE FROM event_play_pause WHERE date_trunc('hour', timestamp) < date_trunc('hour', NOW());
+DELETE FROM event_play_seek WHERE date_trunc('hour', timestamp) < date_trunc('hour', NOW());
+DELETE FROM event_play_stop WHERE date_trunc('hour', timestamp) < date_trunc('hour', NOW());
+-- DELETE FROM event_play WHERE date_trunc('hour', timestamp) < date_trunc('hour', NOW());
+-- DELETE FROM event_load_media WHERE date_trunc('hour', timestamp) < date_trunc('hour', NOW());
+-- DELETE FROM event_load WHERE date_trunc('hour', timestamp) < date_trunc('hour', NOW());
+
+
+
+
+
+INSERT INTO
+    event_day_load (component_instance_id, url_id, count, timestamp)
+    (SELECT
+        component_instance_id,
+        url_id,
+        SUM(count) AS count,
+        date_trunc('day', timestamp) AS day
+    FROM
+        event_hour_load
+    WHERE
+        date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '7 days') FROM event_hour_load))
+    GROUP BY
+        day, component_instance_id, url_id);
+
+DELETE FROM
+    event_hour_load
+WHERE
+    date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '7 days') FROM event_hour_load));
+
+
+INSERT INTO
+    event_day_load_media (url_id, media_id, count, timestamp)
+    (SELECT
+        url_id,
+        media_id,
+        SUM(count) AS count,
+        date_trunc('day', timestamp) AS day
+    FROM
+        event_hour_load_media
+    WHERE
+        date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '7 days') FROM event_hour_load_media))
+    GROUP BY
+        day, url_id, media_id);
+
+DELETE FROM
+    event_hour_load_media
+WHERE
+    date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '7 days') FROM event_hour_load_media));
+
+
+INSERT INTO
+    event_day_play (media_id, count, timestamp)
+    (SELECT
+        media_id,
+        SUM(count) AS count,
+        date_trunc('day', timestamp) AS day
+    FROM
+        event_hour_play
+    WHERE
+        date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '7 days') FROM event_hour_play))
+    GROUP BY
+        day, media_id);
+
+DELETE FROM
+    event_hour_play
+WHERE
+    date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '7 days') FROM event_hour_play));
+
+
+INSERT INTO
+    event_day_play_complete (media_id, count, timestamp)
+    (SELECT
+        media_id,
+        SUM(count) AS count,
+        date_trunc('day', timestamp) AS day
+    FROM
+        event_hour_play_complete
+    WHERE
+        date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '7 days') FROM event_hour_play_complete))
+    GROUP BY
+        day, media_id);
+
+DELETE FROM
+    event_hour_play_complete
+WHERE
+    date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '7 days') FROM event_hour_play_complete));
+
+
+INSERT INTO
+    event_day_record (component_instance_id, count, timestamp)
+    (SELECT
+        component_instance_id,
+        SUM(count) AS count,
+        date_trunc('day', timestamp) AS day
+    FROM
+        event_hour_record
+    WHERE
+        date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '7 days') FROM event_hour_record))
+    GROUP BY
+        day, component_instance_id);
+
+DELETE FROM
+    event_hour_record
+WHERE
+    date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '7 days') FROM event_hour_record));
+
+
+INSERT INTO
+    event_day_record_complete (component_instance_id, count, timestamp)
+    (SELECT
+        component_instance_id,
+        SUM(count) AS count,
+        date_trunc('day', timestamp) AS day
+    FROM
+        event_hour_record_complete
+    WHERE
+        date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '7 days') FROM event_hour_record_complete))
+    GROUP BY
+        day, component_instance_id);
+
+DELETE FROM
+    event_hour_record_complete
+WHERE
+    date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '7 days') FROM event_hour_record_complete));
+
+
+INSERT INTO
+    event_day_upload (component_instance_id, count, timestamp)
+    (SELECT
+        component_instance_id,
+        SUM(count) AS count,
+        date_trunc('day', timestamp) AS day
+    FROM
+        event_hour_upload
+    WHERE
+        date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '7 days') FROM event_hour_upload))
+    GROUP BY
+        day, component_instance_id);
+
+DELETE FROM
+    event_hour_upload
+WHERE
+    date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '7 days') FROM event_hour_upload));
+
+
+
+
+
+INSERT INTO
+    event_week_load (component_instance_id, url_id, count, timestamp)
+    (SELECT
+        component_instance_id,
+        url_id,
+        SUM(count) AS count,
+        date_trunc('week', timestamp) AS week
+    FROM
+        event_day_load
+    WHERE
+        date_trunc('week', timestamp) < date_trunc('week', (SELECT MAX(timestamp - INTERVAL '4 weeks') FROM event_day_load))
+    GROUP BY
+        week, component_instance_id, url_id);
+
+DELETE FROM
+    event_day_load
+WHERE
+    date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '4 weeks') FROM event_day_load));
+
+
+INSERT INTO
+    event_week_load_media (url_id, media_id, count, timestamp)
+    (SELECT
+        url_id,
+        media_id,
+        SUM(count) AS count,
+        date_trunc('week', timestamp) AS week
+    FROM
+        event_day_load_media
+    WHERE
+        date_trunc('week', timestamp) < date_trunc('week', (SELECT MAX(timestamp - INTERVAL '4 weeks') FROM event_day_load_media))
+    GROUP BY
+        week, url_id, media_id);
+
+DELETE FROM
+    event_day_load_media
+WHERE
+    date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '4 weeks') FROM event_day_load_media));
+
+
+INSERT INTO
+    event_week_play (media_id, count, timestamp)
+    (SELECT
+        media_id,
+        SUM(count) AS count,
+        date_trunc('week', timestamp) AS week
+    FROM
+        event_day_play
+    WHERE
+        date_trunc('week', timestamp) < date_trunc('week', (SELECT MAX(timestamp - INTERVAL '4 weeks') FROM event_day_play))
+    GROUP BY
+        week, media_id);
+
+DELETE FROM
+    event_day_play
+WHERE
+    date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '4 weeks') FROM event_day_play));
+
+
+INSERT INTO
+    event_week_play_complete (media_id, count, timestamp)
+    (SELECT
+        media_id,
+        SUM(count) AS count,
+        date_trunc('week', timestamp) AS week
+    FROM
+        event_day_play_complete
+    WHERE
+        date_trunc('week', timestamp) < date_trunc('week', (SELECT MAX(timestamp - INTERVAL '4 weeks') FROM event_day_play_complete))
+    GROUP BY
+        week, media_id);
+
+DELETE FROM
+    event_day_play_complete
+WHERE
+    date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '4 weeks') FROM event_day_play_complete));
+
+
+INSERT INTO
+    event_week_record (component_instance_id, count, timestamp)
+    (SELECT
+        component_instance_id,
+        SUM(count) AS count,
+        date_trunc('week', timestamp) AS week
+    FROM
+        event_day_record
+    WHERE
+        date_trunc('week', timestamp) < date_trunc('week', (SELECT MAX(timestamp - INTERVAL '4 weeks') FROM event_day_record))
+    GROUP BY
+        week, component_instance_id);
+
+DELETE FROM
+    event_day_record
+WHERE
+    date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '4 weeks') FROM event_day_record));
+
+
+INSERT INTO
+    event_week_record_complete (component_instance_id, count, timestamp)
+    (SELECT
+        component_instance_id,
+        SUM(count) AS count,
+        date_trunc('week', timestamp) AS week
+    FROM
+        event_day_record_complete
+    WHERE
+        date_trunc('week', timestamp) < date_trunc('week', (SELECT MAX(timestamp - INTERVAL '4 weeks') FROM event_day_record_complete))
+    GROUP BY
+        week, component_instance_id);
+
+DELETE FROM
+    event_day_record_complete
+WHERE
+    date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '4 weeks') FROM event_day_record_complete));
+
+
+INSERT INTO
+    event_week_upload (component_instance_id, count, timestamp)
+    (SELECT
+        component_instance_id,
+        SUM(count) AS count,
+        date_trunc('week', timestamp) AS week
+    FROM
+        event_day_upload
+    WHERE
+        date_trunc('week', timestamp) < date_trunc('week', (SELECT MAX(timestamp - INTERVAL '4 weeks') FROM event_day_upload))
+    GROUP BY
+        week, component_instance_id);
+
+DELETE FROM
+    event_day_upload
+WHERE
+    date_trunc('day', timestamp) < date_trunc('day', (SELECT MAX(timestamp - INTERVAL '4 weeks') FROM event_day_upload));
+
+ROLLBACK;

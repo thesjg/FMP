@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>Flixn Media Platform :: Login</title>
+  <!--<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.5.1/build/reset-fonts-grids/reset-fonts-grids.css" />-->
+  <link rel="stylesheet" type="text/css" href="/css/index.css" />
+  <link rel="stylesheet" type="text/css" href="/css/form.css" />
+  <script type="text/javascript" src="/js/jquery-1.2.6.js"></script>
+  <script type="text/javascript" src="/js/jquery.dump.js"></script>
+  <script type="text/javascript" src="/js/jquery.form.js"></script>
+  <script type="text/javascript" src="/js/ui/ui.core.js"></script>
+  <script type="text/javascript" src="/js/ui/ui.dialog.js"></script>
+  <script type="text/javascript" src="/js/ui/ui.draggable.js"></script>
+  <script type="text/javascript" src="/js/ui/ui.resizable.js"></script>
+  <style type="text/css">
+  .fx .ui-dialog .ui-dialog-titlebar-close span,
+.fx.ui-dialog .ui-dialog-titlebar-close span, .fx .ui-dialog .ui-dialog-titlebar-close,
+.fx.ui-dialog .ui-dialog-titlebar-close {
+    display: none;
+}
+
+.submit_login
+{
+    width: 118px;
+    height: 40px;
+    background: url('/img/submit_login.png');
+    border: 0px;
+}
+
+.forgot_password
+{
+    width: 180px;
+    height: 40px;
+    background: url('/img/forgot_password.png');
+    border: 0px;
+}
+  </style>
+  
+    <script type="text/javascript">
+    function clearDefault(el) {if (el.value=="USERNAME" || "PASSWORD") el.value = ""}
+    $(document).ready(function()
+                      {if($("#status").html() == "&nbsp;")
+                       {$("#status").css({visibility: "hidden"})}
+                      
+    
+    $(".window").dialog({
+                id: $(this).attr('id'),
+    
+                width: 460,
+                height: 163,
+                modal: false,
+                overlay: {backgroundColor: "#000", opacity: ".8"},
+                resizable: 'se',
+
+                dialogClass: 'fx',
+                });
+    });
+    </script>
+ </head>
+ <body>
+  <div class="window" title="Administrative Login" id="login_window" style="overflow: hidden;">
+   <div id="content" title="">
+
+    <form action="/<?= $this->Controller ?>/login" method="post" id="auth" title="">
+     
+<br />
+<div style="text-align: center; margin: 0 auto;">
+     <input id="user" class="empty" type="text" name="username" value="USERNAME" onfocus="clearDefault(this)" title="" /><br />
+     <input id="pass" class="empty" type="password" name="password" value="PASSWORD" onfocus="clearDefault(this)" title="" /><br />
+     </div>
+     <div id="status">&nbsp;<?= $this->status; ?></div>
+     <div class="f_submit">
+     <div style="margin-left: 145px; padding-top: 5px;"><input type="button" onclick="javascript:window.location='/auth/forgot';" class="forgot_password" value="" /><input id="login_submit" type="submit" style="width: 118px;height: 40px;background: url('/img/submit_login.png');border: 0px;"class="submit_login" value="" title="Submit" /> </div>
+     </div>
+     
+     </form>
+   </div>
+  </div>
+ </body>
+</html>

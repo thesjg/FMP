@@ -1,0 +1,3 @@
+<?
+echo strtotime("now");
+?>

@@ -1,0 +1,40 @@
+CREATE TABLE component_player_style_options ( 
+  id	  	SERIAL8 PRIMARY KEY 
+);
+-- specific styles, color schemes, et al
+
+CREATE TABLE component_player_theme_options (
+  id	  	SERIAL8 PRIMARY KEY 
+);
+-- theming and visual layout options
+ 
+CREATE TABLE component_player_aspect_ratios ( 
+  id		 SERIAL8 PRIMARY KEY, 
+  aspect_w	 SMALLINT, 
+  aspect_h	 SMALLINT,  
+  name		 VARCHAR(63) NOT NULL, 
+  description	  	 VARCHAR(255)  
+);
+
+INSERT INTO component_player_aspect_ratios (aspect_w,aspect_h,name) VALUES (4,3,'4x3');
+
+INSERT INTO component_player_aspect_ratios (aspect_w,aspect_h,name) VALUES (16,9,'16x9');
+
+INSERT INTO component_player_aspect_ratios (aspect_w,aspect_h,name) VALUES (16,10,'16x10');
+
+INSERT INTO component_player_aspect_ratios (name) VALUES ('Custom');
+
+
+
+
+
+CREATE TABLE component_player_styles (
+  id             SERIAL8 PRIMARY KEY, 
+  instance_id    INT8 UNIQUE NOT NULL REFERENCES component_instances, 
+  width          INT4 NOT NULL, 
+  height         INT4 NOT NULL, 
+  aspect_id 	INT8 NOT NULL REFERENCES component_player_aspect_ratios, 
+  style_id 	INT8  REFERENCES component_player_style_options, 
+  theme_id	 INT8  REFERENCES component_player_theme_options, 
+UNIQUE(instance_id)
+);

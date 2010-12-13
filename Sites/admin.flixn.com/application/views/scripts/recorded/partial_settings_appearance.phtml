@@ -1,0 +1,27 @@
+<div class="window" title="Appearance" id="recorder_appearance" style="overflow: hidden" wheight="178" wwidth="340">
+<form id="recorded_appearance" action="<?= $this->Path ?>" method="post">
+    <div class="spacer">&nbsp;</div>
+
+    <div class="row" id="a_width_text">
+        <span class="label">Width</span>
+        <span class="formw">
+            <input id="component_width" type="text" value="<?= $this->componentWidth ?>" onchange='aspectLock(1)' /> Pixels
+        </span>
+    </div>
+
+    <div class="row" id="a_height_text">
+        <span class="label">Height</span>
+        <span class="formw">
+            <input id="component_height" type="text" value="<?= $this->componentHeight ?>" onchange='aspectLock(2)' /> Pixels
+        </span>
+    </div>
+
+    <div class="spacer">&nbsp;</div>
+
+    <div class="row">
+        <div class="f_submit">
+            <div id="style_response" class="response_pre"></div><input id="appearance_submit_button" type="button" class="save" name="a_submit" value="" />
+        </div>
+    </div>
+    </form>
+</div>

@@ -1,0 +1,220 @@
+<?
+$ident = Zend_Auth::getInstance()->getIdentity();
+$b = $this->baseUrl();
+$c = Zend_Controller_Front::getInstance()->getRequest()->getControllerName();
+$d = Zend_Controller_Front::getInstance()->getRequest()->getActionName();
+$e = Zend_Controller_Front::getInstance()->getRequest()->getParam("instance");
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+      <title>Flixn, Inc. - FMP</title>
+        <link rel="stylesheet" type="text/css" href="/css/index.css" />
+        <link rel="stylesheet" type="text/css" href="/css/form.css" />
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+        <script type="text/javascript" src="/js/jquery.form.js"></script>
+        <script type="text/javascript" src="/js/ui/ui.core.js"></script>
+        <script type="text/javascript" src="/js/ui/ui.dialog.js"></script>
+        <script type="text/javascript" src="/js/ui/ui.draggable.js"></script>
+        <script type="text/javascript" src="/js/ui/ui.resizable.js"></script>
+        <script type="text/javascript" src="/js/ui/ui.datepicker.js"></script>
+        <script type="text/javascript" src="/js/creation.js"></script>
+        <script type="text/javascript" src="/js/layout_init.js"></script>
+
+        <script type="text/javascript" src="/js/component.js"></script>
+        
+         <script type="text/javascript" src="http://flixn.com/js/swfobject2.js"></script>
+         
+        <?
+        switch ($c)
+        {
+            case "recorded":
+                echo '<script type="text/javascript" src="/js/component_recorded.js"></script>';
+                break;
+            case "uploaded":
+                echo '<script type="text/javascript" src="/js/component_uploaded.js"></script>';
+                break;
+            case "playback":
+                echo '<script type="text/javascript" src="/js/component_playback.js"></script>';
+                break;
+        }
+        ?>
+        
+<script type="text/javascript">
+  var controller="<?= $c; ?>";
+  var baseUrl="<?= $b; ?>";
+  var action = "<?= $d; ?>";
+  var instance = "<?= $e; ?>";
+</script>
+</head>
+<body>
+    
+    <div id="top">
+        <div id="top_left">
+        <?
+        if($c == "recorded" || $c == "uploaded" || $c == "playback")
+        {
+        echo '
+            <div id="select_instance" class="select">&nbsp;</div>
+            <div id="create_instance">
+                <img id="create_click" src="/img/create_instance.png" />
+            </div>';
+        }
+        elseif($c == "moderation" || $c == "transcode")
+        {
+        echo '
+            <div id="select_profile" class="select">&nbsp;</div>
+            <div id="create_profile" class="create">
+                <img id="create_click" src="/img/create_profile.png" />
+            </div>';
+        }
+        elseif($c == "statistics")
+        {
+            /*
+            echo '
+            <div id="start_date"><div style="margin-left: 85px;"><input type="text" name="start_date" style="width: 60px;" /></div></div>
+            <div id="end_date"><div style="margin-left: 55px;"><input type="text" name="end_date" style="width: 60px;" /></div></div>';*/
+            
+            echo '<div id="date_range" style="float: left;"><div style="margin-left: 90px; margin-top: 2px; float: left;">
+            <input id="start_dates" type="text" name="start_date" style="font-size: 9px; width: 160px; text-align: center;" />
+            </div><div style="float: right; margin-left: 10px; margin-right: 32px; margin-top: 2px;"><input id="instance_opt" type="text" style="width: 25px; text-align: center;"/>
+            <input type="button" value="" class="go" onclick="sendDate()"/></div></div>';
+            
+        }
+        /*
+         <a style="width: 103px; height: 32px;" href="/'. $c . '/create/" title="Create Profile">
+                    <img src="/img/create_profile.png" />
+                </a>
+        */
+        ?>
+        <div id="instance_name">
+            <?= $this->componentName(); ?>
+        </div>
+        </div>
+        <div id="top_right">
+            <span id="username">Signed in as: <strong><?= $ident['username'] ?>.</strong></span>
+            
+            <div id="search">
+                <a href="/media/"><img src="/img/mag.png" /></a>
+                </div>
+            <!--
+            <div id="support">
+                <img src="/img/support.png" />
+                </div>
+            <div id="question">
+                <img src="/img/question.png" alt="Help" />
+            </div>
+        -->
+            <div id="account">
+                <a href="/account/" title="Manage Account"><img src="/img/account.png" /></a>
+            </div>
+            <div id="logout">
+                <a href="/auth/logout" title="Logout"><img src="/img/logout.png" /></a>
+            </div>
+
+        </div>
+    </div>
+
+    <?= $this->instanceSelect(); ?>
+    <div id="content">
+        <?= $this->layout()->content; ?>
+    </div>
+        <div id="panel_menu">
+            <ul>
+                <li class="panel_menu_header"><div>Manage Components</div></li>
+                <li class="panel_menu_options">
+                    <div>
+                        <ul class="background">
+                            <li><a href="/uploaded/">Uploaders</a></li>
+                            <li><a href="/recorded/">Recorders</a></li>
+                            <li><a href="/playback/">Players</a></li>
+                            <li style="color: #999">Live</li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="panel_menu_header"><div>Manage Media</div></li>
+                <li class="panel_menu_options">
+                    <div>
+                        <ul class="background">
+                             <li style="color: #999"><a href="/media/">Browse Media</a></li>
+                             <li style="color: #999">Ingestion</li>
+                            <!--  <li><a href="/ingestion/">Ingestion</a></li>
+                          <li><a href="/statistics/">Statistics</a></li>
+                            <li><a href="/moderation/">Moderation</a></li> -->
+                            <li><a href="/transcode/">Transcoding</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div id="panel">
+            <span id="panel_menu_button_container">
+                <a id="panel_menu_button" href="#">
+                    <img src="/img/panel/menu.png" />
+                </a>
+            </span>
+
+            <span id="panel_message">
+                <?
+                
+                    switch($c)
+                    {
+                    case "index":
+                        $message = " ";
+                        break;
+                    case "recorded":
+                        $message = "<span class='panel_message_title'>Manage Components: </span>Recorders";
+                        break;
+                    case "uploaded":
+                        $message = "<span class='panel_message_title'>Manage Components: </span>Uploaders";
+                        break;
+                    case "playback":
+                        $message = "<span class='panel_message_title'>Manage Components: </span>Players";
+                        break;
+                    case "account":
+                        $message = "<span class='panel_message_title'>Manage Account</span>";
+                        break;
+                    case "moderation":
+                        $message = "<span class='panel_message_title'>Manage Media: </span>Moderation";
+                        break;
+                    case "media":
+                        $message = "<span class='panel_message_title'>Manage </span>Media";
+                        break;
+                    case "transcode":
+                        $message = "<span class='panel_message_title'>Manage Media: </span>Transcode";
+                        break;
+                    case "statistics":
+                        $message = "<span class='panel_message_title'>Manage Media: </span>Statistics";
+                        break;
+                    case "ingestion":
+                        $message = "<span class='panel_message_title'>Manage Media: </span>Ingestion";
+                        break;
+                    }
+                
+                echo $message;
+                ?>
+            </span>
+
+    <?
+    if($c != "index")
+    echo '
+            <span class="panel_hdiv">
+                <img src="/img/panel/hdiv.png" />
+            </span>
+            ';
+    ?>
+
+            <span id="panel_taskbar">
+                <ul>
+                </ul>
+            </span>
+            
+            <span id="panel_logo">
+                <img src="/img/panel/logo.png" />
+            </span>
+        </div>
+
+    </body>
+
+</html>

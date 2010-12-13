@@ -1,0 +1,44 @@
+<!-- PARTIAL CONTENT BEGIN -->
+<script type="text/javascript">
+  componentId = '<?= $this->componentId ?>';
+  instanceId = '<?= $this->instanceId ?>';
+  <?php
+    if($this->moderatedSelectDisable == 'checked="checked"')
+        echo "$(document).ready(function(){modDisableSelect();});";
+?>
+</script>
+
+<?php
+    print $this->partial('uploaded/partial_settings_primary.phtml',
+                         array('instanceName' => $this->instanceName,
+                               's_typeSelectMultiple' => $this->s_typeSelectMultiple,
+                               's_typeSelectSingle' => $this->s_typeSelectSingle,
+                               'sizeLimit' => $this->sizeLimit,
+                               'fileLimit' => $this->fileLimit,
+                               'moderatedSelectEnable' => $this->moderatedSelectEnable,
+                               'moderatedSelectDisable' => $this->moderatedSelectDisable,
+                               'moderationInstances' => $this->moderationInstances));
+
+    print $this->partial('partials/component_media_output_selection.phtml',
+                         array('transcodeAvailable' => $this->transcodeAvailable,
+                               'transcodeSelected' => $this->transcodeSelected));
+
+    print $this->partial('uploaded/partial_settings_appearance.phtml',
+                         array('componentWidth' => $this->componentWidth,
+                               'componentHeight' => $this->componentHeight));
+
+    print $this->partial('partials/component_domain_access_list.phtml',
+                         array('restrictDomainsList' => $this->restrictDomainsList,
+                               'restrictDomainsEnable' => $this->restrictDomainsEnable,
+                               'restrictDomainsDisable' => $this->restrictDomainsDisable));
+    
+    print $this->partial('partials/component_embed_code.phtml',
+                         array('componentId' => $this->componentId,
+                               'componentWidth' => $this->componentWidth,
+                               'componentHeight' => $this->componentHeight));
+
+    print $this->partial('partials/component_preview.phtml',
+                         array('componentWidth' => $this->componentWidth,
+                               'componentHeight' => $this->componentHeight));
+?>
+<!-- PARTIAL CONTENT END-->

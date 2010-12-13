@@ -1,0 +1,15 @@
+CREATE TABLE transcode_audio (
+  id            SERIAL8 PRIMARY KEY,
+  media_audio_format INT8 NOT NULL REFERENCES media_audio_formats,
+  bitrate       INT4 NOT NULL,
+  UNIQUE(media_audio_format, bitrate)
+);
+
+INSERT INTO transcode_audio (media_audio_format, bitrate) VALUES (1, 131072);
+INSERT INTO transcode_audio (media_audio_format, bitrate) VALUES (1, 98304);
+INSERT INTO transcode_audio (media_audio_format, bitrate) VALUES (1, 65536);
+INSERT INTO transcode_audio (media_audio_format, bitrate) VALUES (1, 49152);
+INSERT INTO transcode_audio (media_audio_format, bitrate) VALUES (1, 32768);
+INSERT INTO transcode_audio (media_audio_format, bitrate) VALUES (1, 24576);
+INSERT INTO transcode_audio (media_audio_format, bitrate) VALUES (1, 16384);
+INSERT INTO transcode_audio (media_audio_format, bitrate) VALUES (1, 8192);

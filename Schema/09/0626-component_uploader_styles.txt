@@ -1,0 +1,6 @@
+CREATE TABLE component_uploader_styles (
+  id            SERIAL8 PRIMARY KEY,
+  instance_id   INT8 UNIQUE NOT NULL REFERENCES component_instances,
+  width         INT4 NOT NULL,
+  height        INT4 NOT NULL
+);

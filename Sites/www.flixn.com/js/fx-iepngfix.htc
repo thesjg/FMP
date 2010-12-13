@@ -1,0 +1,266 @@
+/*
+ * Copyright (c) 2008 Flixn, Inc.
+ * Authored by Samuel J. Greear
+ *
+ * Tri-licensed under the New BSD, MIT and LGPL licenses:
+ * http://www.opensource.org/licenses/bsd-license.php
+ * http://www.opensource.org/licenses/mit-license.php
+ * http://www.gnu.org/licenses/lgpl.html
+ *
+ *
+ * NOTES:
+ *
+ * Script requires a blank/empty image file to be present
+ * at /img/blank.gif, the location may be set below.
+ *
+ * Script limits itself to tiling an image 100 times in either
+ * direction. 100x100 will cause the browser a great deal of pain
+ * but it should keep it from hanging forever. For best performance
+ * background images should be cut substantially wider/taller than
+ * 1 pixel.
+ *
+ * IE would prefer not to load htc files cross-domain.
+ *
+ * USAGE EXAMPLES:
+ *
+ * Apply fix to all (non-background) images:
+ *
+ * img {
+ *   behavior: url('/js/fx-iepngfix.htc');
+ * }
+ *
+ * Repeating background:
+ *
+ * #header {
+ *   background-image: url('IMAGENAME.png');
+ *   background-repeat: repeat-x;
+ *   behavior: url('/js/fx-iepngfix.htc');
+ * }
+ *
+ * Custom bullet for list item:
+ *
+ * ul li {
+ *   padding-left: 11px;
+ *   background-image: url('IMAGENAME.png');
+ *   background-repeat: no-repeat;
+ *   background-position: 0% 5px;
+ *   behavior: url('/js/fx-iepngfix.htc');
+ * }
+ */
+<public:component>
+<script type="text/javascript">
+
+IEPNGFix = {
+
+    blankImage: '/img/blank.gif',
+    maxTile: 100,
+
+    _transformString: "progid:DXImageTransform.Microsoft.AlphaImageLoader(" +
+                      "enabled=true,sizingMethod='{sizingMethod}',src='{src}')",
+
+    _versionIEMin: 5.5,
+    _versionIEMax: 6,
+
+    init: function(el) {
+        if (!this._checkBrowser())
+            return;
+
+        /* I think input type="image" fails to actually work given this code ... */
+        switch (el.nodeName) {
+        case 'IMG':
+        case 'INPUT':
+            if (/\.png$/.test(el.src)) {
+                el.style.filter = this._getFilter(el.src);
+                el.style.width = el.offsetWidth;
+                el.style.height = el.offsetHeight;
+                el.src = this.blankImage;
+            }
+            break;
+        default:
+
+            try {
+                var image = el.currentStyle['backgroundImage'];
+            } catch (error) {
+                break;
+            }
+
+            if (image == null)
+                break;
+
+            if (image.match(/^url\(["']?(.*\.png([?].*)?)["']?\)$/i)) {
+                image = RegExp.$1;
+
+                var csize = { 'width' : el.offsetWidth,
+                              'height': el.offsetHeight }
+
+                /* Attach (hidden) image to DOM so we can determine its size
+                   w/ an onload handler */
+                var img = document.createElement('img');
+                img.style.position = 'absolute';
+                img.style.visibility = 'hidden';
+                el.insertBefore(img, el.firstChild);
+
+                /* Increase stack of child elements, so they remain clickable
+                   if they should be */
+                for(var i = 0; i < el.childNodes.length; i++) {
+                    if (el.childNodes[i].style) {
+                        el.childNodes[i].style.position = 'relative';
+                        el.childNodes[i].style.zIndex = 1;
+                    }
+                }
+
+                img.onload = function(){
+
+                    var isize = { 'width' : img.offsetWidth,
+                                  'height': img.offsetHeight }
+
+                    /* Remove the image now that we have the size */
+                    el.removeChild(el.firstChild);
+
+                    if (el.currentStyle['backgroundRepeat'] != 'no-repeat') {
+                        IEPNGFix._fakeBackgroundRepeat(el, image, isize);
+                        return;
+                    }
+
+                    if (off_x != '0' || off_y != '0') {
+                        var off_x = IEPNGFix._normalizeBackgroundX(
+                                        el.currentStyle['backgroundPositionX'],
+                                        csize['width'] - isize['width']);
+                        var off_y = IEPNGFix._normalizeBackgroundY(
+                                        el.currentStyle['backgroundPositionY'],
+                                        csize['height'] - isize['height']);
+                        IEPNGFix._fakeBackground(el, image, off_x, off_y, isize);
+                        return;
+                    }
+                };
+
+                img.src = image;
+            }
+
+            return;
+        }
+    
+    },
+    
+    _checkBrowser: function() {
+        if (/MSIE (\d+\.\d+)/.test(navigator.userAgent)) {
+            var IEVersion = new Number(RegExp.$1);
+            if (IEVersion >= this._versionIEMin && IEVersion <= this._versionIEMax)
+                return true;
+        }
+
+        return false;
+    },
+        
+    _getFilter: function(src, sizingMethod) {
+        sizingMethod = sizingMethod || 'crop';
+
+        return this._transformString.replace('{src}', src).replace('{sizingMethod}',
+                                                                   sizingMethod);
+    },
+        
+    _normalizeBackgroundX: function(position, height) {
+        var named = {'top': '0%', 'center': '50%', 'bottom': '100%'};
+        return this._normalizeBackground(position, height, named);
+    },
+
+    _normalizeBackgroundY: function(position, width) {
+        var named = {'left': '0%', 'center': '50%', 'right': '100%'};
+        return this._normalizeBackground(position, width, named);    
+    },
+
+    _normalizeBackground: function(position, dim, named) {
+        if (position.match(/(\d+)px$/))
+            return parseInt(RegExp.$1);
+
+        if (position in named)
+            position = named[position];
+
+        if (position.match(/(\d+)\%$/)) {
+            return parseInt(dim) * (parseInt(RegExp.$1) / 100);
+        }
+
+        return 0;
+    },
+        
+    _fakeBackground: function(el, image, off_x, off_y, isize) {
+
+        var fBg = document.createElement('div');
+        fBg.setAttribute('class', 'fx_iepngfix');
+        fBg.style.filter = this._getFilter(image);
+        fBg.style.position = 'absolute';
+        fBg.style.display = 'block';
+        try {
+            fBg.style.width = isize['width'] + 'px';
+            fBg.style.height = isize['height'] + 'px';
+        } catch (e) {}
+        try {
+            fBg.style.left = off_x + 'px';
+            fBg.style.top = off_y + 'px';
+        } catch (e) {}
+  
+        el.style.position = 'relative';
+        el.style.backgroundImage = 'none';
+
+        /* This seems to help for backgrounds (top left)on containers that
+           have children with padding, it probably hurts elsewhere */
+        if (off_x == 0)
+            el.insertBefore(fBg, el.firstChild);
+        else
+            el.appendChild(fBg);
+    },
+    
+    _fakeBackgroundRepeat: function(el, image, isize) {
+    
+        /* We might have a problem where repeat is on for images whose size
+           is indeed a multiple of its containers size :-O */
+    
+        /* Offsets and overages (for when a container isn't an exact multiple
+           of image height/width) in pixels for x and y axis */
+        var rpx, rpy = 1;
+        var ovx, ovy = 0;
+
+        if (el.currentStyle['backgroundRepeat'] == 'repeat-x' ||
+            el.currentStyle['backgroundRepeat'] == 'repeat') {
+            
+            rpx = Math.floor(el.offsetWidth / isize['width']);
+            if (rpx > this.maxTile)
+                rpx = this.maxTile;
+            else
+                ovx = el.offsetWidth - (isize['width'] * rpx);
+        }
+
+        if (el.currentStyle['backgroundRepeat'] == 'repeat-y' ||
+            el.currentStyle['backgroundRepeat'] == 'repeat') {
+
+            rpy = Math.floor(el.offsetHeight / isize['height']);
+            if (rpy > this.maxTile)
+                rpy = this.maxTile;
+            else
+                ovy = el.offsetHeight - (isize['height'] * rpy);
+        }
+    
+        for (var i = 0; i <= rpx; i++) {
+            
+            var iscpy = { 'width' : isize['width'],
+                          'height': isize['height'] }
+
+            if (i == rpx) iscpy['width'] = ovx;
+
+            for (var j = 0; j < rpy; j++) {
+                if (j == rpy) iscpy['height'] = ovy;
+
+                if (iscpy['width'] == 0 || iscpy['height'] == 0)
+                    continue;
+
+                this._fakeBackground(el, image, isize['width'] * i,
+                                     isize['height'] * j, iscpy);
+            }
+        }
+    }
+};
+
+IEPNGFix.init(this);
+
+</script>
+</public:component>

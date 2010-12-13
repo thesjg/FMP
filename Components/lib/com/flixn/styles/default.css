@@ -1,0 +1,108 @@
+@font-face {
+  src: url("assets/Conduit_ITC_Medium_1.ttf");
+  fontFamily: conduitITCMedium;
+  fontStyle: italic;
+  fontWeight: normal;
+  advancedAntiAliasing: true;
+}
+
+@font-face {
+  src: url("assets/Conduit_ITC_Medium_2.ttf");
+  fontFamily: conduitITCMedium;
+  fontStyle: normal;
+  fontWeight: normal;
+  advancedAntiAliasing: true;
+}
+
+@font-face {
+  src: url("assets/Conduit_ITC_Light_1.ttf");
+  fontFamily: conduitITCLight;
+  fontStyle: normal;
+  fontWeight: bold;
+  advancedAntiAliasing: true;
+}
+
+@font-face {
+  src: url("assets/Conduit_ITC_Light_2.ttf");
+  fontFamily: conduitITCLight;
+  fontStyle: italic;
+  fontWeight: bold;
+  advancedAntiAliasing: true;
+}
+
+@font-face {
+  src: url("assets/Conduit_ITC_Light_3.ttf");
+  fontFamily: conduitITCLight;
+  fontStyle: normal;
+  fontWeight: normal;
+  advancedAntiAliasing: true;
+}
+
+@font-face {
+  src: url("assets/Conduit_ITC_Light_4.ttf");
+  fontFamily: conduitITCLight;
+  fontStyle: italic;
+  fontWeight: normal;
+  advancedAntiAliasing: true;
+}
+
+Application {
+  backgroundAlpha: 1;
+  backgroundColor: #000000;
+  borderStyle: none;
+  themeColor: #616161;
+  color: #FFFFFF;
+  fontFamily: conduitITCLight;
+}
+
+FXCanvas {
+  fill: true;
+  border: none;
+  left: 0;
+  right: 0;
+
+  highlightAlphas: 0.01, 0.065;
+  fillColors: #494949, #616161;
+  fillAlphas: .65, 1.0;
+}
+
+ProgressBar {
+  focusThickness: 0;
+  bevel: false;
+  trackFill: true;
+  trackFillColors: #EFEFEF, #FFFFFF;
+  trackFillAlphas: 0.1, 0.1;
+  trackHighlight: true;
+  trackHighlightAlphas: 0.01, 0.05;
+  barFill: true;
+  barFillColors: #EFEFEF, #FFFFFF;
+  barFillAlphas: 0.20, 0.50;
+  barHighlight: true;
+  barHighlightAlphas: 0.02, 0.08;
+  barSkin: ClassReference('com.flixn.skins.FXProgressBarSkin');
+  trackSkin: ClassReference('com.flixn.skins.FXProgressTrackSkin');
+  maskSkin: ClassReference('com.flixn.skins.FXProgressMaskSkin');
+}
+
+VRule {
+  strokeWidth: 1px;
+  strokeColor: #999999;
+  left: 0px;
+  right: 0px;
+}
+
+ToolTip {
+  backgroundColor: #333333;
+  borderColor: #666666;
+  borderThickness: 1px;
+  color: #FFFFFF;
+  cornerRadius: 0;
+  dropShadowColor: #999999;
+  dropShadowEnabled: false;
+/*  fontFamily: conduitITCMedium; */
+  fontSize: 12px;
+  fontStyle: normal;
+  fontWeight: bold;
+  paddingLeft: 4px;
+  paddingRight: 4px;
+}

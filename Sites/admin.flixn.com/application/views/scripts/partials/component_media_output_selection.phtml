@@ -1,0 +1,49 @@
+<div class="window pre" title="Transcode" id="transcode_settings" wwidth="480" wheight="280" style="overflow: hidden; width: 480px;">
+<form id="transcode_settings" action="<?= $this->Path ?>" method="post">
+        <div class="spacer">&nbsp;</div>
+
+        <div class="row" id="record_moderation_profile">
+            <span class="formw" style="float: left">
+
+                <div style="width: 480px; text-align: center; padding-left: 15px;">
+
+                    <div style="float: left">
+                        Available profiles:<br />
+                        <select multiple id="trans_available" style="height: 140px; width: 160px; text-align: center;">
+                            <?php
+                                foreach($this->transcodeAvailable as $trans)
+                                    echo '<option id="s'.$trans->id.'" value="'.$trans->id.'">'.$trans->name.'</option>';
+                            ?>
+                        </select>
+                    </div>
+
+                    <div style="float: left">
+                        <br /> <br /> <br />
+                        <input type="button" id="tavailable_button" value="" class="add" style="margin-left: 17px;">
+                        <br />
+                        <input type="button" id="tselected_button" value="" class="remove" style="margin-left: 17px;">
+                        <br />
+                    </div>
+
+                    <div style="float: left;">
+                        Selected profiles:<br />
+                        <select multiple id="trans_selected" style="height: 140px; width: 160px; text-align: center;">
+                            <?
+                                foreach($this->transcodeSelected as $trans)
+                                    echo '<option id="s'.$trans->id.'" value="'.$trans->id.'">'.$trans->name.'</option>';
+                            ?>
+                        </select>
+                    </div>
+                </div>
+            </span>
+        </div>
+        
+        <div class="spacer">&nbsp;</div>
+
+        <div class="row">
+            <div class="f_submit">
+                <div id="s_transcode_settings_response" class="response_pre"></div><input id="transcode_submit_button" type="button" name="t_submit" class="save" value="" />
+            </div>
+        </div>
+</form>
+</div>

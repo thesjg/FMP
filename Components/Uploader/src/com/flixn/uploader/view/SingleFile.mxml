@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"
+         xmlns:ulv="com.flixn.uploader.view.*"
+         width="100%"
+         height="100%">
+
+    <mx:Script>
+        <![CDATA[
+            import com.flixn.uploader.controller.Uploader;
+            import com.flixn.uploader.model.Settings;
+
+            [Bindable]
+            public var uploader:Uploader;
+
+            [Bindable]
+            public var settings:Settings;
+        ]]>
+    </mx:Script>
+
+    <ulv:ControlPanel id="control_panel"
+                      uploader="{uploader}"
+                      settings="{settings}" />
+
+</mx:VBox>

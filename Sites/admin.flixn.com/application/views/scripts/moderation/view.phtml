@@ -1,0 +1,243 @@
+    <style type="text/css">
+#filter_list
+{
+border: 1px solid black;
+width: 500px;
+margin: 0 auto;
+}
+</style>
+<script type="text/javascript">
+function validateFilter()
+{
+    if($("input[@name='new_value']").val() == "")
+        return false;
+    else
+        return true;
+}
+
+var filterCreate = false;
+$(document).ready(function(){
+
+    $("#add_new").click(function(){
+        if(!filterCreate)
+        {
+            $("#filter_table").append("<tr class='temp_row'><td><select id='new_field' name='new_field'><option value='iname'>Instance Name</option><option name='state'>Moderation State</option><option value='url'>URL</option><option value='cdate'>Creation Date</option></select></td><td><select id='new_type' name='new_type'><option value='is'>is</option><option value='like'>like</option><option value='regex'>regex</option></select></td><td><input style='width: 75%' type='text' name='new_value' id='new_value' /></td><td><input type='submit' class='save_mini' value='' /></td></tr>");
+            filterCreate = true;
+            $("#no_filters").parent().parent().remove();
+        }
+    });
+
+
+        $(".approve").click(function(){
+
+        $.ajax({
+            type: "POST",
+            url: "/moderation/action/media/" + $(this).parent().parent().attr("mediaid"),
+            data: "action=approve"
+            });
+
+        $(this).parent().siblings(".media_object").remove();
+        $(this).parent().parent().slideUp(1700);
+        if($(".moderation_item").length == 0)
+        {
+            $("#moderation_header").html("<h3>There is no more media to moderate given these conditions.</h3>");
+        }
+
+        });
+
+        $(".reject").click(function(){
+
+        $.ajax({
+            type: "POST",
+            url: "/moderation/action/media/" + $(this).parent().parent().attr("mediaid"),
+            data: "action=reject",
+            });
+
+        $(this).parent().siblings(".media_object").remove();
+        $(this).parent().parent().slideUp(700);
+        if($(".moderation_item").length == 0)
+        {
+            $("#moderation_header").html("<h3>There is no more media to moderate given these conditions.</h3>");
+        }
+
+        });
+
+});
+
+</script>
+<div class="window" title="Filters" id="moderation_filters" autoopen="true" vposition="top" hposition="right" wwidth="600">
+<form style="display: block;" action='/moderation/add/instance/<?= $this->instance_id; ?>' method='post' onsubmit="return validateFilter()" style="display: inline;">
+<table id="filter_table" class="tablesorter" style="width: 96%; text-align: center; margin-left: 9px;">
+    <thead><tr style=" width: 100%;"><th>Field</th><th>Type</th><th>Value</th><th>&nbsp;</th></tr></thead>
+ <?
+ if(count($this->filters))
+    {
+
+        foreach($this->filters as $key => $filter)
+        {
+            switch ($filter['field'])
+                {
+                    case "iname":
+                        $field = "Instance Name";
+                        break;
+                    case "url":
+                        $field = "Origination URL";
+                        break;
+                    case "date":
+                        $field = "Creation Date";
+                        break;
+                    case "state":
+                        $field = "Moderation State";
+                }
+            echo "<tr><td>$field</td><td>".$filter['mode']."</td><td>".$filter['key'].
+            "</td><td><a href='/moderation/remove/instance/".$this->instance_id."/filter/".$key.
+            "'><img src='/img/remove_mini.png' /></a></td></tr>\n";
+        }
+
+    }
+    else
+        echo "<tr><td colspan='4'><span style='font-weight: bold; padding: 4px;' id='no_filters'>No filters exist.</span></td></tr> \n";
+
+echo "</table></form>";
+echo "<div style='float: right; margin-top: 5px;'><span id='add_new' style='cursor:pointer;cursor:hand'><img src='/img/add_mini.png' /></span> <span id='clear_filters'><a href='/moderation/clear/instance/".$this->instance_id."'><img src='/img/clear.png' /></a> &nbsp;&nbsp;</span></div>";
+
+echo "\n\n";
+?>
+</div>
+
+<?
+if(count($this->media) == 0 || count($this->media) == 1)
+{
+    $height = "410";
+    $width = "398";
+} else {
+    $height = "580";
+    $width = "412";
+}
+?>
+<div class="window" title="Queue" id="moderation_queue" autoopen="true" hposition="left" vposition="top" wwidth="<?= $width ?>" wheight="<?= $height ?>">
+
+<?
+if(count($this->media) == 0)
+   {
+    //echo "<div class='moderation_header' style='width: 95%; padding: 0 10px; border-bottom: 2px solid #999; height: 21px;'>";
+    echo "<span class='moderation_error' style='text-align: center; width: 250px; margin: 20px auto;'>There is no media remaining to be moderated or no media fits your criteria.</span";
+    //echo "</div>";
+
+    // replace with a more descriptive error message
+   }
+   elseif ($this->page >= 1 || $this->more_pages == true)
+   {
+    echo "<div class='moderation_header' style='width: 95%; padding: 0 5px; border-bottom: 2px solid #999; height: 27px;'>";
+    if ($this->page != 0) {echo "<span class='prev_link' style='float: left;'><a href='/moderation/view/instance/" . $this->instance_id . "/page/" . ($this->page - 1) . "'><< Previous</a></span>";}
+
+    if ($this->more_pages == true)
+    {
+        echo "<span class='next_link' style='float: right;'><a href='/moderation/view/instance/" . $this->instance_id . "/page/" . ($this->page + 1) . "'>Next >></a></span>";
+    }
+    echo "</div>";
+   }
+   ?>
+
+<div id="moderation_wrapper" style="margin:0;padding:0;">
+
+    <?
+    foreach($this->media as $m)
+    {
+        $state = strtolower($m['state']);
+        $media_id = $m['media_id'];
+
+        // NEED A PLAYER INSTANCE FOR INTERNAL USE
+
+        echo <<<JAVASCRIPT
+    <script type="text/javascript">
+    swfobject.embedSWF('http://components.flixn.com/489a25da-04b1-0001-f228-95e467836d49.swf',
+                       'media_$media_id', '100%', '100%', '9.0.115',
+                       'http://components.flixn.com/expressinstall.swf',
+                       { mediaId: '$media_id', moderationOverride: true },
+                       { allowscriptaccess: 'always', allownetworking: 'all', menu: 'false', wmode: 'transparent'}, {});
+    </script>
+JAVASCRIPT;
+
+        echo "<div class='moderation_item $state' id='item_$media_id' mediaid='$media_id'>";
+        echo "<div class='media_id' style='width: 90%; font-size: 13px; line-height: 22px; border: 2px solid #999; background-color: #fff; margin-left: auto; margin-right: auto; margin-top: 10px; text-align: center; height: 21px;'>";
+        echo    "Details: <a href='/media/view/id/$media_id' title='View Details'>$media_id</a>";
+        echo "</div>";
+        echo "<div class='media_container' style='width: 305px; height: 245px; margin-top: 10px; margin-left: auto; margin-right: auto; background-color: #888; padding-top: 10px;'>";
+            echo "<div id='media_$media_id' class='media_item' style='background-color: #999; width: 300px; height: 225px; margin-top: 10px; margin-left: auto; margin-right: auto; border: 2px solid #777;'></div>";
+        echo "</div>";
+        echo "<div class='action_panel' style='margin-top: 4px;'><input type='button' class='approve' value='' /><input type='button' class='reject' value='' /></div>";
+
+        echo "</div>";
+    }
+    /*
+    <div class="moderation_item approved" id="item_124912491">
+        <div class="media_id" style="width: 90%; border: 2px solid #999; background-color: #fff; margin-left: auto; margin-right: auto; margin-top: 10px; text-align: center; height: 16px;">
+            <a href="/media/view/id/dfkl4590345=drg9gdfg34=dfg9k435" title="View Details">dfkl4590345=drg9gdfg34=dfg9k435</a>
+        </div>
+        <div style="background-color: #999; width: 300px; height: 225px; margin-top: 10px; margin-left: auto; margin-right: auto; border: 2px solid #777;">
+
+        </div>
+        <div class="action_panel" style="margin-top: 4px;">
+            <input type="button" class="approve" value="" onclick="approve()" /><input type="button" class="reject" value="" onclick="reject()" />
+        </div>
+    </div>
+
+    <div class="moderation_item" id="item_124912491">
+        <div class="media_id" style="width: 90%; border: 2px solid #999; background-color: #fff; margin-left: auto; margin-right: auto; margin-top: 10px; text-align: center; height: 16px;">
+            <a href="/media/view/id/dfkl4590345=drg9gdfg34=dfg9k435" title="View Details">dfkl4590345=drg9gdfg34=dfg9k435</a>
+        </div>
+        <div class="media_object" style="background-color: #999; width: 300px; height: 225px; margin-top: 10px; margin-left: auto; margin-right: auto; border: 2px solid #777;">
+
+        </div>
+        <div class="action_panel" style="margin-top: 4px;">
+            <input type="button" class="approve" value="" onclick="approve()" /><input type="button" class="reject" value="" onclick="reject()" />
+        </div>
+    </div>*/
+    ?>
+</div>
+
+
+        <?
+        {
+        /*
+            if (!$this->media && !$this->filters)
+                echo "<span style='font-weight: bold;'>There is no media in the queue at present.</span>";
+            elseif (!$this->media)
+            {
+                echo "<span style='font-weight: bold;'>No media matches your filters.</span>";
+            }
+            else
+            {
+                foreach($this->media as $key => $value)
+                      {
+
+                        echo '
+                        <div class="moderation_queued_tem" style=="float: left; width: 350px; margin-left: 10px; margin-top: 10px;">
+                        <script type="text/javascript" src="http://www.flixn.com/js/swfobject2.js"></script>
+                        <script type="text/javascript">
+                            swfobject.embedSWF("http://components.flixn.com/489a25da-04b1-0001-f228-95e467836d49.swf",
+                                               "flixn_component_489a25da-04b1-0001-f228-95e467836d49_instance", "100%", "100%", "9.0.115",
+                                               "http://components.flixn.com/expressinstall.swf",
+                                               {statisticsDisable: true, mediaId: "'.$value['media_id'].'"},
+                                               { allowscriptaccess: "always", allownetworking: "all", menu: "false", wmode: "transparent"}, {});
+                        </script>
+                        <div id="flixn_component_489a25da-04b1-0001-f228-95e467836d49" style="width: 350px; height: 245px;">
+                            <div id="flixn_component_489a25da-04b1-0001-f228-95e467836d49_instance"></div>
+                        </div>
+                        <div style="width: 100%; height: 25px; margin-top: 5px; margin-bottom: 5px;">
+                                              <input type="button" value="Approve" id="ap$'.$key.'" onclick="approve('.$key.')"/>
+                                              <input type="button" value="Reject" id="rj'.$key.'" onclick="reject('.$key.')"/>
+                                              <input type="button" value="Remove" id="rm'.$key.'" onclick="reject('.$key.')"/>
+                                              <div id="dialog_'.$key.'" style="display: none" />
+                                          </div>
+                        </div>';
+
+                      }
+            }
+        */
+        }
+        ?>
+
+
+</div>

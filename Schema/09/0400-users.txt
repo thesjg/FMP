@@ -1,0 +1,9 @@
+CREATE TABLE users (
+  id            SERIAL8 PRIMARY KEY,
+  uuid          UUID UNIQUE NOT NULL,
+  username      VARCHAR(63) NOT NULL,
+  password      VARCHAR(63) NOT NULL
+);
+CREATE INDEX users_uuid_index ON users (uuid);
+
+INSERT INTO users (uuid, username, password) VALUES ('39ec4dd8-43af-49f6-bef2-9d4d5a4b8e81', 'flixn', 'password');

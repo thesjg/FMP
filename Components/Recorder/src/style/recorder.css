@@ -1,0 +1,68 @@
+ProgressBar {
+  fontSize: 16px;
+  fontStyle: normal;
+  fontWeight: bold;
+ }
+
+.controlPanelStyle {
+  verticalAlign: middle;
+}
+
+.recordButtonStyle,
+.stopButtonStyle,
+.saveButtonStyle,
+.reviewButtonStyle,
+.tryAgainButtonStyle {
+  skin: ClassReference('com.flixn.skins.FXButtonSkin');
+
+  left: 0;
+  right: 0;
+
+  borderThickness: 0;
+  cornerRadius: 0;
+  letterSpacing: 0;
+
+  highlightAlphas: 0.1, 0.2;
+  overHighlightAlphas: 0.7, 1.0;
+  downHighlightAlphas: 0.2, 0.4;
+
+  fontSize: 14px;
+}
+
+.recordButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Record_upSkin');
+}
+
+.stopButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Stop_upSkin');
+}
+
+.saveButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Save_Icon');
+}
+
+.reviewButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Review_Icon');
+}
+
+.tryAgainButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Try_Again_Icon');
+}
+
+.playButtonStyle {
+  skin: Embed(source='/assets/player_skin.swf', symbol='Button_Play_Giant_upSkin');
+}
+
+.timeStyle {
+  color: #FFFFFF;
+  fontFamily: conduitITCMedium;
+  fontSize: 14px;
+  paddingTop: 2px;
+  paddingLeft: 5px;
+}
+
+.noAxisStyle {
+  showLine: false;
+  showLabels: false;
+  tickPlacement: none;
+}

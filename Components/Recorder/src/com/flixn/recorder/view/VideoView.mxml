@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml"
+           creationComplete="init();"
+           minWidth="160"
+           minHeight="120"
+           width="100%"
+           height="100%">
+
+    <mx:Script>
+        <![CDATA[
+			import mx.events.VideoEvent;
+			
+            [Bindable]
+            private var _height:int;
+
+            private function init():void
+            {
+                _height = height;
+            }
+			
+			private function onStateChange(event:VideoEvent):void
+			{
+				trace(event.state);
+				
+				if (event.state == 'paused') {
+					display.visible = true;
+					controls.visible = true;
+				}
+				
+				if (event.state == 'playing') {
+					playButton.visible = false;
+				}
+				
+				if (event.state == 'stopped') {
+					playButton.visible = true;
+				}
+			}
+			
+            private function onPlayheadUpdate(event:VideoEvent):void
+			{
+                //progress.setProgress(event.playheadTime, display.totalTime);
+            }
+        ]]>
+    </mx:Script>
+
+	<!-- XXX: Use our FlixnVideoDisplay object here -->
+    <mx:VideoDisplay id="display"
+                     width="100%"
+                     height="{_height - 35}"
+					 playheadUpdate="onPlayheadUpdate(event);"
+					 stateChange="onStateChange(event);" />
+
+	<mx:Canvas id="controls" width="100%" height="100%" visible="false">
+
+		<mx:Button id="playButton"
+				   styleName="playButtonStyle"
+				   toolTip="Play"
+                   width="160"
+                   height="154"
+                   top="{(height/2)-76-(35/2)}"
+                   left="{(width/2)-80}"
+				   click="display.play();" />
+	
+	</mx:Canvas>
+ 
+</mx:Canvas>

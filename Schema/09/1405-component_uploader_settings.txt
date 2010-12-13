@@ -1,0 +1,9 @@
+CREATE TABLE component_uploader_settings (
+  id            SERIAL8 PRIMARY KEY,
+  instance_id   INT8 UNIQUE NOT NULL REFERENCES component_instances,
+  single        BOOLEAN NOT NULL, -- Single or multiple file uploader
+  size_limit    INT8 NOT NULL,
+  file_limit    INT8 NOT NULL,
+  transcode_profile	INT8 REFERENCES transcode_video,
+  domainlock	INT8 REFERENCES component_domain_list
+);

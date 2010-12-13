@@ -1,0 +1,34 @@
+CREATE TABLE transcode_video (
+  id            SERIAL8 PRIMARY KEY,
+  user_id       INT8 NOT NULL REFERENCES users,
+  name          VARCHAR(63) NOT NULL,
+  media_video_format INT8 NOT NULL REFERENCES media_video_formats,
+  audio_id      INT8 NOT NULL REFERENCES transcode_audio,
+  width         INT4 NOT NULL,
+  height        INT4 NOT NULL,
+  framerate     INT8 REFERENCES transcode_video_framerates,
+  bitrate       INT4 NOT NULL,
+  UNIQUE(user_id, name, audio_id, width, height, framerate, bitrate)
+);
+
+CREATE TABLE transcode_priority ( 
+   id            SERIAL8 PRIMARY KEY, 
+   component_id   INT8 NOT NULL REFERENCES component_instances, 
+   transcode_id	 INT8 NOT NULL REFERENCES transcode_video, 
+   priority	 INT4 NOT NULL,  
+ UNIQUE(component_id,transcode_id)
+);
+
+INSERT INTO transcode_video (user_id, name, media_video_format, audio_id, width, height, framerate, bitrate) VALUES (1, 'profile 1', 1, 1, 640, 480, 6, 1843200);
+INSERT INTO transcode_video (user_id, name, media_video_format, audio_id, width, height, framerate, bitrate) VALUES (1, 'profile 2', 1, 2, 448, 336, 6, 1228800);
+INSERT INTO transcode_video (user_id, name, media_video_format, audio_id, width, height, framerate, bitrate) VALUES (1, 'profile 3', 1, 2, 320, 240, 6, 819200);
+INSERT INTO transcode_video (user_id, name, media_video_format, audio_id, width, height, framerate, bitrate) VALUES (1, 'profile 4', 1, 1, 768, 432, 6, 1843200);
+INSERT INTO transcode_video (user_id, name, media_video_format, audio_id, width, height, framerate, bitrate) VALUES (1, 'profile 5', 1, 2, 512, 288, 6, 1228800);
+INSERT INTO transcode_video (user_id, name, media_video_format, audio_id, width, height, framerate, bitrate) VALUES (1, 'profile 6', 1, 2, 384, 216, 6, 819200);
+
+INSERT INTO transcode_priority (component_id, transcode_id, priority) VALUES (4, 1, 1);
+INSERT INTO transcode_priority (component_id, transcode_id, priority) VALUES (4, 2, 2);
+INSERT INTO transcode_priority (component_id, transcode_id, priority) VALUES (4, 3, 3);
+INSERT INTO transcode_priority (component_id, transcode_id, priority) VALUES (4, 4, 4);
+INSERT INTO transcode_priority (component_id, transcode_id, priority) VALUES (4, 5, 5);
+INSERT INTO transcode_priority (component_id, transcode_id, priority) VALUES (4, 6, 6);

@@ -1,0 +1,10 @@
+php_value upload_max_filesize 1023M
+php_value post_max_size 2047M
+
+RewriteEngine on
+
+RewriteRule ^crossdomain.xml$ - [L]
+RewriteRule ^([a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12})$ /upload.php?tid=$1 [L]
+RewriteRule ^incoming/(.*)$ /index.html [L]
+
+ErrorDocument 404 /index.html

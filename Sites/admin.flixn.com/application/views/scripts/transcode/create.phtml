@@ -1,0 +1,76 @@
+<div class="window" title="Create" id="create_object" style="overflow: hidden;">
+<form action="<?= str_replace("/error/1/", "", $this->Path)  ?>" method="post" name="create">
+    <div class="spacer">&nbsp;</div>
+    <div style="color: red"><?= $this->errorText; ?></div>
+    <div class="row" id="profile_name">
+        <span class="label">Profile Name</span><span class="formw">
+        <input type="text" name="instance_name" />
+        </span>
+    </div>
+    <div class="spacer">&nbsp;</div>
+    <div class="row" id="recorder_name">
+        <span class="label">Video Format</span><span class="formw">
+        <select name="video_format">
+            <?
+            foreach($this->videoOptions as $option)
+                echo "<option value='".$option['id']."'>".$option['format']."</option>\n";
+            ?>
+        </select>
+        </span>
+    </div>
+    <div class="spacer">&nbsp;</div>
+    <div class="row" id="recorder_name">
+        <span class="label">Video Bitrate</span><span class="formw">
+        <input type="text" name="bitrate" />kb/s
+        </span>
+    </div>
+    <div class="spacer">&nbsp;</div>
+    <div class="row" id="recorder_name">
+        <span class="label">Audio Format</span><span class="formw">
+        <select name="audio_format">
+            <option value="null">Auto</option>
+            <?
+            foreach($this->audioOptions as $option)
+                echo "<option value='".$option['id']."'>".$option['format'].": ".($option['bitrate']/1024)."kb/s</option>\n";
+            ?>
+        </select>
+        </span>
+    </div>
+    <div class="spacer">&nbsp;</div>
+    <div class="row" id="recorder_name">
+        <span class="label">Video Width</span><span class="formw">
+        <input type="text" name="width" />pixels
+        </span>
+    </div>
+    <div class="spacer">&nbsp;</div>
+    <div class="row" id="recorder_name">
+        <span class="label">Video Height</span><span class="formw">
+        <input type="text" name="height" />pixels
+        </span>
+    </div>
+    <div class="spacer">&nbsp;</div>
+      <div class="row" id="recorder_name">
+        <span class="label">Framerate</span><span class="formw">
+        <select id="framerate" name="framerate"><option value="null">Auto</option>
+        <?
+        foreach($this->framerate_options as $f)
+            echo '<option value="' . $f['id'] . '">'.$f['framerate'].'</option';
+        ?>
+	    </select> frames/second
+        </span>
+    </div>
+      </div>
+    <br />
+    <div class="spacer">&nbsp;</div>
+    <div class="row">
+            <div>
+                <div class="f_submit" style="text-align: right;">
+                    <div id="create_response" class="response_pre response"></div>
+		    <input id="create_close_button" type="submit" name="submit" value="" class="cancel" onclick="javascript:$('#create_object').dialog('close');" />
+		    <input type="button" name="submit" value="" class="submit" onclick="javascript:document.create.submit();" style="height: 45px; background-position: 10 0"/>
+                    
+                </div>
+            </div>
+	</div>
+  </form>
+</div>

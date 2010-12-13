@@ -1,0 +1,82 @@
+<div class="window" title="Settings" id="recorded_settings" autoopen="true" hposition="left" vposition="top" wwidth="408" wheight="307" style="overflow: hidden">
+    <form id="recorder_settings" action="<?= $this->Path ?>" method="post">
+        <div class="spacer">&nbsp;</div>
+
+        <div class="row" id="recorder_name">
+            <span class="label">Recorder Name</span>
+            <span class="formw">
+                <input type="text" name="s_name" value="<?= $this->instanceName ?>" style="width: 175px;" />
+            </span>
+        </div>
+
+<input type="hidden" name="s_type" value="video" />
+<!--
+        <div class="row" id="recorder_type">
+            <span class="label">Recorder Type</span>
+            <span class="formw">
+                Video and Audio <input type="radio" name="s_type" value="video" <?= $this->s_typeSelectVideo ?>/>
+                Audio Only <input type="radio" name="s_type" value="audio" <?= $this->s_typeSelectAudio ?>/>
+            </span>
+        </div>
+        <div class="row">
+            <p class="form_caption">Should this recorder instance be for recording audio, or audio and video?</p>
+        </div>
+-->
+
+        <div class="row" id="recorder_hq_enable">
+            <span class="label">High Quality Mode</span>
+            <span class="formw">
+                Enable <input type="radio" name="s_hq" value="enable" <?= $this->s_hqSelectEnable ?>/>
+                Disable <input type="radio" name="s_hq" value="disable" <?= $this->s_hqSelectDisable ?>/>
+            </span>
+        </div>
+        <div class="row">
+            <p class="form_caption">Enable or disable high quality mode.</p>
+        </div>
+
+        <div class="row" id="recorder_time_limit">
+            <span class="label">Time Limit</span>
+            <span class="formw">
+                <div class="row"><input name="s_time_hours" class="min" type="text" value="<?= $this->s_timeHours ?>" /> Hours</div>
+                <div class="row"><input name="s_time_minutes" class="min" type="text" value="<?= $this->s_timeMinutes ?>" /> Minutes</div>
+                <div class="row"><input name="s_time_seconds" class="min" type="text" value="<?= $this->s_timeSeconds ?>" /> Seconds</div>
+            </span>
+        </div>
+
+        <div class="row" id="recorder_moderate">
+            <span class="label">Enable Moderation</span>
+            <span class="formw">
+                Enable <input type="radio" name="s_upload_moderation" value="enable" onClick="javascript:modEnableSelect()" <?= $this->moderatedSelectEnable ?> />
+                Disable <input type="radio" name="s_upload_moderation" value="disable" onClick="javascript:modDisableSelect()" <?= $this->moderatedSelectDisable ?> />
+            </span>
+        </div>
+        <div class="row">
+            <p class="form_caption">Enables features to assist in the moderation of user-generated content</p>
+        </div>
+
+        <div class="row" id="upload_moderation_profile">
+            <span class="label">Moderation Profile</span>
+            <span class="formw">
+                <select id="moderation_profile_select" onchange="selectSChange()">
+                    <?php
+                        foreach ($this->moderationInstances as $instance) {
+                            if ($instance->id == $this->selected) {
+                                echo '<option id="'.$instance->id.'" value="'.$instance->id.'" selected>'.$instance->name.'</option>';
+                            } else {
+                                echo '<option id="'.$instance->id.'" value="'.$instance->id.'">'.$instance->name.'</option>';
+                            }
+                        }
+                    ?>
+                </select>
+            </span>
+        </div>
+        
+        <div class="spacer">&nbsp;</div>
+
+        <div class="row">
+            <div class="f_submit">
+                <div id="s_settings_response" class="response_pre"></div><input id="settings_submit_button" type="button" name="s_submit" class="save" value="" />
+            </div>
+        </div>
+    </form>
+</div>

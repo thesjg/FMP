@@ -1,0 +1,27 @@
+CREATE TABLE billing_slabs (
+  id            SERIAL8 PRIMARY KEY,
+  service_id    INT8 NOT NULL REFERENCES billing_services,
+  unit_id       INT8 NOT NULL REFERENCES billing_units,
+  quantity      INT4 NULL DEFAULT NULL,
+  price         INT4 NOT NULL
+);
+
+INSERT INTO billing_slabs (service_id, unit_id, quantity, price)
+    VALUES (1, 5, 1, 125);
+INSERT INTO billing_slabs (service_id, unit_id, quantity, price)
+    VALUES (1, 5, 4, 100);
+INSERT INTO billing_slabs (service_id, unit_id, quantity, price)
+    VALUES (1, 5, 5, 75);
+INSERT INTO billing_slabs (service_id, unit_id, quantity, price)
+    VALUES (1, 5, 90, 50);
+INSERT INTO billing_slabs (service_id, unit_id, quantity, price)
+    VALUES (1, 5, NULL, 25);
+
+INSERT INTO billing_slabs (service_id, unit_id, quantity, price)
+    VALUES (2, 4, 10, 400);
+INSERT INTO billing_slabs (service_id, unit_id, quantity, price)
+    VALUES (2, 4, 40, 300);
+INSERT INTO billing_slabs (service_id, unit_id, quantity, price)
+    VALUES (2, 4, 50, 200);
+INSERT INTO billing_slabs (service_id, unit_id, quantity, price)
+    VALUES (2, 4, NULL, 100);

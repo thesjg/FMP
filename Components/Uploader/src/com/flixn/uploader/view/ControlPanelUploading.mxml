@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
+         creationComplete="init();"
+         styleName="controlPanelUploadingStyle"
+         width="100%"
+         height="100%"
+         horizontalGap="0">
+
+    <mx:Script>
+        <![CDATA[
+            import com.flixn.uploader.controller.Panel;
+            import com.flixn.uploader.view.ControlPanel;
+
+            [Bindable]
+            public var cp:ControlPanel;
+
+            [Bindable]
+            public var panel:Panel;
+
+            private function init():void
+            {
+                progress.setStyle('trackHeight', height);
+                progress.setStyle('labelWidth', progress.width - cp.iconSize);
+            }
+        ]]>
+    </mx:Script>
+
+    <mx:ProgressBar id="progress"
+                    width="100%"
+                    height="100%"
+                    left="0"
+                    right="0"
+                    label=""
+                    labelPlacement="center"
+                    mode="manual" />
+
+    <mx:Button id="button_stop"
+               toolTip="Stop"
+               styleName="stopButtonStyle"
+               width="{cp.iconSize}"
+               height="{cp.iconSize}"
+               click="panel.stopButtonClick()"
+               hitArea="{button_stop}" />
+
+</mx:HBox>

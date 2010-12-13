@@ -1,0 +1,18 @@
+<div class="window pre" title="Embed Code" id="embed_code" wwidth="571" wheight="274" style="padding: 2px;">
+<div id="code_display">
+    <div id="embed-code-dynamic">
+        <textarea rows="18" style="width: 560px;">
+<script type="text/javascript" src="http://www.flixn.com/js/swfobject2.js"></script>
+<script type="text/javascript">
+    swfobject.embedSWF('http://components.flixn.com/<?= $this->componentId ?>.swf',
+                       'flixn_component_<?= $this->componentId ?>_instance', '100%', '100%', '9.0.115',
+                       'http://components.flixn.com/expressinstall.swf',
+                       {}, { allowscriptaccess: 'always', allownetworking: 'all', menu: 'false', allowfullscreen: 'true'}, {});
+</script>
+<div id="flixn_component_<?= $this->componentId ?>" style="width: <?= $this->componentWidth ?>px; height: <?= $this->componentHeight ?>px;">
+    <div id="flixn_component_<?= $this->componentId ?>_instance"></div>
+</div>
+        </textarea>
+    </div>
+</div>
+</div>

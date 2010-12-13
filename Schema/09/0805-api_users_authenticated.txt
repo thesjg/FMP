@@ -1,0 +1,8 @@
+CREATE TABLE api_users_authenticated (
+  id            SERIAL8 PRIMARY KEY,
+  user_id       INT8 NOT NULL REFERENCES users,
+  session_id    INT8 NOT NULL REFERENCES sessions,
+  authenticated TIMESTAMP NOT NULL DEFAULT NOW(),
+  used          TIMESTAMP NOT NULL DEFAULT NOW(),
+  UNIQUE(session_id)
+);

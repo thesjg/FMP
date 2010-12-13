@@ -1,0 +1,156 @@
+Web Services Documentation
+
+api.flixn.com
+/services
+    /version (09 == 0.9, 10 == 1.0)
+        /soap
+            flixn.wsdl
+            
+        /rest
+            /sessionInitiate
+            /sessionAuthenticate
+            /recordGetTicket
+            /recordGetLimits
+            /uploadGetTicket
+            /uploadGetFilters
+            /uploadGetLimits
+            
+            
+Full method calling URI:
+    http://api.flixn.com/services/09/rest/sessionInitiate
+
+
+Passing parameters:
+    Parameters may be passed as GET variables:
+        .../rest/sessionAuthenticate?sessionId=X&apiKey=Y
+    Or they may be passed as HTTP/1.1 headers:
+        Host: api.flixn.com
+        X-Flixn-sessionId: X
+        X-Flixn-apiKey: Y
+
+
+            
+Session methods:
+    initiate
+        Parameters:
+            sessionId
+            
+        Returns:
+            A valid session identifier
+            
+            <sessionid>Session identifier (string)</sessionid>
+            
+        Errors:
+            
+    authenticate
+        Parameters:
+            sessionId
+            apiKey
+            
+        Returns:
+            Boolean value indicating success
+            
+            <authenticated>'true' or 'false' (string)</authenticated>
+            
+        Errors:
+
+
+
+Upload methods:
+    getTicket
+        Parameters:
+            sessionId
+            instanceId
+            method
+            
+        Returns:
+        
+            <uploadticket>Ticket identifier (string)</uploadticket>
+        
+        Errors:
+            
+    getFilters
+        Parameters:
+            ticketId
+            
+        Returns:
+        
+            <uploadfilters>
+                <uploadfilter>
+                    <description></description>
+                    <extensions>a,b,c</extensions>
+                </uploadfilter>
+            </uploadfilters>
+        
+        Errors:
+            
+    getLimits
+        Parameters:
+            ticketId
+            
+        Returns:
+        
+            <uploadlimits>
+                <filebytes></filebytes>
+                <totalbytes></totalbytes>
+            </uploadlimits>
+        
+        Errors:
+            
+    getMediaId
+        Parameters:
+            ticketId
+            
+        Returns:
+        
+            <mediaid>Media identifier (string)</mediaid>
+        
+        Errors:
+
+
+
+Record methods:
+    getTicket
+        Parameters:
+            sessionId
+            instanceId
+            
+        Returns:
+            A valid record ticket
+            
+            <recordticket>
+                <ticketid>Ticket identifier (string)</ticketid>
+                <endpoint>Recording instance in the format: rtmp://hostname (string)</endpoint>
+                <instance>(string)</instance>
+                <filename>(string)</filename>
+            </recordticket>
+        
+            Ticket parts should be combined into a full endpoint that we will
+            connect to for recording.
+            
+            endpoint + '/' + instance + '/' + filename
+        
+        Errors:
+            
+    getLimits
+        Parameters:
+            ticketId
+            
+        Returns:
+            Limits associated with record ticket
+            
+            <recordlimits>
+                <duration>Maximum recording duration in seconds (integer)</duration>
+            </recordlimits>
+        
+        Errors:
+
+
+
+Errors:
+
+In the format:
+
+<error code="error code (integer)">
+    Textual description of error (string)
+</error>

@@ -1,0 +1,12 @@
+CREATE TABLE media_states (
+  id            SERIAL8 PRIMARY KEY,
+  name          VARCHAR(63) UNIQUE NOT NULL
+);
+
+INSERT INTO media_states (name) VALUES ('RECEIVED');
+INSERT INTO media_states (name) VALUES ('PROCESSED');
+INSERT INTO media_states (name) VALUES ('MODERATION');
+INSERT INTO media_states (name) VALUES ('ACTIVE');
+-- INSERT INTO media_states (name) VALUES ('');
+-- INSERT INTO media_states (name) VALUES ('');
+-- INSERT INTO media_states (name) VALUES ('');

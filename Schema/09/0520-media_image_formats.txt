@@ -1,0 +1,5 @@
+CREATE TABLE media_image_formats (
+  id            SERIAL8 PRIMARY KEY,
+  format        VARCHAR(63) NOT NULL,
+  description   TEXT
+);

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+	            xmlns:view="com.flixn.recorder.view.*"
+	            layout="absolute"
+	            creationComplete="init()"
+				width="320"
+				height="275">
+
+    <mx:Style source="../../lib/com/flixn/styles/default.css" />
+	<mx:Style source="style/recorder.css" />
+
+	<mx:Script source="Main.as" />
+
+    <mx:states>
+        <mx:State name="videoRecorder">
+            <mx:AddChild>
+                <view:VideoView id="VideoView" />
+            </mx:AddChild>
+            <mx:AddChild>
+                <view:ControlPanel id="VideoRecordPanel"
+								   settings="{settings}"
+								   videoView="{VideoView}"
+								   playback="{playback}"
+                                   styleName="controllerStyle" />
+            </mx:AddChild>
+        </mx:State>
+
+        <mx:State name="audioRecorder">
+            <mx:AddChild>
+                <view:AudioView id="AudioView"
+                                backgroundColor="#789BBF"
+                                backgroundAlpha="0.3"
+                                borderColor="#789BBF"
+                                borderStyle="none"
+                                cornerRadius="0" />
+            </mx:AddChild>
+            <mx:AddChild>
+                <view:ControlPanel id="AudioRecordPanel"
+                                   styleName="controllerStyle" />
+            </mx:AddChild>
+        </mx:State>
+    </mx:states>
+
+</mx:Application>

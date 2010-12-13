@@ -1,0 +1,96 @@
+<?
+// ADD PAGINATION OR SHIT COULD BREAK BAD
+?>
+<script type="text/javascript" src="/js/jquery.tablesorter.min.js"></script> 
+<!--<script type="text/javascript" src="/js/jquery.tablesorter.pager.js"></script>-->
+<script type="text/javascript" src="/js/jquery.metadata.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+
+$("table").tablesorter();
+    
+});    
+</script>
+<div class="window" title="All Time" id="top_urls" wwidth="750" autoopen="true"> 
+
+    <div style="margin: 15px;">
+        
+        <table id="table1" class="tablesorter">
+        <thead><tr><th>URL</th><th>Loads</th></tr></thead><tbody>
+        <?
+
+                      
+        foreach ($this->data['top_url']['total'] as $url)
+        {
+        
+            if (strlen($url['url']) > 147)
+                          $url1['t_url'] = (substr($url['url'],0,150) . "...");
+            else
+                $url1['t_url'] = $url['url'];
+                
+            echo "<tr><td>" . $url1['t_url'] . "</td><td>" . $url['sum'] . "</td></tr>";
+            
+        }
+        
+        ?>
+        </tbody></table>
+        
+    </div>
+    
+</div>
+
+<div class="window" title="7 Days" id="top_urls7" wwidth="750" >
+
+    <div style="margin: 15px;">
+        
+        <table id="table2" class="tablesorter">
+        <thead><tr><th>URL</th><th>Loads</th></tr></thead><tbody>
+        <?
+
+                      
+        foreach ($this->data['top_url']['7'] as $url)
+        {
+        
+            if (strlen($url['url']) > 147)
+                          $url1['t_url'] = (substr($url['url'],0,150) . "...");
+            else
+                $url1['t_url'] = $url['url'];
+                
+            echo "<tr><td>" . $url1['t_url'] . "</td><td>" . $url['c'] . "</td></tr>";
+            
+        }
+        
+        ?>
+        </tbody></table>
+        
+    </div>
+    
+</div>
+
+<div class="window" title="24 Hours" id="top_urls24" wwidth="750">
+
+    <div style="margin: 15px;">
+        
+        <table id="table3" class="tablesorter">
+        <thead><tr><th>URL</th><th>Loads</th></tr></thead><tbody>
+        <?
+
+                      
+        foreach ($this->data['top_url']['24'] as $url)
+        {
+        
+            if (strlen($url['url']) > 147)
+                          $url1['t_url'] = (substr($url['url'],0,150) . "...");
+            else
+                $url1['t_url'] = $url['url'];
+                
+            echo "<tr><td>" . $url1['t_url'] . "</td><td>" . $url['c'] . "</td></tr>";
+            
+        }
+        
+        ?>
+        </tbody></table>
+        
+    </div>
+    
+</div>

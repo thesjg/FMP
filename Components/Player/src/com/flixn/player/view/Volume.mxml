@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fxc:FXTCanvas xmlns:mx="http://www.adobe.com/2006/mxml"
+              xmlns:fxc="com.flixn.containers.*"
+              width="60"
+              height="160"
+              bottom="40"
+              borderStyle="solid"
+              creationComplete="init()">
+
+    <mx:Script>
+        <![CDATA[
+            import com.flixn.component.video.FlixnVideoDisplay;
+
+            import mx.controls.sliderClasses.Slider;
+            import mx.events.SliderEvent;
+
+            [Bindable]
+            public var fvdView:FlixnVideoDisplay;
+
+            private function init():void
+            {
+            }
+
+            private function _volumeDataTip(val:String):String
+            {
+                return String(int(val)) + '%';
+            }
+
+            private function _volumeChange(ev:SliderEvent):void
+            {
+                var slider:Slider = Slider(ev.currentTarget);
+                fvdView.volume = new Number(slider.value) / 100;
+            }
+        ]]>
+    </mx:Script>
+
+    <mx:HBox width="100%"
+             height="100%"
+             horizontalAlign="center"
+             paddingTop="5"
+             paddingBottom="5">
+
+        <mx:VSlider id="volume_slider"
+                    value="{fvdView.volume * 100}"
+                    height="148"
+                    maximum="100"
+                    liveDragging="true"
+                    dataTipFormatFunction="_volumeDataTip"
+                    change="_volumeChange(event)"
+                    styleName="volumeSliderStyle" />
+
+    </mx:HBox>
+
+</fxc:FXTCanvas>

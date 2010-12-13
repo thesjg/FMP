@@ -1,0 +1,32 @@
+<div class="window" title="Create" id="create_object" style="overflow: hidden">
+		<div class="spacer">&nbsp;</div>
+		<div style="color: red"><?= $this->errorText; ?></div>
+		<div class="row" id="recorder_name">
+			<span class="label"><?= $this->typeName ?> Name</span>
+			<span class="formw">
+				<input type="text" id="instance_name_text" style="width: 210px" name="instance_name" />
+			</span>
+		</div>
+
+		<div class="spacer">&nbsp;</div>
+		
+		<div class="spacer">&nbsp;</div>
+
+		&nbsp;
+		<div class="row">
+		<div>
+                <div class="row" id="create_response" style="padding-left: 10px; padding-top: 10px; float: left; margin-top: -2px; width: 250px; color: green; text-align: left;"> </div>
+                <div class="f_submit"  style="text-align: right;">
+				
+		<div style="float: right; width: 240px;">
+                   <input style="float: left; margin-top: 7px; margin-right: -8px;"
+				id="create_close_button" type="submit" name="submit" value="" class="cancel" onclick="$('#create_object').dialog('close');" />
+		   
+		   <input style="float: left;" id="create_submit_button" type="button" name="submit" value="" class="submit" onclick="javascript:createSubmit();" />
+                    
+		</div>
+		    
+                </div>
+            </div>
+		</div>
+</div>

@@ -1,0 +1,76 @@
+<div class="window pre" title="Settings" id="uploader_settings" autoopen="true" wwidth="400" wheight="294" vposition="top" hposition="left" style="overflow: hidden;">
+    <form id="uploader_primary_settings" action="<?= $this->Path ?>" method="post">
+            <div class="spacer">&nbsp;</div>
+
+            <div class="row" id="uploader_name">
+                <span class="label">Uploader Name</span>
+                <span class="formw">
+                    <input type="text" name="s_name" value="<?= $this->instanceName ?>" style="width: 175px;" />
+                </span>
+            </div>
+
+            <div class="row" id="uploader_type">
+                <span class="label">Uploader Type</span>
+                <span class="formw">
+                    Multiple <input type="radio" name="s_type" value="multiple" <?= $this->s_typeSelectMultiple ?>/>
+                    Single <input type="radio" name="s_type" value="single" <?= $this->s_typeSelectSingle ?>/>
+                </span>
+            </div>
+            <div class="row">
+                 <p class="form_caption">Should this uploader instance be capable of uploading a single file, or multiple files?</p>
+            </div>
+
+            <div class="row" id="upload_limit_size">
+                <span class="label">Upload Size Limit</span>
+                <span class="formw">
+                    <input id="up_size_limit_mb" name="s_size" size="10" type="text" value="<?= $this->sizeLimit ?>" /> Megabytes
+                </span>
+            </div>
+
+            <div class="row" id="upload_limit_size">
+                <span class="label">Per-File Size Limit</span>
+                <span class="formw">
+                    <input id="per_size_limit_mb" name="s_file_size" size="10" type="text" value="<?= $this->fileLimit ?>" /> Megabytes
+                </span>
+            </div>
+            <div class="row">
+                <p class="form_caption">Total size that a single uploaded file may be.</p>
+            </div>
+
+            <div class="row" id="uploaded_moderation_enable">
+                <span class="label">Enable Moderation</span>
+                <span class="formw">
+                    Enable <input type="radio" name="s_upload_moderation" value="enable" onClick="modEnableSelect()" <?= $this->moderatedSelectEnable ?> />
+                    Disable <input type="radio" name="s_upload_moderation" value="disable" onClick="modDisableSelect()" <?= $this->moderatedSelectDisable ?> />
+                </span>
+            </div>
+            <div class="row">
+                <p class="form_caption">Enables features to assist in the moderation of user-generated content.</p>
+            </div>
+
+            <div class="row" id="upload_moderation_profile">
+                <span class="label">Moderation Profile</span>
+                <span class="formw">
+                    <select id="moderation_profile_select" onchange="selectSChange()">
+                    <?php
+                        foreach ($this->moderationInstances as $instance) {
+                            if ($instance->id == $this->selected) {
+                                echo '<option id="'.$instance->id.'" value="'.$instance->id.'" selected>'.$instance->name.'</option>';
+                            } else {
+                                echo '<option id="'.$instance->id.'" value="'.$instance->id.'">'.$instance->name.'</option>';
+                            }
+                        }
+                    ?>
+                    </select>
+                </span>
+            </div>
+            
+            <div class="spacer">&nbsp;</div>
+
+            <div class="row">
+                <div class="f_submit">
+                    <div id="s_settings_response" class="response_pre"></div><input id="settings_submit_button" type="button" name="s_submit" class="save" value="" />
+                </div>
+            </div>
+    </form>
+</div>

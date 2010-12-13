@@ -1,0 +1,11 @@
+CREATE TABLE component_types (
+  id            SERIAL8 PRIMARY KEY,
+  name          VARCHAR(63) NOT NULL,
+  version       CHAR(2) NOT NULL,
+  description   TEXT,
+  UNIQUE(name, version)
+);
+INSERT INTO component_types (name, version) VALUES ('recorder', '09');
+INSERT INTO component_types (name, version) VALUES ('uploader', '09');
+INSERT INTO component_types (name, version) VALUES ('broadcast', '09');
+INSERT INTO component_types (name, version) VALUES ('player', '09');

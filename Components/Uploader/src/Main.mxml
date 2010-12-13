@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<mx:Application
+    layout="absolute"
+    xmlns:mx="http://www.adobe.com/2006/mxml"
+    xmlns:ulv="com.flixn.uploader.view.*"
+    creationComplete="init()">
+
+    <mx:Style source="../../lib/com/flixn/styles/default.css" />
+    <mx:Style source="style/uploader.css" />
+
+    <mx:Script>
+        <![CDATA[
+            import com.flixn.uploader.controller.Uploader
+            import mx.rpc.events.*;
+            import com.flixn.uploader.model.*;
+
+            [Bindable]
+            public var settings:Settings;
+
+            [Bindable]
+            public var uploader:Uploader;
+
+            private function init():void
+            {
+                settings = new Settings(this);
+                settings.addEventListener(ResultEvent.RESULT, settingsLoaded);
+            }
+
+            private function settingsLoaded(event:ResultEvent):void {
+                trace('settings were loaded!');
+                currentState = (settings.componentStyle == 'single') ? 'singleUploader'
+                                                                     : 'multipleUploader';
+                trace(settings.componentStyle);
+                trace(currentState);
+
+                uploader = new Uploader(this, settings);
+            }
+        ]]>
+    </mx:Script>
+
+    <mx:states>
+        <mx:State name="singleUploader">
+            <mx:AddChild>
+                <ulv:SingleFile id="single_container"
+                                uploader="{uploader}"
+                                settings="{settings}" />
+            </mx:AddChild>
+        </mx:State>
+
+        <mx:State name="multipleUploader">
+            <mx:AddChild>
+                <ulv:MultipleFile id="multiple_container"
+                                  uploader="{uploader}"
+                                  settings="{settings}" />
+            </mx:AddChild>
+        </mx:State>
+    </mx:states>
+
+</mx:Application>

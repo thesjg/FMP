@@ -1,0 +1,15 @@
+CREATE TABLE billing_units (
+  id            SERIAL8 PRIMARY KEY,
+  unit          VARCHAR(63) NOT NULL,
+  modifier      INT8 NOT NULL
+);
+
+INSERT INTO billing_units (unit, modifier) VALUES ('Byte', 1);
+INSERT INTO billing_units (unit, modifier) VALUES ('Kilobyte', 1000);
+INSERT INTO billing_units (unit, modifier) VALUES ('Megabyte', 1000000);
+INSERT INTO billing_units (unit, modifier) VALUES ('Gigabyte', 1000000000);
+INSERT INTO billing_units (unit, modifier) VALUES ('Terabyte', 1000000000000);
+INSERT INTO billing_units (unit, modifier) VALUES ('Second', 1);
+INSERT INTO billing_units (unit, modifier) VALUES ('Minute', 60);
+INSERT INTO billing_units (unit, modifier) VALUES ('Hour', 3600);
+INSERT INTO billing_units (unit, modifier) VALUES ('Day', 86400);

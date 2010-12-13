@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fxc:FXTCanvas xmlns:mx="http://www.adobe.com/2006/mxml"
+              xmlns:fxc="com.flixn.containers.*"
+              styleName="subMenuStyle"
+              width="100%"
+              height="100%"
+              bottom="40"
+              right="40"
+              top="50"
+              left="0"
+              cacheAsBitmap="true"
+              borderStyle="none"
+              creationComplete="init()">
+
+    <mx:Script>
+        <![CDATA[
+
+            import com.flixn.component.services.PlayerServices;
+
+            [Bindable]
+            private var _containerPadding:int;
+            [Bindable]
+            private var _spacerHeight:int;
+            [Bindable]
+            private var _labelFontSize:int;
+            [Bindable]
+            private var _textInputHeight:int;
+            [Bindable]
+            private var _inputFontSize:int;
+            [Bindable]
+            private var _submitButtonHeight:int;
+
+            private function init():void
+            {
+                if (height < 250) {
+                    _containerPadding = 1;
+                    _spacerHeight = 1;
+                    _labelFontSize = 10;
+                    _textInputHeight = 21;
+                    _inputFontSize = 9;
+                    _submitButtonHeight = 20;
+                } else if (height < 350) {
+                    _containerPadding = 5;
+                    _spacerHeight = 3;
+                    _labelFontSize = 14;
+                    _textInputHeight = 22;
+                    _inputFontSize = 10;
+                    _submitButtonHeight = 22;
+                } else {
+                    _containerPadding = 12;
+                    _spacerHeight = 5;
+                    _labelFontSize = 16;
+                    _textInputHeight = 24;
+                    _inputFontSize = 11;
+                    _submitButtonHeight = 24;
+                }
+            }
+
+            private function _sendSMS():void
+            {
+                var psi:Object = PlayerServices.getInstance();
+
+                psi.playSMSMedia(phone_number.text);
+
+                info_container.visible = true;
+                info.text = 'Message has been sent';
+            }
+        ]]>
+    </mx:Script>
+
+    <mx:HBox width="100%"
+             height="100%"
+             paddingLeft="{_containerPadding}"
+             paddingRight="{_containerPadding}"
+             paddingTop="{_containerPadding}"
+             paddingBottom="{_containerPadding}"
+             horizontalAlign="center">
+
+        <mx:VBox width="100%"
+                 height="100%"
+                 maxWidth="300"
+                 verticalAlign="center"
+                 horizontalAlign="center">
+
+            <mx:Label width="100%"
+                      styleName="subPanelPrimaryLabel"
+                      text="SMS This"
+                      filters="{[new DropShadowFilter(2, 60)]}" />
+
+            <mx:Text text="..." />
+
+        </mx:VBox>
+
+        <mx:VBox width="100%"
+                 height="100%"
+                 maxWidth="350"
+                 verticalAlign="center"
+                 horizontalAlign="center"
+                 verticalGap="0">
+
+            <mx:Label width="100%"
+                      fontSize="{_labelFontSize}"
+                      styleName="subPanelLabel"
+                      text="Phone number with country code"
+                      filters="{[new DropShadowFilter(2, 60)]}" />
+
+            <mx:TextInput id="phone_number"
+                          color="#000000"
+                          width="100%"
+                          height="{_textInputHeight}"
+                          shadowDistance="1"
+                          fontSize="{_inputFontSize}" />
+
+            <mx:Spacer height="{_spacerHeight}" />
+
+            <mx:HBox id="info_container" width="100%" visible="false">
+
+                <mx:Spacer width="100%" />
+
+                <mx:Label id="info" />
+
+            </mx:HBox>
+
+            <mx:HBox width="100%" paddingTop="1">
+
+                <mx:Spacer width="100%" />
+
+                <mx:Button height="{_submitButtonHeight}"
+                           label="Send"
+                           click="_sendSMS()" />
+
+            </mx:HBox>
+
+        </mx:VBox>
+
+    </mx:HBox>
+
+</fxc:FXTCanvas>

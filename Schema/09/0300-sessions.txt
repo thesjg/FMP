@@ -1,0 +1,8 @@
+CREATE TABLE sessions (
+  id            SERIAL8 PRIMARY KEY,
+  session_id    UUID UNIQUE NOT NULL,
+  ip_address    INET NOT NULL,
+  created       TIMESTAMP NOT NULL DEFAULT NOW(),
+  used          TIMESTAMP NOT NULL DEFAULT NOW()
+);
+CREATE INDEX sessions_session_id_index ON sessions (session_id);

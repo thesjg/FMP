@@ -1,0 +1,5 @@
+CREATE TABLE storage_user_settings (
+  id            SERIAL8 PRIMARY KEY,
+  user_id       INT8 UNIQUE NOT NULL REFERENCES users,
+  storage_class_id INT8 NOT NULL REFERENCES storage_classes
+);

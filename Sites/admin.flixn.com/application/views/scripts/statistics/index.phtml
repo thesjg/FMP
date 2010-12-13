@@ -1,0 +1,292 @@
+
+<script type="text/javascript">
+
+function submitDate()
+{
+    var location = 'statistics/detail/start/' + $("input[@name='start']").val() + '/end/' + $("input[@name='end']").val() + '/';
+    window.location = location;
+}
+
+$(document).ready(function() {
+var loads = <?= $this->graph['loads']; ?>;
+var plays = <?= $this->graph['plays']; ?>;
+var records = <?= $this->graph['records']; ?>;
+var uploads = <?= $this->graph['uploads']; ?>;
+var disk = <?= $this->graph['disk']; ?>;
+var bandwidth = <?= $this->graph['bandwidth']; ?>;
+
+
+
+var options1 = {
+    xaxis: { mode: "time", ticks: 7, timeformat: "%m/%d" },
+    colors: ["#66CCFF"]
+};
+
+var options2 = {
+    xaxis: { mode: "time", ticks: 7, timeformat: "%m/%d" },
+    colors: ["#919733"]
+};
+
+var options3 = {
+    xaxis: { mode: "time", ticks: 7, timeformat: "%m/%d" },
+    colors: ["#990000"]
+};
+
+var options4 = {
+    xaxis: { mode: "time", ticks: 7, timeformat: "%m/%d"  },
+    colors: ["#d18b2c"]
+};
+
+var options5 = {
+    xaxis: { mode: "time", ticks: 7, timeformat: "%m/%d", autoscaleMargin: .02},
+    colors: ["#00CC00"]
+};
+
+var options6 = {
+    xaxis: { mode: "time", ticks: 7, timeformat: "%m/%d", autoscaleMargin: .02}
+};
+
+$.plot($("#placeholder1"), [
+        {
+            data: loads,
+            lines: { show: true, fill: true}
+        }
+    ], options1);
+
+
+$.plot($("#placeholder2"), [
+        {
+            data: plays,
+            lines: { show: true, color: "#990000", fill: true},
+            colors: ["#d18b2c", "#dba255", "#919733"]
+        }
+        ], options2);
+
+$.plot($("#placeholder3"), [
+        {
+            data: uploads,
+            lines: { show: true, fill: true},
+            colors: ["#66CCFF"]
+        }
+        ], options3);
+
+$.plot($("#placeholder4"), [
+        {
+            data: records,
+            lines: { show: true, fill: true}
+        }
+        ], options4);
+
+$.plot($("#placeholder5"), [
+        {
+	   label: "Usage (Mb)",
+            data: bandwidth,
+            bars: { show: true, barWidth: (60*60*1000*24)}
+        }
+        ], options5);
+
+
+$.plot($("#placeholder6"), [
+        {
+	   label: "Disk Increase (Mb)",
+            data: disk,
+            bars: { show: true, barWidth: (60*60*1000*24)}
+        }
+        ], options6);
+});
+</script>
+
+<div class="window" title="Overview" id="statistical_overview" autoopen="true" hposition="left" vposition="top" wheight="340" wwidth="700" style="padding-left: 11px; padding-right: 12px;">
+    <div id="stats_overview_wrap" style="margin-top: 10px; padding-right: 50px;">
+        <div style="float: left; width: 30%;">
+            <h3>All Time:</h3>
+            <ul class="statistics_list">
+                <li><span>Loads:</span> <?= $this->stats['total']['load'][0]; ?></li>
+                <li><span>Plays:</span> <?= $this->stats['total']['play'][0]; ?></li>
+                <li><span>Recordings:</span> <?= $this->stats['total']['record'][0]; ?></li>
+                <li><span>Uploads:</span> <?= $this->stats['total']['upload'][0]; ?></li>
+            </ul>
+            
+            <h4 style="margin-bottom: 0px;">Top Urls:</h4>
+            <ol style="margin-top: 0px; text-align: left;">
+            <?
+            $i=1;
+            foreach($this->graph['top_url']['total'] as $val)
+            {
+                $val1 = $val;
+                if (strlen($val['url']) > 20)
+                      $val1['t_url'] = (substr($val['url'],0,18) . "...");
+                else
+                      $val1['t_url'] = $val['url'];
+                      
+                echo '<li style="text-align: left;"><a href="http://'.$val['url'] . '" title="">' . $val1['t_url'] . '</a></li>' . "\n";
+                $i++;
+            }
+              
+            echo "</ol>";
+            
+            if ($i > 3)
+            {
+                echo "<a href='/statistics/top/mode/url/span/all'>View More</a>";
+            }
+            ?>
+        </div>
+        <div style="float: left; width: 31%; margin-left: 31px;">
+            <h3>7 Days:</h3>
+            <ul class="statistics_list">
+                <li><span>Loads:</span> <?= $this->stats['7']['load'][0]; ?></li>
+                <li><span>Plays:</span> <?= $this->stats['7']['play'][0]; ?></li>
+                <li><span>Recordings:</span> <?= $this->stats['7']['record'][0]; ?></li>
+                <li><span>Uploads:</span> <?= $this->stats['7']['upload'][0]; ?></li>
+            </ul>
+            
+                        <h4 style="margin-bottom: 0px;">Top Urls:</h4>
+            <ol style="margin-top: 0px; text-align: left;">
+            <?
+            $i=1;
+            foreach($this->graph['top_url']['7'] as $val)
+            {
+                $val1 = $val;
+                if (strlen($val['url']) > 20)
+                      $val1['t_url'] = (substr($val['url'],0,18) . "...");
+                else
+                      $val1['t_url'] = $val['url'];
+                      
+                      
+                echo '<li style="text-align: left;"><a href="http://'.$val['url'] . '" title="">' . $val1['t_url'] . '</a></li>' . "\n";
+                $i++;
+            }
+              
+            echo "</ol>";
+            
+            if ($i > 3)
+            {
+                echo "<a href='/statistics/top/mode/url/span/7'>View More</a>";
+            }
+            ?>
+        </div>
+        <div style="float: right; width: 28%;">
+            <h3>24 Hours:</h3>
+            <ul class="statistics_list">
+                <li><span>Loads:</span> <?= $this->stats['24']['load'][0]; ?></li>
+                <li><span>Plays:</span> <?= $this->stats['24']['play'][0]; ?></li>
+                <li><span>Recordings:</span> <?= $this->stats['24']['record'][0]; ?></li>
+                <li><span>Uploads:</span> <?= $this->stats['24']['upload'][0]; ?></li>
+            </ul>
+        
+            <h4 style="margin-bottom: 0px;">Top Urls:</h4>
+            <ol style="margin-top: 0px; text-align: left;">
+            <?
+            $i=1;
+            foreach($this->graph['top_url']['24'] as $val)
+            {
+                $val1 = $val;
+                if (strlen($val['url']) > 20)
+                      $val1['t_url'] = (substr($val['url'],0,18) . "...");
+                else
+                      $val1['t_url'] = $val['url'];
+                      
+                echo '<li style="text-align: left;"><a href="http://'.$val['url'] . '" title="">' . $val1['t_url'] . '</a></li>' . "\n";
+                $i++;
+            }
+              
+            echo "</ol>";
+            
+            if ($i > 3)
+            {
+                echo "<a href='/statistics/top/mode/url/span/24'>View More</a>";
+            }
+            ?>
+        </div>
+    </div>
+    
+    
+    
+</div>
+
+<div class="window" title="Bandwidth" id="stats_bandwidth" autoopen="true" hposition="right" style="padding: 5px;">
+    <div id="placeholder5" style="width: 430px; height: 270px;"></div>
+</div>
+
+<div class="window" title="Disk Usage" id="stats_disk" autoopen="true" style="padding: 5px;">
+    <div id="placeholder6" style="width: 430px; height: 270px;"></div>
+</div>
+
+
+<div class="window" title="Loads" id="stats_loads" autoopen="true" hposition="right"><div id="placeholder1" style="width: 420px; height: 280px; margin-top: 10px; margin-left: 11px;" ></div>
+</div>
+<div class="window" title="Plays" id="stats_plays" autoopen="true" hposition="right"><div id="placeholder2" style="width: 420px; height: 280px; margin-top: 10px; margin-left: 11px;"></div>
+ </div>
+<div class="window" title="Uploads" id="stats_uploads" autoopen="true" hposition="right"><div id="placeholder3" style="width: 420px; height: 280px; margin-top: 10px; margin-left: 11px;"></div>
+</div>
+<div class="window" title="Records" id="stats_records" autoopen="true" hposition="right"><div id="placeholder4" style="width: 420px; height: 280px; margin-top: 10px; margin-left: 11px;"></div>
+</div>
+    
+<!--
+<div style="height: 10px;">&nbsp;</div>
+
+<fieldset class="main" style="margin: 0 auto; padding: 3px;">
+<br />
+<div style='height: 25px; width: 100%; border-bottom: 1px #ccc solid;'>
+<strong>Enter a date range:</strong>
+</div>
+<table style="width: 100%">
+    <tr>
+        <th>Start:</th>
+        <th>End:</th>
+        <th>&nbsp;</th>
+    </tr>
+    <tr>
+        <td><input type="text" name="start" /></td>
+        <td><input type="text" name="end" /></td>
+        <td><input type="submit" value="Submit" onclick="submitDate()" /></td>
+    </tr>
+</table>
+<br />
+<div style='height: 25px; width: 100%; border-bottom: 1px #ccc solid;'>
+<strong>Select an Instance:</strong></div>
+<table style="width: 100%">
+<tr>
+<th>Players</th>
+<th>Recorders</th>
+<th>Uploaders</th>
+</tr>
+<tr>
+<td>
+    <select id="player_select" onchange="window.location = 'detail/instance/'+this.options[this.selectedIndex].value;" >
+    <option value="none"></option>
+    <? /*
+    foreach ($this->playerInstances as $p)
+    {
+    echo "<option value='".$p['id']."'>".$p['name']."</option>";
+    }*/
+    ?>
+    </select>
+</td>
+<td>
+    <select id="recorder_select" onchange="window.location = 'detail/instance/'+this.options[this.selectedIndex].value;" >
+    <option value="none"></option>
+        <? /*
+    foreach ($this->recorderInstances as $r)
+    {
+    echo "<option value='".$r['id']."'>".$r['name']."</option>";
+    }*/
+    ?>
+    </select>
+</td>
+<td>
+    <select id="uploader_select"  onchange="window.location = 'detail/instance/'+this.options[this.selectedIndex].value;" >
+    <option value="none"></option>
+        <? /*
+    foreach ($this->uploaderInstances as $u)
+    {
+    echo "<option value='".$u['id']."'>".$u['name']."</option>";
+    }*/
+    ?>
+    </select>
+</td>
+</tr>
+</table>
+</fieldset>
+-->
+</div>

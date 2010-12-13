@@ -1,0 +1,141 @@
+<script type="text/javascript">
+$(document).ready(function(){
+    <?
+    if($this->restrictDomainsEnable != 'checked="checked"')
+        echo 'domainAccessListDisableSelect();';
+    else
+        echo 'domainAccessListEnableSelect();';
+    ?>
+
+        $("#domain_access_submit_button").click (
+            function() {
+
+                var domainList = getDomainAccessList();
+
+                $('#domain_access_submit_button').attr('disabled',true);
+                $.ajax({
+                type: "POST",
+                url: '/'+controller+'/ajax/instance/' + instanceId,
+                data:   "domain_access_list="+domainList+
+                        "&domain_access_enable="+$("input[@name='dal_enable']:checked").val()+
+                        "&formMode=accesslist",
+                success: function(data, status){
+                        $('#domain_access_submit_button').removeAttr('disabled');
+                        $('#domain_access_list_response').show();
+                        $('#domain_access_list_response').removeClass("response_pre")
+                                .stop()
+                                .addClass("response_post")
+                                .html("Your settings have been saved.")
+                                .fadeTo(4000,100).fadeOut(4000);
+                        },
+                error: function(XMLHttp, error) {
+                        $('#domain_access_list_response').removeClass("response_pre")
+                                .stop()
+                                .addClass("response_post")
+                                .html("An error occured. Please Try again.")
+                                .fadeTo(12000,100).fadeOut(5000).css("color: 'red'");
+                        $('#domain_access_submit_button').removeAttr('disabled');
+                        }
+                });
+            });
+    
+    });
+
+function domainAccessListAddClick()
+{
+    $('#domain_access_list').append("<option val='" + $('#domain_access_new').val() + "'>"+$('#domain_access_new').val() + "</option");
+    $('#domain_access_new').val("");
+    $('#domain_access_new').focus();
+}
+
+function domainAccessListRemoveClick()
+{
+    $('#domain_access_list option:selected').remove();
+}
+
+
+
+function getDomainAccessList()
+{
+    var selectBox = document.getElementById("domain_access_list");
+    var domains = '';
+
+    for (var i = 0; i < selectBox.length; i++)
+        domains += selectBox.options[i].value + ',';
+
+    return domains.substr(0, domains.length - 1);
+}
+
+function domainAccessListDisableSelect()
+{
+    $("#domain_access_new").attr("disabled","disabled");
+    $("#domain_access_list").attr("disabled","disabled");
+    $("#domain_access_add_button").attr("disabled","disabled");
+    $("#domain_access_remove_button").attr("disabled","disabled");
+}
+
+function domainAccessListEnableSelect()
+{
+    $("#domain_access_new").attr("disabled",false);
+    $("#domain_access_list").attr("disabled",false);
+    $("#domain_access_add_button").attr("disabled",false);
+    $("#domain_access_list_remove_button").attr("disabled",false);
+}
+
+</script>
+<div class="window pre" title="Domain Access" id="domain_access" wwidth="430" wheight="410" style="overflow: hidden; padding-right: 10px; width: 428px;">
+    <form id="domain_access_list_form" action="<?= $this->Path ?>" method="post">
+    <div style="margin: 10px;">
+        <div class="spacer">&nbsp;</div>
+
+        <div class="row" id="domain_access_list_enable">
+            <span class="label">Enable Access List</span>
+            <span class="formw">
+                Enable <input type="radio" id="domain_access_enable" name="dal_enable" value="enable" onclick="domainAccessListEnableSelect();" <?= $this->restrictDomainsEnable ?>/>
+                Disable <input type="radio" id="domain_access_disable" name="dal_enable" value="disable" onclick="domainAccessListDisableSelect();" <?= $this->restrictDomainsDisable ?>/>
+            </span>
+        </div>
+
+        <div class="row" id="">
+        <br />
+            <span class="label">Add Domain</span>
+            <span class="formw">
+
+                <div style="width: 100%">
+                <span class="formw" style="margin-right: 25px;">
+                    <div style="">
+                        <input id="domain_access_new" type="text" value="" style="width: 225px; margin-right: 20px; padding-right: 20px;" disabled="<?= $this->restrictDomainsDisabled ?>" />
+                        <input type="button" id="domain_access_add_button" class="add" value="" onclick="domainAccessListAddClick();" disabled="<?= $this->restrictDomainsDisabled ?>">
+                    </div>
+                </span>
+                </div>
+            </span>
+        </div>
+
+        <div class="row" id="">
+            <span class="label">Allowed Domains</span>
+            <span class="formw" style="margin-right: 25px;">
+
+                    <div style="">
+                        <select multiple="true" id="domain_access_list" style="width: 250px; height: 140px; margin-right: 20px; padding-right: 20px; text-align: center;" disabled="<?= $this->restrictDomainsDisabled ?>">
+                            <?
+                                foreach($this->restrictDomainsList as $rd)
+                                    echo '<option id="s'.$rd->domain.'" value="'.$rd->domain.'">'.$rd->domain.'</option>';
+                            ?>
+                        </select>
+                        <input type="button" id="domain_access_list_remove_button" class="remove" value="" onclick="domainAccessListRemoveClick();" disabled="<?= $this->restrictDomainsDisabled ?>">
+                    </div>
+
+            </span>
+        </div>
+        
+        <div class="spacer">&nbsp;</div>
+        </div>
+        <div class="row">
+            <div class="f_submit">
+                <div id="domain_access_list_response" class="response_pre"></div><input id="domain_access_submit_button" type="button" class="save" name="t_submit" value="" />
+            </div>
+        </div>
+
+    </fieldset>
+</form>

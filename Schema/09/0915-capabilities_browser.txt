@@ -1,0 +1,5 @@
+CREATE TABLE capabilities_browser (
+  id            SERIAL8 PRIMARY KEY,
+  session_id    INT8 NOT NULL REFERENCES sessions,
+  user_agent    VARCHAR(63) NOT NULL
+);

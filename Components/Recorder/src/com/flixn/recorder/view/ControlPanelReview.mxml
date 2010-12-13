@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
+         width="100%"
+         height="100%"
+         horizontalGap="0">
+
+    <mx:Script>
+        <![CDATA[
+            import com.flixn.recorder.controller.Panel;
+
+            [Bindable]
+            public var panel:Panel;
+        ]]>
+    </mx:Script>
+
+    <mx:Button id="saveButton"
+               label="Save"
+               styleName="saveButtonStyle"
+               width="100%"
+               height="100%"
+               click="panel.saveButtonClick();" />
+
+    <mx:VRule percentHeight="100" width="1" />
+
+    <mx:Button id="tryAgainButton"
+               label="Try Again"
+               styleName="tryAgainButtonStyle"
+               width="100%"
+               height="100%"
+               click="panel.tryAgainButtonClick();" />
+
+</mx:HBox>

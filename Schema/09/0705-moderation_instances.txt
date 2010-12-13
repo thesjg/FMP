@@ -1,0 +1,8 @@
+-- XXX: Each user needs a default moderation instance
+CREATE TABLE moderation_instances (
+  id            SERIAL8 PRIMARY KEY,
+  user_id       INT8 NOT NULL REFERENCES users,
+  name          VARCHAR(63) NOT NULL,
+  deferred	BOOLEAN NOT NULL DEFAULT false,
+  UNIQUE (user_id, name)
+);

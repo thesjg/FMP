@@ -1,0 +1,241 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fxc:FXTCanvas xmlns:mx="http://www.adobe.com/2006/mxml"
+              xmlns:fxc="com.flixn.containers.*"
+              styleName="subMenuStyle"
+              width="100%"
+              height="100%"
+              bottom="40"
+              right="40"
+              top="50"
+              left="0"
+              cacheAsBitmap="true"
+              borderStyle="none"
+              creationComplete="init()">
+
+    <mx:Script>
+        <![CDATA[
+import com.flixn.component.browserapi.BrowserAPI;
+            [Bindable]
+            private var _containerPadding:int;
+            [Bindable]
+            private var _labelFontSize:int;
+            [Bindable]
+            private var _submitButtonHeight:int;
+            [Bindable]
+            private var _iconSpacing:int;
+            [Bindable]
+            private var _iconSize:int;
+
+            private var _browserAPI:BrowserAPI;
+
+            private function init():void
+            {
+                _iconSize = 16;
+
+                if (height < 250) {
+                    _containerPadding = 1;
+                    _labelFontSize = 10;
+                    _submitButtonHeight = 20;
+                    _iconSpacing = 15;
+                    _iconSize = 16;
+                } else if (height < 350) {
+                    _containerPadding = 5;
+                    _labelFontSize = 14;
+                    _submitButtonHeight = 22;
+                    _iconSpacing = 20;
+                    _iconSize = 16;
+                } else {
+                    _containerPadding = 12;
+                    _labelFontSize = 16;
+                    _submitButtonHeight = 24;
+                    _iconSpacing = 25;
+                    _iconSize = 16;
+                }
+
+                _browserAPI = new BrowserAPI();
+            }
+
+            private function share(site:String):void
+            {
+                var url:String;
+
+                switch (site) {
+                    case 'delicious':
+                        url = 'http://del.icio.us/post?v=4&noui&jump=close&url=${shareUrl}&title=${shareTitle}';
+                        break;
+                    case 'digg':
+                        url = 'http://digg.com/submit?phase=2&url=${shareUrl}&title=${shareTitle}';
+                        break;
+                    case 'facebook':
+                        url = 'http://www.facebook.com/share.php?u=${shareUrl}';
+                        break;
+                    case 'google':
+                        url = 'http://www.google.com/bookmarks/mark?op=edit&output=popup&bkmk=${shareUrl}&title=${shareTitle}';
+                        break;
+                    case 'live':
+                        url = 'https://favorites.live.com/quickadd.aspx?marklet=1&mkt=en-us&url=${shareUrl}&title=${shareTitle}&top=1';
+                        break;
+                    case 'mixx':
+                        url = 'http://www.mixx.com/submit?page_url=${shareUrl}';
+                        break;
+                    case 'myspace':
+                        url = 'http://www.myspace.com/Modules/PostTo/Pages/?u=${shareUrl}&t=${shareTitle}';
+                        break;
+                    case 'newsvine':
+                        url = 'http://www.newsvine.com/_tools/seed&save?u=${shareUrl}&h=${shareTitle}';
+                        break;
+                    case 'reddit':
+                        url = 'http://reddit.com/submit?url=${shareUrl}&title=${shareTitle}';
+                        break;
+                    case 'stumbleupon':
+                        url = 'http://www.stumbleupon.com/submit?url=${shareUrl}&title=${shareTitle}';
+                        break;
+                    case 'technorati':
+                        url = 'http://technorati.com/faves?add=${shareUrl}';
+                        break;
+                    case 'yahoo':
+                        url = 'http://myweb.yahoo.com/myresults/bookmarklet?t=${shareTitle}&u=${shareUrl}&ei=UTF';
+                        break;
+                }
+
+                url = url.replace('${shareUrl}', 'http://flixn.com/');
+                url = url.replace('${shareTitle}', '');
+
+                _browserAPI.createPopup(url);
+            }
+        ]]>
+    </mx:Script>
+
+    <mx:HBox width="100%"
+             height="100%"
+             paddingLeft="{_containerPadding}"
+             paddingRight="{_containerPadding}"
+             paddingTop="{_containerPadding}"
+             paddingBottom="{_containerPadding}"
+             horizontalAlign="center">
+
+        <mx:VBox width="100%"
+                 height="100%"
+                 maxWidth="300"
+                 verticalAlign="center"
+                 horizontalAlign="center">
+
+            <mx:Label width="100%"
+                      styleName="subPanelPrimaryLabel"
+                      text="Share This"
+                      filters="{[new DropShadowFilter(2, 60)]}" />
+
+            <mx:Text text="..." />
+
+        </mx:VBox>
+
+        <mx:VBox width="100%"
+                 height="100%"
+                 maxWidth="350"
+                 verticalAlign="center"
+                 horizontalAlign="center"
+                 verticalGap="0">
+
+            <mx:VBox verticalGap="{_iconSpacing}">
+
+                <mx:Spacer height="10%" />
+
+                <mx:HBox horizontalGap="{_iconSpacing}">
+
+                    <mx:Button id="delicious_button"
+                               width="{_iconSize}"
+                               height="{_iconSize}"
+                               toolTip="Share on Del.icio.us"
+                               styleName="shareDeliciousButtonStyle"
+                               click="share('delicious')" />
+
+                    <mx:Button id="digg_button"
+                               width="{_iconSize}"
+                               height="{_iconSize}"
+                               toolTip="Share on Digg"
+                               styleName="shareDiggButtonStyle"
+                               click="share('digg')" />
+
+                    <mx:Button id="facebook_button"
+                               width="{_iconSize}"
+                               height="{_iconSize}"
+                               toolTip="Share on Facebook"
+                               styleName="shareFacebookButtonStyle"
+                               click="share('facebook')" />
+
+                    <mx:Button id="google_button"
+                               width="{_iconSize}"
+                               height="{_iconSize}"
+                               toolTip="Share on Google"
+                               styleName="shareGoogleButtonStyle"
+                               click="share('google')" />
+
+                </mx:HBox>
+                <mx:HBox horizontalGap="{_iconSpacing}">
+
+                    <mx:Button id="live_button"
+                               width="{_iconSize}"
+                               height="{_iconSize}"
+                               toolTip="Share on Live"
+                               styleName="shareLiveButtonStyle"
+                               click="share('live')" />
+
+                    <mx:Button id="mixx_button"
+                               width="{_iconSize}"
+                               height="{_iconSize}"
+                               toolTip="Share on Mixx"
+                               styleName="shareMixxButtonStyle"
+                               click="share('mixx')" />
+
+                    <mx:Button id="myspace_button"
+                               width="{_iconSize}"
+                               height="{_iconSize}"
+                               toolTip="Share on Myspace"
+                               styleName="shareMyspaceButtonStyle"
+                               click="share('myspace')" />
+
+                    <mx:Button id="newsvine_button"
+                               width="{_iconSize}"
+                               height="{_iconSize}"
+                               toolTip="Share on Newsvine"
+                               styleName="shareNewsvineButtonStyle"
+                               click="share('newsvine')" />
+
+                </mx:HBox>
+                <mx:HBox horizontalGap="{_iconSpacing}">
+
+                    <mx:Button id="reddit_button"
+                               width="{_iconSize}"
+                               height="{_iconSize}"
+                               toolTip="Share on Reddit"
+                               styleName="shareRedditButtonStyle"
+                               click="share('reddit')" />
+
+                    <mx:Button id="stumbleupon_button"
+                               width="{_iconSize}"
+                               height="{_iconSize}"
+                               toolTip="Share on StumbleUpon"
+                               styleName="shareStumbleuponButtonStyle"
+                               click="share('stumbleupon')" />
+
+                    <mx:Button id="technorati_button"
+                               width="{_iconSize}"
+                               height="{_iconSize}"
+                               toolTip="Share on Technorati"
+                               styleName="shareTechnoratiButtonStyle"
+                               click="share('technorati')" />
+
+                    <mx:Button id="yahoo_button"
+                               width="{_iconSize}"
+                               height="{_iconSize}"
+                               toolTip="Share on Yahoo"
+                               styleName="shareYahooButtonStyle"
+                               click="share('yahoo')" />
+
+                </mx:HBox>
+            </mx:VBox>
+
+        </mx:VBox>
+    </mx:HBox>
+
+</fxc:FXTCanvas>

@@ -1,0 +1,10 @@
+CREATE TABLE media_images (
+  id            SERIAL8 PRIMARY KEY,
+  media_id      INT8 NOT NULL REFERENCES media,
+  format_id     INT8 NOT NULL REFERENCES media_image_formats,
+  storage_class_id INT8 NOT NULL REFERENCES storage_classes DEFAULT 1,
+  original      BOOLEAN NOT NULL DEFAULT False,
+  size          INT4 NOT NULL, -- Bytes
+  created       TIMESTAMP NOT NULL DEFAULT NOW(),
+  media_image_id UUID UNIQUE
+);

@@ -1,0 +1,27 @@
+<div class="window" title="Create" id="create_object" style="overflow: hidden">
+		<div class="spacer">&nbsp;</div>
+		<div style="color: red"><?= $this->errorText; ?></div>
+		<div class="row" id="recorder_name">
+			<span class="label"><?= $this->typeName ?> Name</span>
+			<span class="formw">
+				<input type="text" id="instance_name_text" name="instance_name" style="width: 200px;"/>
+			</span>
+		</div>
+    
+    <div class="row" id="moderation_deferred">
+        <span class="label">Defer Moderation</span><span class="formw">
+        Enable <input type="radio" name="defer" value="enable" checked="checked" />
+        Disable <input type="radio" name="defer" value="disable" />
+    </div>
+        
+		<div class="spacer">&nbsp;</div>
+		<div class="row">
+            <div>
+                <div id="create_response" class="response_pre response"></div>
+                <div class="f_submit" style="text-align: right;">
+                    <input id="create_submit_button" type="button" name="submit" value="" class="submit" onclick="javascript:createSubmit();" />
+                    <input id="create_close_button" type="submit" name="submit" value="" class="cancel" onclick="$('#create_object').dialog('close');" />
+                </div>
+            </div>
+		</div>
+</div>

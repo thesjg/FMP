@@ -1,0 +1,150 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+		        xmlns:utils="com.flixn.component.utilities.*"
+                xmlns:video="com.flixn.component.video.*"
+                xmlns:view="com.flixn.player.view.*"
+                creationComplete="init();"
+                layout="absolute">
+	
+    <mx:Style source="../../lib/com/flixn/styles/default.css" />
+    <mx:Style source="style/player.css" />
+
+    <mx:Script>
+        <![CDATA[
+            import com.flixn.player.controller.Panel;
+            import com.flixn.player.model.Settings;
+
+            import flash.events.FullScreenEvent;
+
+            import mx.events.ResizeEvent;
+            import mx.events.VideoEvent;
+            import mx.rpc.events.ResultEvent;
+
+            [Bindable]
+            public var miniScrubberHeight:int = 15;
+
+            [Bindable]
+            public var panel:Panel;
+
+            [Bindable]
+            public var settings:Settings;
+
+            private static var _width:int;
+            private static var _height:int;
+
+            private function init():void
+            {
+                settings = new Settings(this);
+                settings.addEventListener(ResultEvent.RESULT, settingsLoaded);
+
+                trace('XXXZZZ: ' + Application.application.parameters.fooBar);
+            }
+
+            private function settingsLoaded(ev:ResultEvent):void
+            {
+                trace('settings loaded');
+
+//                stage.addEventListener(FullScreenEvent.FULL_SCREEN, fullScreenHandler);
+
+                currentState = 'Loaded';
+
+                panel = new Panel(this, volume_control, control_panel, mini_scrubber, video_display, menu);
+
+                mini_scrubber.height = miniScrubberHeight;
+            }
+
+            private function fullScreenHandler(ev:FullScreenEvent):void
+            {
+                if (ev.fullScreen) {
+                    _width = video_display.width;
+                    _height = video_display.height;
+                    video_display.width = stage.width;
+                    video_display.height = stage.height - 15;
+                } else {
+                    video_display.width = _width;
+                    video_display.height = _height;
+                }
+            }
+        ]]>
+    </mx:Script>
+
+        <mx:states>
+            <mx:State name="Loaded">
+
+                <mx:AddChild>
+                    <mx:Canvas id="player_container"
+                               width="100%"
+                               height="100%" />
+                </mx:AddChild>
+
+                <mx:AddChild relativeTo="{player_container}">
+                    <video:FlixnVideoDisplay id="video_display"
+                                             width="100%"
+                                             height="{height - 15}"
+                                             source=""
+                                             mouseOver="panel.appMouseEvent(event);"
+                                             mouseMove="panel.appMouseEvent(event);" />
+                </mx:AddChild>
+
+                <mx:AddChild relativeTo="{player_container}">
+                    <mx:Button id="button_play_giant"
+                               visible="true"
+                               width="160"
+                               height="154"
+                               top="{(height/2)-76-(control_panel.height/2)}"
+                               left="{(width/2)-80}"
+                               styleName="playGiantButtonStyle"
+                               click="panel.playButtonClick()" />
+                </mx:AddChild>
+
+                <mx:AddChild relativeTo="{player_container}">
+                    <mx:Button id="button_warn_giant"
+                               visible="false"
+                               width="160"
+                               height="154"
+                               top="{(height/2)-76-(control_panel.height/2)}"
+                               left="{(width/2)-80}"
+                               styleName="warnGiantButtonStyle" />
+                </mx:AddChild>
+
+                <mx:AddChild relativeTo="{player_container}">
+                    <view:ControlPanel id="control_panel"
+                                       width="100%"
+                                       visible="true"
+                                       styleName="controlPanelContainerStyle"
+                                       bottom="0"
+                                       panel="{panel}"
+                                       mouseOver="panel.appMouseEvent(event);"
+                                       mouseMove="panel.appMouseEvent(event);" />
+                </mx:AddChild>
+
+                <mx:AddChild relativeTo="{player_container}">
+                        <view:MiniScrubber id="mini_scrubber"
+                                           width="100%"
+                                           visible="false"
+                                           styleName="miniScrubberContainerStyle"
+                                           bottom="0"
+                                           panel="{panel}" />
+                </mx:AddChild>
+
+                <mx:AddChild relativeTo="{player_container}">
+                    <view:Menu id="menu"
+                               visible="false"
+                               cpView="{control_panel}" />
+                </mx:AddChild>
+
+                <mx:AddChild relativeTo="{player_container}">
+                    <view:Volume id="volume_control"
+                                 styleName="volumeContainerStyle"
+                                 visible="false"
+                                 right="0"
+                                 bottom="{control_panel.height}"
+                                 fvdView="{video_display}"
+                                 mouseOver="panel.appMouseEvent(event);"
+                                 mouseMove="panel.appMouseEvent(event);"  />
+                </mx:AddChild>
+            </mx:State>
+
+        </mx:states>
+
+</mx:Application>

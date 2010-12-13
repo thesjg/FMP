@@ -1,0 +1,69 @@
+api.flixn.com
+/services
+    /version (09 == 0.9, 10 == 1.0)
+        /soap
+            flixn.wsdl
+            
+        /rest
+            /getSession
+            /recordGetTicket (=> FlixnServicesRecord Class, getTicket Method)
+            /recordGetLimits
+            /recordPublish
+            /uploadGetTicket
+            /uploadGetFilters
+            /uploadGetLimits
+            
+# No prefix
+class FlixnServicesBase
+    public getSession($session_id=NULL)                     : fish (flashCookie, cookie)
+                return $session_id
+    public authSession($session_id, $api_key)               : key controls api permissions
+                return $status
+    Non-exposed methods:
+        private validateSession
+
+# record prefix
+class FlixnServicesRecord
+    public getTicket($session_id, $instance_id)
+                return $ticket_id, $endpoint, $instance, $filename  : assumed to be FMS
+    public getLimits($ticket_id)
+                return $seconds                             : resolution, data rate, xxx
+    public publish($ticket_id)
+                return $media_id
+
+class FlixnServicesUpload
+    public getTicket($session_id, $instance_id, $method)    : method=(post,put)
+                return $ticket_id, $endpoint
+    public getFilters($ticket_id)
+                return array( description => array( extension, extension ))
+    public getLimits($ticket_id)
+                return $file, $total
+    public getStatus($ticket_id)
+                return $status                              : bytes ul or etc
+    public getMediaId($ticket_id)
+                return $media_id
+
+class FlixnServicesMedia
+    public getLocation($session_id, $media_id, $class=NULL) : null class == default
+        return $location                                    : temporary url
+    public getClasses($session_id, $media_id)
+        return array( class, class )                        : targets?
+    
+class FlixnServicesMediaVideo
+class FlixnServicesMediaAudio
+class FlixnServicesMediaImage
+class FlixnServicesMediaFile ???
+ 
+class FlixnServicesCapabilities
+    public setCapabilities($session_id, $capabilities)
+    
+class FlixnServicesStatistics
+ 
+class FlixnServicesAdmin
+    private getComponents()
+    private instantiateComponent()
+    private getComponentInstances()
+    private cloneComponent()
+    
+    
+class FlixnServicesAdvertisement ???

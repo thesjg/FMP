@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fxc:FXCanvas xmlns:mx="http://www.adobe.com/2006/mxml"
+              xmlns:fxc="com.flixn.containers.*"
+              width="100%"
+              height="100%"
+              creationComplete="init();">
+
+    <mx:Script>
+        <![CDATA[
+            import com.flixn.player.controller.Panel;
+            import com.flixn.player.view.ControlPanel;
+
+            [Bindable]
+            public var cp:ControlPanel;
+
+            [Bindable]
+            public var panel:Panel;
+
+            private function init():void
+            {
+                progress.setStyle('trackHeight', height);
+            }
+
+            private function onMouseDown(ev:MouseEvent):void
+            {
+                trace('MOUSE DOWN ON SCRUBBER: ' + ev.localX + ' - ' + progress.width);
+                panel.seek(ev.localX, progress.width);
+            }
+        ]]>
+    </mx:Script>
+
+    <mx:HBox styleName="miniScrubberStyle" width="100%" height="100%">
+
+        <mx:ProgressBar id="progress"
+                        width="100%"
+                        height="100%"
+                        left="0"
+                        right="0"
+                        alpha=".9"
+                        label=""
+                        mode="manual"
+                        mouseDown="onMouseDown(event);" />
+
+    </mx:HBox>
+
+</fxc:FXCanvas>

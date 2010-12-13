@@ -1,0 +1,8 @@
+CREATE TABLE media_video_formats (
+  id            SERIAL8 PRIMARY KEY,
+  format        VARCHAR(63) NOT NULL,
+  description   TEXT
+);
+
+INSERT INTO media_video_formats (format) VALUES ('MP4');
+INSERT INTO media_video_formats (format) VALUES ('3GP');

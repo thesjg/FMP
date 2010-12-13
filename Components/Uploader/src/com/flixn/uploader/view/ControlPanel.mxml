@@ -1,0 +1,76 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fxc:FXCanvas xmlns:fxc="com.flixn.containers.*"
+            xmlns:mx="http://www.adobe.com/2006/mxml"
+            xmlns:view="com.flixn.uploader.view.*"
+            creationComplete="init();"
+            styleName="controlPanelContainerStyle"
+            minHeight="25"
+            maxHeight="50"
+            height="100%"
+            width="100%"
+            bottom="0"
+            top="0">
+
+    <mx:Script>
+        <![CDATA[
+            import com.flixn.uploader.controller.Panel;
+            import com.flixn.uploader.controller.Uploader;
+            import com.flixn.uploader.model.Settings;
+
+            [Bindable]
+            public var panel:Panel;
+
+            [Bindable]
+            public var uploader:Uploader;
+
+            [Bindable]
+            public var settings:Settings;
+
+            [Bindable]
+            public var iconSize:int;
+
+            [Bindable]
+            public var vRuleWidth:int = 1;
+
+            private function init():void
+            {
+                panel = new Panel(this);
+                iconSize = height;
+
+                trace('Control Panel: Height: ' + height);
+            }
+        ]]>
+    </mx:Script>
+
+    <fxc:states>
+
+        <mx:State name="uploaderStart">
+        	<mx:AddChild>
+                <view:ControlPanelMain id="panel_main"
+                                       panel="{panel}"
+                                       cp="{this}" />
+        	</mx:AddChild>
+        </mx:State>
+
+        <mx:State name="uploaderUploading">
+        	<mx:AddChild>
+                <view:ControlPanelUploading id="panel_uploading"
+                                            panel="{panel}"
+                                            cp="{this}" />
+        	</mx:AddChild>
+
+            <mx:AddChild>
+                <mx:HBox id="info_container"
+                         height="100%"
+                         styleName="infoContainerStyle" />
+            </mx:AddChild>
+
+            <mx:AddChild relativeTo="{info_container}">
+                <mx:Label id="info"
+                          filters="{[new DropShadowFilter(2, 60)]}" />
+            </mx:AddChild>
+        </mx:State>
+
+    </fxc:states>
+
+</fxc:FXCanvas>

@@ -1,0 +1,297 @@
+CREATE TABLE users (
+  id            SERIAL8 PRIMARY KEY,
+  uuid          UUID UNIQUE NOT NULL,
+  username      VARCHAR(63) NOT NULL
+);
+CREATE INDEX users_uuid_index ON users (uuid);
+
+CREATE TABLE component_types (
+  id            SERIAL8 PRIMARY KEY,
+  name          VARCHAR(63) NOT NULL,
+  version       CHAR(2) NOT NULL,
+  UNIQUE(name, version)
+);
+INSERT INTO component_types (name, version) VALUES ('recorder', '09');
+INSERT INTO component_types (name, version) VALUES ('uploader', '09');
+INSERT INTO component_types (name, version) VALUES ('broadcast', '09');
+INSERT INTO component_types (name, version) VALUES ('player', '09');
+
+CREATE TABLE component_instances (
+  id            SERIAL8 PRIMARY KEY,
+  user_id       INT8 NOT NULL REFERENCES users,
+  type_id       INT8 NOT NULL REFERENCES component_types,
+  component_id  UUID UNIQUE NOT NULL -- id.components.flixn.com/crossdomain.xml
+);
+
+CREATE TABLE media (
+  id            SERIAL8 PRIMARY KEY,
+  user_id       INT8 NOT NULL REFERENCES users,
+  media_id      UUID UNIQUE NOT NULL
+);
+
+CREATE INDEX media_media_id_index ON media (media_id);
+
+CREATE TABLE event_urls (
+  id            SERIAL8 PRIMARY KEY,
+  url           VARCHAR(1024) NOT NULL
+);
+
+CREATE TABLE event_load (
+  id            SERIAL8 PRIMARY KEY,
+  component_instance_id INT8 NOT NULL REFERENCES component_instances,
+  url_id        INT8 NOT NULL REFERENCES event_urls,
+  timestamp     TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE event_load_media (
+  id            SERIAL8 PRIMARY KEY,
+  load_id       INT8 NOT NULL REFERENCES event_load,
+  url_id        INT8 NOT NULL REFERENCES event_urls,
+  media_id      INT8 NOT NULL REFERENCES media,
+  load_time     INT8 NOT NULL, -- milliseconds
+  timestamp     TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE event_play (
+  id            SERIAL8 PRIMARY KEY,
+  load_media_id INT8 NOT NULL REFERENCES event_load_media,
+  timestamp     TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE event_play_pause (
+  id            SERIAL8 PRIMARY KEY,
+  play_id       INT8 NOT NULL REFERENCES event_play,
+  toffset       INT8 NOT NULL, -- milliseconds
+  timestamp     TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE event_play_stop (
+  id            SERIAL8 PRIMARY KEY,
+  play_id       INT8 NOT NULL REFERENCES event_play,
+  toffset       INT8 NOT NULL, -- milliseconds
+  timestamp     TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE event_play_seek (
+  id            SERIAL8 PRIMARY KEY,
+  play_id       INT8 NOT NULL REFERENCES event_play,
+  toffset_start INT8 NOT NULL, -- milliseconds
+  toffset_end   INT8 NOT NULL, -- milliseconds
+  timestamp     TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE event_play_complete (
+  id            SERIAL8 PRIMARY KEY,
+  play_id       INT8 NOT NULL REFERENCES event_play,
+  timestamp     TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE event_record (
+  id            SERIAL8 PRIMARY KEY,
+  load_id       INT8 NOT NULL REFERENCES event_load,
+  timestamp     TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE event_record_review (
+  id            SERIAL8 PRIMARY KEY,
+  record_id     INT8 NOT NULL REFERENCES event_record,
+  timestamp     TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE event_record_complete (
+  id            SERIAL8 PRIMARY KEY,
+  record_id     INT8 NOT NULL REFERENCES event_record,
+  duration      INT8 NOT NULL, -- length of media, milliseconds
+  timestamp     TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE event_upload (
+  id            SERIAL8 PRIMARY KEY,
+  load_id       INT8 NOT NULL REFERENCES event_load,
+  file_size     INT8 NOT NULL,
+  timestamp_start TIMESTAMP NOT NULL,
+  timestamp_end TIMESTAMP NOT NULL DEFAULT NOW
+);
+
+CREATE TABLE event_menu (
+  id            SERIAL8 PRIMARY KEY,
+  load_id       INT8 NOT NULL REFERENCES event_load,
+  timestamp     TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE event_menu_actions (
+  id            SERIAL8 PRIMARY KEY,
+  name          VARCHAR(63) NOT NULL
+);
+
+CREATE TABLE event_menu_action (
+  id            SERIAL8 PRIMARY KEY,
+  menu_id       INT8 NOT NULL REFERENCES event_menu,
+  action_id     INT8 NOT NULL references event_menu_actions,
+  timestamp     TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+
+
+
+
+
+
+CREATE TABLE event_hour_load (
+  id            SERIAL8 PRIMARY KEY,
+  component_instance_id INT8 NOT NULL REFERENCES component_instances,
+  url_id        INT8 NOT NULL REFERENCES event_urls,
+  count         INT8 NOT NULL,
+  timestamp     TIMESTAMP NOT NULL
+);
+
+CREATE TABLE event_hour_load_media (
+  id            SERIAL8 PRIMARY KEY,
+  url_id        INT8 NOT NULL REFERENCES event_urls,
+  media_id      INT8 NOT NULL REFERENCES media,
+  count         INT8 NOT NULL,
+  timestamp     TIMESTAMP NOT NULL
+);
+
+CREATE TABLE event_hour_play (
+  id        SERIAL8 PRIMARY KEY,
+  media_id  INT8 NOT NULL REFERENCES media,
+  count     INT8 NOT NULL,
+  timestamp TIMESTAMP NOT NULL
+);
+
+CREATE TABLE event_hour_play_complete (
+  id        SERIAL8 PRIMARY KEY,
+  media_id  INT8 NOT NULL REFERENCES media,
+  count     INT8 NOT NULL,
+  timestamp TIMESTAMP NOT NULL
+);
+
+CREATE TABLE event_hour_record (
+  id        SERIAL8 PRIMARY KEY,
+  component_instance_id INT8 REFERENCES component_instances,
+  count     INT8 NOT NULL,
+  timestamp TIMESTAMP NOT NULL
+);
+
+CREATE TABLE event_hour_record_complete (
+  id        SERIAL8 PRIMARY KEY,
+  component_instance_id INT8 REFERENCES component_instances,
+  count     INT8 NOT NULL,
+  timestamp TIMESTAMP NOT NULL
+);
+
+CREATE TABLE event_hour_upload (
+  id        SERIAL8 PRIMARY KEY,
+  component_instance_id INT8 REFERENCES component_instances,
+  count     INT8 NOT NULL,
+  timestamp TIMESTAMP NOT NULL
+);
+
+
+
+
+CREATE TABLE event_day_load (
+  id        SERIAL8 PRIMARY KEY,
+  component_instance_id INT8 NOT NULL REFERENCES component_instances,
+  url_id    INT8 NOT NULL REFERENCES event_urls,
+  count     INT8 NOT NULL,
+  timestamp DATE NOT NULL
+);
+
+CREATE TABLE event_day_load_media (
+  id        SERIAL8 PRIMARY KEY,
+  url_id    INT8 NOT NULL REFERENCES event_urls,
+  media_id  INT8 NOT NULL REFERENCES media,
+  count     INT8 NOT NULL,
+  timestamp DATE NOT NULL
+);
+
+CREATE TABLE event_day_play (
+  id        SERIAL8 PRIMARY KEY,
+  media_id  INT8 NOT NULL REFERENCES media,
+  count     INT8 NOT NULL,
+  timestamp DATE NOT NULL
+);
+
+CREATE TABLE event_day_play_complete (
+  id        SERIAL8 PRIMARY KEY,
+  media_id  INT8 NOT NULL REFERENCES media,
+  count     INT8 NOT NULL,
+  timestamp DATE NOT NULL
+);
+
+CREATE TABLE event_day_record (
+  id        SERIAL8 PRIMARY KEY,
+  component_instance_id INT8 REFERENCES component_instances,
+  count     INT8 NOT NULL,
+  timestamp DATE NOT NULL
+);
+
+CREATE TABLE event_day_record_complete (
+  id        SERIAL8 PRIMARY KEY,
+  component_instance_id INT8 REFERENCES component_instances,
+  count     INT8 NOT NULL,
+  timestamp DATE NOT NULL
+);
+
+CREATE TABLE event_day_upload (
+  id        SERIAL8 PRIMARY KEY,
+  component_instance_id INT8 REFERENCES component_instances,
+  count     INT8 NOT NULL,
+  timestamp DATE NOT NULL
+);
+
+
+
+
+CREATE TABLE event_week_load (
+  id        SERIAL8 PRIMARY KEY,
+  component_instance_id INT8 NOT NULL REFERENCES component_instances,
+  url_id    INT8 NOT NULL REFERENCES event_urls,
+  count     INT8 NOT NULL,
+  timestamp DATE NOT NULL
+);
+
+CREATE TABLE event_week_load_media (
+  id        SERIAL8 PRIMARY KEY,
+  url_id    INT8 NOT NULL REFERENCES event_urls,
+  media_id  INT8 NOT NULL REFERENCES media,
+  count     INT8 NOT NULL,
+  timestamp DATE NOT NULL
+);
+
+CREATE TABLE event_week_play (
+  id        SERIAL8 PRIMARY KEY,
+  media_id  INT8 NOT NULL REFERENCES media,
+  count     INT8 NOT NULL,
+  timestamp DATE NOT NULL
+);
+
+CREATE TABLE event_week_play_complete (
+  id        SERIAL8 PRIMARY KEY,
+  media_id  INT8 NOT NULL REFERENCES media,
+  count     INT8 NOT NULL,
+  timestamp DATE NOT NULL
+);
+
+CREATE TABLE event_week_record (
+  id        SERIAL8 PRIMARY KEY,
+  component_instance_id INT8 REFERENCES component_instances,
+  count     INT8 NOT NULL,
+  timestamp DATE NOT NULL
+);
+
+CREATE TABLE event_week_record_complete (
+  id        SERIAL8 PRIMARY KEY,
+  component_instance_id INT8 REFERENCES component_instances,
+  count     INT8 NOT NULL,
+  timestamp DATE NOT NULL
+);
+
+CREATE TABLE event_week_upload (
+  id        SERIAL8 PRIMARY KEY,
+  component_instance_id INT8 REFERENCES component_instances,
+  count     INT8 NOT NULL,
+  timestamp DATE NOT NULL
+);

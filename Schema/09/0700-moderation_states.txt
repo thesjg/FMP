@@ -1,0 +1,8 @@
+CREATE TABLE moderation_states (
+  id            SERIAL8 PRIMARY KEY,
+  name          VARCHAR(63) NOT NULL,
+  UNIQUE(name)
+);
+INSERT INTO moderation_states (name) VALUES ('PENDING');
+INSERT INTO moderation_states (name) VALUES ('APPROVED');
+INSERT INTO moderation_states (name) VALUES ('DENIED');

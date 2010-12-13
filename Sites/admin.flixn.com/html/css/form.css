@@ -1,0 +1,448 @@
+.pre {
+  display: none;
+}
+
+
+.response_pre {
+  display: none;
+  float: left;
+  margin-left: 2px;
+}
+
+.response_post {
+  text-align: center;
+  color: green;
+  height: 20px;
+  float: left;
+  padding: 10px;
+  margin-top: 10px;
+  margin-left: 5px;
+  padding-left: 5px;
+  /* width: 120px !important; */
+}
+
+form {
+	display: inline-block;
+	width: 100%;
+	}
+
+.form_wrap {
+	margin-bottom: 10px;
+	margin: 0 auto;
+	vertical-align: top;
+	padding: 10px;
+}
+
+div.row {
+	clear: both;
+	font-size: 12px;
+    margin: 0;
+    width: 100%;
+    padding: 0;
+    font-family: "Segoe UI", Verdana, sans-serif;
+}
+
+div.row span.label {
+	float: left;
+    margin-left: 10px;
+	text-align: left;
+	margin-bottom: 10px;
+    padding-top: 4px;
+	font-weight: bold;
+    margin-right: 10px;
+    font-family: "Segoe UI", Verdana, Arial, Helvetica, sans-serif;
+    
+}
+
+div.row span.formw {
+	float: right;
+	width: 240px;
+	text-align: left;
+	margin-top: 3px;
+	margin-left: 10px;
+    font-family: "Segoe UI", Verdana, sans-serif;
+}
+
+input {
+	margin: 2px;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    background-color: #eff2f3;
+    border: 1px solid #d9e0e2;
+	}
+
+input[type=text].min
+{
+width: 100px;
+}
+
+div.spacer {
+  clear: both;
+  }
+
+select, input, textarea {
+  font-size: 1em;
+  color: #a21d1d;
+  font-size: 10px; *font-size: 9px;
+
+}
+
+input[type=text]:focus, input[type=password]:focus {
+  -moz-outline: none;
+  opacity: 0.8;
+  background: #f5f6f8;
+  color: #000;
+}
+
+textarea, input {
+  background: #fff no-repeat left top;
+  border: #cfcfcf 1px solid;
+  color: #585858;
+  padding: 2px;
+  
+}
+
+input[type=submit], input[type=submit]:focus {
+  font-weight: bold;
+  padding: 5px;
+  background: url(/img/save.png);
+  height: 57px;
+  width: 118px;
+  border: 0;
+}
+
+
+input.save, input.save:focus {
+  font-weight: bold;
+  padding: 5px;
+  background: url(/img/save.png);
+  height: 57px;
+  width: 118px;
+  cursor: pointer;
+  border: 0;
+  float: right;
+}
+input[type=submit]:hover {
+  cursor: pointer;
+}
+
+input.cancel, input.cancel:focus {
+    background: url(/img/cancel.png);
+    border: 0;
+    width: 107px;
+    height: 40px;
+    font-weight: bold;
+    padding: 5px;
+}
+
+input.cancel:hover {
+  cursor: pointer;
+}
+
+input[type=text], input[type=select], input[type=password] {
+  color: #a21d1d;
+  background-color: #d8e1f4;
+  font-size: 10px; *font-size: 9px;
+}
+
+textarea {
+  margin: 0;
+  overflow: auto;
+  width: 96%;
+}
+
+fieldset.main {
+  background: url(/img/bg_center.png) repeat-x;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: solid 1px #ccc;
+}
+
+.response {
+  float: left;
+}
+
+.submit {
+  float: right;
+}
+
+.form_caption {
+  color: #3c3c3c;
+  margin:0;
+  margin-top: 3px;
+  margin-bottom: 2px;
+  margin-right: 30px;
+  font-size: .82em;
+  text-align: center;
+  float: right;
+  width: 250px;
+  display: none;
+}
+
+
+/* LOGIN-SPECIFIC */
+#status {
+  color: #9b3635;
+  font-weight: bold;
+  text-transform: uppercase;
+  height: 14px;
+  font-size: 11px;
+}
+
+div.login {
+  width: 250px;
+  margin: 21px auto;
+  margin-left: 75px;
+  
+  text-align: center;
+}
+
+input.empty
+{
+  width: 250px;
+  /*font-weight: bold;*/
+  text-align: center;
+      font-family: "Segoe UI", Verdana, sans-serif;
+}
+
+#forgot, #forgot a {
+  font-size: 10px;
+  color: #999;
+  text-decoration: none;
+  clear: both;
+  float: none;
+}
+
+input.submit {
+    background: url('/img/submit.png');
+    border: 0;
+    width: 118px;
+    height: 57px;
+    float: none;
+}
+
+input.add {
+    background: url('/img/add.png');
+    border: 0;
+    width: 94px;
+    height: 23px;
+    float: left;
+
+}
+
+input.remove {
+    background: url('/img/remove.png');
+    border: 0;
+    width: 96px;
+    height: 23px;
+    float: left;
+}
+
+input.new {
+  background: url('/img/new.png');
+  border: 0;
+  width: 118px;
+  height: 57px;
+  float: right;
+}
+
+input.move_up {
+    background: url('/img/move_up.png');
+    border: 0;
+    width: 107px;
+    height: 40px;
+}
+
+input.move_down {
+    background: url('/img/move_down.png');
+    border: 0;
+    width: 107px;
+    height: 40px;
+
+}
+
+input.edit_small {
+  background: url('/img/edit_small.png');  
+  width: 60px;
+  height: 30px;
+  border: 0;
+  float: left;
+  cursor: pointer;
+}
+
+input.ok_small {
+  background: url('/img/ok_small.png');  
+  width: 60px;
+  height: 30px;
+  border: 0;
+  float: left;
+  cursor: pointer;
+}
+
+input.delete_small {
+  background: url('/img/delete_small.png');  
+  width: 60px;
+  height: 30px;
+  border: 0;
+  float: left;
+  cursor: pointer;
+}
+
+input.submit:focus {
+    background: url('/img/submit.png');
+    border: 0;
+    width: 118px;
+    height: 57px;
+    float: none;
+}
+
+input #login_submit {
+    background: url('/img/submit.png');
+    border: 0;
+    width: 118px;
+    height: 57px;
+    float: none;
+    clear: both;
+    margin: 0;
+}
+
+form#auth input.empty {
+  color: #a21d1d;
+  font-size: 10px; *font-size: 9px;
+  opacity: 0.65;
+  -moz-opacity: 0.65;
+  filter: alpha(opacity = 65);
+}
+   
+
+form#auth p#error {
+  text-align: center;
+  height: 16px;
+  color: #a21d1d;
+  font-weight: bold;
+  font-family: monospace;
+  display: none;
+}
+
+#form_submit:hover {
+  cursor: pointer;
+}
+
+
+input.value_edit, input.key_edit
+{
+  width: 210px;
+}
+
+/* MODERATION SPECIFIC */
+
+
+input.delete
+{
+  background: url(/img/delete.png);
+  border: 0;
+  width: 107px;
+  height: 40px;
+}
+
+input.approve
+{
+  background: url(/img/approve.png);
+  border: 0;
+  width: 82px;
+  height: 23px;
+  margin: 3px;
+}
+
+input.reject
+{
+  background: url(/img/reject.png);
+  border: 0;
+  width: 82px;
+  height: 23px;
+  margin: 3px;
+}
+
+input.save_mini, input.save_mini:focus
+{
+  background: url(/img/save_mini.png);
+  border: 0;
+  width: 82px;
+  height: 23px;
+  margin: 3px;
+}
+
+
+div.moderation_item
+{
+  width: 350px;
+  height: 340px;
+  border: 2px solid #989;
+  margin: 10px;
+  margin-bottom: 20px;
+}
+
+div.moderation_item.approved
+{
+  
+  background-color: #6BBA70;
+  border: 2px solid #317235;
+
+}
+
+div.moderation_item.denied
+{
+  
+  background-color: #c12525;
+  border: 2px solid #7e0303;
+
+}
+
+div.moderation_item.flagged
+{
+  
+  background-color: #faff6e;
+  border: 2px solid #cad102;
+
+}
+
+/* ----- STATISTICAL CSS */
+
+ul.statistics_list {
+  list-style: none;
+  padding-left: 2px;
+  font-size: 14px;
+}
+
+ul.statistics_list li {
+text-indent: 4px;
+margin-left: 0px;
+text-align: right;
+width: 100%;
+border-bottom: 1px solid black;
+}
+
+
+ul.statistics_list li span {
+font-weight: bold;
+float: left;
+}
+
+
+.f_submit {
+ background-image: url('/img/submit_bg.png');
+ background-repeat: repeat-x;
+ height: 54px;
+ width: 100%;
+ background-position: bottom;
+ margin: 0px 0px;
+}
+
+.m_submit {
+
+ width: 100%;
+ background-position: bottom;
+ margin: 0px 0px;
+}

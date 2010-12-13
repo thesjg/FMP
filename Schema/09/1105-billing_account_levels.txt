@@ -1,0 +1,8 @@
+CREATE TABLE billing_account_levels (
+  id            SERIAL8 PRIMARY KEY,
+  level         VARCHAR(63) NOT NULL,
+  price         INT4 NOT NULL
+);
+
+INSERT INTO billing_account_levels (level, price) VALUES ('Standard', 49995);
+INSERT INTO billing_account_levels (level, price) VALUES ('Enterprise', 499995);

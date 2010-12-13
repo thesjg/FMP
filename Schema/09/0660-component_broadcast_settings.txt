@@ -1,0 +1,4 @@
+CREATE TABLE component_broadcast_settings (
+  id            SERIAL8 PRIMARY KEY,
+  instance_id   INT8 UNIQUE NOT NULL REFERENCES component_instances
+);

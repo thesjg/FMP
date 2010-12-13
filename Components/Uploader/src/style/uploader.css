@@ -1,0 +1,96 @@
+DataGrid {
+  headerColors: #AAAAAA, #888888;
+  color: #000000;
+  textRollOverColor: #000000;
+  textSelectedColor: #000000;
+  fontFamily: conduitITCLight;
+  fontSize: 14px;
+}
+
+.controlPanelStyle {
+  verticalAlign: middle;
+  left: 0px;
+  right: 0px;
+}
+
+.controlPanelUploadingStyle {
+  verticalAlign: middle;
+  left: 0px;
+  right: 0px;
+}
+
+.browseButtonStyle,
+.uploadButtonStyle,
+.trashButtonStyle,
+.stopButtonStyle {
+  skin: ClassReference('com.flixn.skins.FXButtonSkin');
+
+  left: 0;
+  right: 0;
+
+  borderThickness: 0;
+  cornerRadius: 0;
+  letterSpacing: 0;
+
+  highlightAlphas: 0.1, 0.2;
+  overHighlightAlphas: 0.7, 1.0;
+  downHighlightAlphas: 0.2, 0.4;
+}
+
+.browseButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Browse_upSkin');
+  paddingLeft: 8px;
+  paddingRight: 2px;
+}
+
+.uploadButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Upload_upSkin');
+}
+
+.trashButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Trash_upSkin');
+}
+
+.stopButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Stop_upSkin');
+}
+/*
+.browseButtonStyle {
+  upSkin: Embed(source='/assets/skin.swf', symbol='Button_Browse_upSkin');
+  overSkin: Embed(source='/assets/skin.swf', symbol='Button_Browse_overSkin');
+  downSkin: Embed(source='/assets/skin.swf', symbol='Button_Browse_downSkin');
+}
+
+.uploadButtonStyle {
+  upSkin: Embed(source='/assets/skin.swf', symbol='Button_Upload_upSkin');
+  overSkin: Embed(source='/assets/skin.swf', symbol='Button_Upload_overSkin');
+  downSkin: Embed(source='/assets/skin.swf', symbol='Button_Upload_downSkin');
+}
+
+.trashButtonStyle {
+  upSkin: Embed(source='/assets/skin.swf', symbol='Button_Trash_upSkin');
+  overSkin: Embed(source='/assets/skin.swf', symbol='Button_Trash_overSkin');
+  downSkin: Embed(source='/assets/skin.swf', symbol='Button_Trash_downSkin');
+}
+
+.stopButtonStyle {
+  upSkin: Embed(source='/assets/skin.swf', symbol='Button_Stop_upSkin');
+  overSkin: Embed(source='/assets/skin.swf', symbol='Button_Stop_overSkin');
+  downSkin: Embed(source='/assets/skin.swf', symbol='Button_Stop_downSkin');
+  paddingRight: 10px;
+}
+*/
+
+.infoContainerStyle {
+  color: #FFFFFF;
+  verticalAlign: middle;
+  paddingLeft: 10px;
+  fontSize: 16px;
+}
+
+.textInputFilenameContainerStyle {
+  color: #000000;
+  fontSize: 12px;
+  paddingLeft: 10px;
+  paddingRight: 10px;
+}

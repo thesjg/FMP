@@ -1,0 +1,11 @@
+RewriteEngine on
+
+RewriteRule ^crossdomain.xml$ - [L]
+
+RewriteRule ^([a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12})/settings.xml$ /settings.php?cid=$1 [L]
+RewriteRule ^([a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12}).swf$ /component.php?cid=$1 [L]
+RewriteRule ^([a-z]+)-([0-9]+).swf$ /component.php?cname=$1&cversion=$2 [L]
+RewriteRule ^expressinstall.swf$ /component.php?cname=expressinstall [L]
+RewriteRule ^support/player/popout/([a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12})/([a-f0-9]{8}(-[a-f0-9]{4}){3}-[a-f0-9]{12})(/)?$ /support/player/popout.php?cid=$1&mediaid=$3 [L]
+
+ErrorDocument 404 /index.html

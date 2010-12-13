@@ -1,0 +1,16 @@
+RewriteEngine on
+
+RewriteRule ^html/(css|js|img)/(.*)$ - [L]
+RewriteRule ^html/index.php$ - [L]
+RewriteRule ^css/(.*)\.css$ /html/css/$1.css [L]
+RewriteRule ^js/(.*)\.js$ /html/js/$1.js [L]
+RewriteRule ^img/(.*)\.(gif|jpg|png)$ /html/img/$1.$2 [L]
+
+RewriteRule ^(.*)$ /html/index.php [L]
+
+ErrorDocument 404 /errors/404
+
+
+<FilesMatch "\.(jpg|gif|jpeg|png)$">
+Header set Cache-Control "max-age=110, public"
+</FilesMatch>

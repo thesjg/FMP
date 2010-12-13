@@ -1,0 +1,75 @@
+<script type="text/javascript">
+$(document).ready(function(){
+$("#profile_submit_button").click (
+        function() {
+            $('#profile_submit_button').attr('disabled','true');
+            $.ajax({
+            type: "POST",
+            url: "<?= $this->baseUrl ?>/account/ajax/",
+            data:   "p_name="+$("input[@name='p_name']").val()+
+                    "&p_company="+$("input[@name='p_company']").val()+
+                    "&p_title="+$("input[@name='p_title']").val()+
+                    "&p_address="+$("input[@name='p_address']").val()+
+                    "&p_email="+$("input[@name='p_email']").val()+
+                    "&p_phone="+$("input[@name='p_phone']").val(),
+            success: function(data, status){
+                    $('#profile_submit_button').removeAttr('disabled');
+                    $('#p_settings_response').show();
+                    $('#p_settings_response').removeClass("response_pre")
+                            .stop()
+                            .addClass("response_post")
+                            .html("Your settings have been saved.")
+                            .fadeTo(4000,100).fadeOut(4000);
+                    },
+            error: function(XMLHttp, error) {
+                    $('#p_settings_response').removeClass("response_pre")
+                            .stop()
+                            .addClass("response_post")
+                            .html("An error occured. Please Try again.")
+                            .css("color: 'red'")
+                            .fadeTo(12000,100).fadeOut(5000);
+                    $('#profile_submit_button').removeAttr('disabled');
+                    }
+            });
+        });
+});
+</script>
+
+<div class="window" title="Settings" id="account_settings" wwidth="420" wheight="296" style="overflow: hidden">
+    <div class="spacer">&nbsp;</div>
+    <div class="row" id="name">
+        <span class="label">Name</span><span class="formw">
+        <input type="text" name="p_name" style="width: 200px;" value="<?= $this->pName ?>" />
+        </span>
+    </div>
+    <div class="row" id="company">
+        <span class="label">Company</span><span class="formw">
+        <input type="text" name="p_company" style="width: 200px;" value="<?= $this->pCompany ?>" />
+        </span>
+    </div>
+    <div class="row" id="title">
+        <span class="label">Title</span><span class="formw">
+        <input type="text" name="p_title" style="width: 200px;" value="<?= $this->pTitle ?>" />
+        </span>
+    </div>
+    <div class="row" id="address">
+        <span class="label">Mailing Address</span><span class="formw">
+        <input type="text" name="p_address" style="width: 200px;" value="<?= $this->pAddress ?>" />
+        </span>
+    </div>
+     <div class="row" id="email">
+        <span class="label">Email Address</span><span class="formw">
+        <input type="text" name="p_email" style="width: 200px;" value="<?= $this->pEmail ?>" />
+        </span>
+    </div>
+    <div class="row" id="phone">
+        <span class="label">Phone Number</span><span class="formw">
+        <input type="text" name="p_phone" style="width: 200px;" value="<?= $this->pPhone ?>" />
+        </span>
+    </div>
+    
+    <div class="spacer">&nbsp;</div>
+    <div class="row">
+        <div id="p_settings_response" class="response_pre"></div><div class="f_submit"><input id="profile_submit_button" type="button" name="p_submit" value="" class="save"/></div>
+    </div>
+</div>

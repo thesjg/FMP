@@ -1,0 +1,6 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+                xmlns:view="com.flixn.recorder.view.*"
+                width="0" height="0">
+    <view:AudioVisualization id="Display" />
+</mx:Application>

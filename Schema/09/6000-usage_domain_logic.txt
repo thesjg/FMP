@@ -1,0 +1,3 @@
+--XXX: Execute hourly ->
+--SELECT m.user_id, SUM(mm.size) FROM media m, media_metadata mm WHERE m.id=mm.media_id GROUP BY m.user_id
+--into table usage_storage_snapshot

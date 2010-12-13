@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
+         styleName="controlPanelStyle"
+         height="100%"
+         horizontalGap="0"
+         creationComplete="init()">
+
+    <mx:Script>
+        <![CDATA[
+            import com.flixn.recorder.controller.Panel;
+
+            [Bindable]
+            public var panel:Panel;
+
+            [Bindable]
+            private var _buttonSize:int;
+
+            private function init():void
+            {
+                _buttonSize = height;
+            }
+        ]]>
+    </mx:Script>
+
+    <mx:Button id="stopButton"
+               styleName="stopButtonStyle"
+               click="panel.stopButtonClick();"
+               width="{_buttonSize}"
+               height="{_buttonSize}" />
+
+    <mx:VRule percentHeight="100" width="1" />
+
+    <mx:Label id="recordTime"
+              styleName="timeStyle" />
+
+</mx:HBox>

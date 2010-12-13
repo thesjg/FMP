@@ -1,0 +1,47 @@
+<script type="text/javascript">
+  componentId = '<?= $this->componentId ?>';
+  instanceId = '<?= $this->instanceId ?>';
+  
+  <?php
+    if($this->moderatedSelectDisable == 'checked="checked"')
+        echo "$(document).ready(function(){modDisableSelect();});";
+?>
+</script>
+
+
+<?php
+    print $this->partial('recorded/partial_settings_primary.phtml',
+                         array('instanceName' => $this->instanceName,
+                               's_typeSelectVideo' => $this->s_typeSelectVideo,
+                               's_typeSelectAudio' => $this->s_typeSelectAudio,
+                               's_hqSelectEnable' => $this->s_hqSelectEnable,
+                               's_hqSelectDisable' => $this->s_hqSelectDisable,
+                               's_timeHours' => $this->s_timeHours,
+                               's_timeMinutes' => $this->s_timeMinutes,
+                               's_timeSeconds' => $this->s_timeSeconds,
+                               'moderatedSelectEnable' => $this->moderatedSelectEnable,
+                               'moderatedSelectDisable' => $this->moderatedSelectDisable,
+                               'moderationInstances' => $this->moderationInstances));
+
+    print $this->partial('recorded/partial_settings_appearance.phtml',
+                         array('componentWidth' => $this->componentWidth,
+                               'componentHeight' => $this->componentHeight));
+/*
+    print $this->partial('partials/component_media_output_selection.phtml',
+                         array('transcodeAvailable' => $this->transcodeAvailable,
+                               'transcodeSelected' => $this->transcodeSelected));
+*/
+    print $this->partial('partials/component_domain_access_list.phtml',
+                         array('restrictDomainsList' => $this->restrictDomainsList,
+                               'restrictDomainsEnable' => $this->restrictDomainsEnable,
+                               'restrictDomainsDisable' => $this->restrictDomainsDisable));
+
+    print $this->partial('partials/component_embed_code.phtml',
+                         array('componentId' => $this->componentId,
+                               'componentWidth' => $this->componentWidth,
+                               'componentHeight' => $this->componentHeight));
+
+    print $this->partial('partials/component_preview.phtml',
+                         array('componentWidth' => $this->componentWidth,
+                               'componentHeight' => $this->componentHeight));
+?>

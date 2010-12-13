@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fxc:FXTCanvas xmlns:mx="http://www.adobe.com/2006/mxml"
+              xmlns:fxc="com.flixn.containers.*"
+              xmlns:video="com.flixn.component.video.*"
+              xmlns:mp="com.flixn.player.view.menu.*"
+              styleName="menuContainerStyle"
+              width="100%"
+              height="100%"
+              bottom="50"
+              backgroundAlpha="0"
+              cacheAsBitmap="true"
+              borderStyle="none"
+              creationComplete="init()">
+
+    <mx:Script>
+        <![CDATA[
+
+            import com.flixn.component.video.FlixnVideoDisplay;
+            import com.flixn.player.controller.Menu;
+            import com.flixn.player.model.Settings;
+            import com.flixn.player.view.ControlPanel;
+
+            [Bindable]
+            public var vIconWidth:int;
+            [Bindable]
+            public var vIconHeight:int;
+
+            [Bindable]
+            public var hIconWidth:int;
+            [Bindable]
+            public var hIconHeight:int;
+
+            //[Bindable]
+            //var video_display:FlixnVideoDisplay;
+
+            [Bindable]
+            public var menu:com.flixn.player.controller.Menu;
+
+            [Bindable]
+            public var cpView:ControlPanel;
+
+            private var _settings:Settings;
+
+            [Bindable]
+            private var _emailHeight:int;
+            [Bindable]
+            private var _embedHeight:int;
+            [Bindable]
+            private var _shareHeight:int;
+            [Bindable]
+            private var _infoHeight:int;
+            [Bindable]
+            private var _smsHeight:int;
+            [Bindable]
+            private var _fullscreenWidth:int;
+            [Bindable]
+            private var _popoutWidth:int;
+            [Bindable]
+            private var _lowerlightsWidth:int;
+
+            private function init():void
+            {
+                vIconWidth = 40;
+                vIconHeight = 35;
+
+                hIconWidth = 40;
+                hIconHeight = 40;
+
+                menu = new com.flixn.player.controller.Menu(this);
+                //video_display = parent.video_display;
+
+                _settings = new Settings();
+
+                _emailHeight = (_settings.emailEnable) ? vIconHeight : 0;
+                _embedHeight = (_settings.embedEnable) ? vIconHeight : 0;
+                _shareHeight = (_settings.shareEnable) ? vIconHeight : 0;
+                _infoHeight  = (_settings.infoEnable) ? vIconHeight : 0;
+                _smsHeight   = (_settings.smsEnable) ? vIconHeight: 0;
+
+                _fullscreenWidth = (_settings.fullscreenEnable) ? hIconWidth : 0;
+                _popoutWidth = (_settings.popoutEnable) ? hIconWidth : 0;
+                _lowerlightsWidth = (_settings.lightingEnable) ? hIconWidth : 0;
+            }
+        ]]>
+    </mx:Script>
+
+    <mp:Email id="email_panel" visible="false" />
+    <mp:Embed id="embed_panel" visible="false" />
+    <mp:Info id="info_panel" visible="false" />
+    <mp:Share id="share_panel" visible="false" />
+    <mp:SMS id="sms_panel" visible="false" />
+
+    <mx:VBox styleName="menuStyle"
+             height="100%"
+             width="40"
+             right="0"
+             top="0"
+             bottom="40">
+
+        <mx:Spacer height="44" />
+
+        <mx:HBox horizontalGap="0" height="{_emailHeight}" width="100%">
+            <mx:Button id="email_button"
+                       width="{vIconWidth}"
+                       height="{vIconHeight}"
+                       toolTip="Email"
+                       styleName="emailButtonStyle"
+                       click="menu.emailButtonClick()" />
+        </mx:HBox>
+
+        <mx:HBox horizontalGap="0" height="{_embedHeight}" width="100%">
+                <mx:Button id="embed_button"
+                           width="{vIconWidth}"
+                           height="{vIconHeight}"
+                           toolTip="Embed"
+                           styleName="embedButtonStyle"
+                           click="menu.embedButtonClick()" />
+        </mx:HBox>
+
+        <mx:HBox horizontalGap="0" height="{_shareHeight}" width="100%">
+                <mx:Button id="share_button"
+                           width="{vIconWidth}"
+                           height="{vIconHeight}"
+                           toolTip="Share"
+                           styleName="shareButtonStyle"
+                           click="menu.shareButtonClick()" />
+        </mx:HBox>
+
+        <mx:HBox horizontalGap="0" height="{_infoHeight}" width="100%">
+                <mx:Button id="info_button"
+                           width="{vIconWidth}"
+                           height="{vIconHeight}"
+                           toolTip="Info"
+                           styleName="infoButtonStyle"
+                           click="menu.infoButtonClick()" />
+        </mx:HBox>
+
+        <mx:HBox horizontalGap="0" height="{_smsHeight}" width="100%">
+                <mx:Button id="sms_button"
+                           width="{vIconWidth}"
+                           height="{vIconHeight}"
+                           toolTip="SMS"
+                           styleName="smsButtonStyle"
+                           click="menu.smsButtonClick()" />
+        </mx:HBox>
+
+    </mx:VBox>
+
+    <mx:HBox styleName="menuStyle"
+             width="100%"
+             height="40"
+             bottom="0">
+
+        <mx:HBox horizontalGap="0" height="100%" width="{_fullscreenWidth}">
+                <mx:Button id="fullscreen_button"
+                           width="{hIconWidth}"
+                           height="{hIconHeight}"
+                           toolTip="Full Screen"
+                           styleName="fullscreenButtonStyle"
+                           click="menu.fullscreenButtonClick()" />
+        </mx:HBox>
+
+        <mx:HBox horizontalGap="0" height="100%" width="{_popoutWidth}">
+                <mx:Button id="popout_button"
+                           width="{hIconWidth}"
+                           height="{hIconHeight}"
+                           toolTip="Pop Out"
+                           styleName="popoutButtonStyle"
+                           click="menu.popoutButtonClick()" />
+        </mx:HBox>
+
+        <mx:HBox horizontalGap="0" height="100%" width="{_lowerlightsWidth}">
+                <mx:Button id="lowerlights_button"
+                           width="{hIconWidth}"
+                           height="{hIconHeight}"
+                           toolTip="Lower Lights"
+                           styleName="lowerlightsButtonStyle"
+                           click="menu.lowerlightsButtonClick()" />
+        </mx:HBox>
+
+        <mx:Spacer width="100%" />
+
+        <mx:Button id="close_button"
+                   width="{vIconWidth}"
+                   height="{hIconHeight}"
+                   toolTip="Close Menu"
+                   styleName="closeMenuButtonStyle"
+                   click="menu.closeButtonClick()" />
+    </mx:HBox>
+
+</fxc:FXTCanvas>

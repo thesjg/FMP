@@ -1,0 +1,8 @@
+CREATE TABLE media_types (
+  id            SERIAL8 PRIMARY KEY,
+  name          VARCHAR(63) UNIQUE NOT NULL
+);
+
+INSERT INTO media_types (name) VALUES ('audio');
+INSERT INTO media_types (name) VALUES ('video');
+INSERT INTO media_types (name) VALUES ('image');

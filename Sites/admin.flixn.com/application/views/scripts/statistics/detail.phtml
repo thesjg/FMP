@@ -1,0 +1,44 @@
+<script type="text/javascript">
+
+
+
+$(document).ready(function() {
+       
+
+       
+<?
+
+$colors = array('#66CCFF','#919733','#990000','#d18b2c','#d18b2c');
+
+$i = 0;
+foreach($this->graphData as $key => $data)
+{
+       echo "\n var options$key = {xaxis: {mode: 'time', timeformat: '%m/%d',}, colors:['".$colors[$i]."']}; \n";
+       echo "var d_$key = $data;";
+
+       //echo "$.plot($('#graph_$key'),[data: d_$key, lines: {show: true},], options); \n";
+       echo "
+       $.plot($('#graph_$key'), [
+        {
+            data: d_$key,
+            lines: { show: true, color: '#990000', fill: true},
+        }
+        ], options$key);";
+        $i++;
+}
+
+?>
+});
+</script>
+
+<?
+
+foreach($this->graphData as $key => $data)
+{
+       
+       echo "<div class='window pre' style='padding: 18px;' autoopen='true' title='" . ucwords(str_replace("_"," ",$key)) . "s' id='wrap_graph_$key' wwidth='550' wheight='470'>";
+       echo "<div class='graph_set' id='graph_$key' style='width: 520px; height: 420px;'></div>";
+       echo "</div>";
+}
+
+?>

@@ -1,0 +1,6 @@
+CREATE TABLE storage_meta_s3 (
+  id            SERIAL8 PRIMARY KEY,
+  media_x_uuid  UUID UNIQUE NOT NULL, -- media_video, media_audio, media_images ...
+  uploading     BOOLEAN DEFAULT 't',
+  available     BOOLEAN DEFAULT 'f'
+);

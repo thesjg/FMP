@@ -1,0 +1,7 @@
+CREATE TABLE billing_services (
+  id            SERIAL8 PRIMARY KEY,
+  service       VARCHAR(63) NOT NULL
+);
+
+INSERT INTO billing_services (service) VALUES ('bandwidth');
+INSERT INTO billing_services (service) VALUES ('storage');

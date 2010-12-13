@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
+         styleName="controlPanelStyle"
+         verticalAlign="middle"
+         width="100%"
+         height="100%"
+         horizontalGap="0">
+
+    <mx:Script>
+        <![CDATA[
+            import com.flixn.uploader.controller.Panel;
+            import com.flixn.uploader.view.ControlPanel;
+
+            [Bindable]
+            public var cp:ControlPanel;
+
+            [Bindable]
+            public var panel:Panel;
+        ]]>
+    </mx:Script>
+
+    <mx:states>
+
+        <mx:State name="startMultiple">
+            <mx:AddChild>
+                <mx:Button id="button_browse"
+                           toolTip="Browse"
+                           styleName="browseButtonStyle"
+                           width="{cp.iconSize + 10}"
+                           height="{cp.iconSize}"
+                           click="panel.browseButtonClick()"
+                           hitArea="{button_browse}" />
+            </mx:AddChild>
+            <mx:AddChild>
+                <mx:VRule id="browse_div" percentHeight="100" width="{cp.vRuleWidth}" />
+            </mx:AddChild>
+        </mx:State>
+
+        <mx:State name="startSingle" basedOn="startMultiple">
+            <mx:AddChild>
+                <mx:HBox id="textinput_filename_container"
+                         width="100%"
+                         styleName="textInputFilenameContainerStyle" />
+            </mx:AddChild>
+
+            <mx:AddChild relativeTo="{textinput_filename_container}">
+                <mx:TextInput id="textinput_filename"
+                              visible="true"
+                              width="100%"
+                              editable="false"
+                              text=""
+                              styleName="textInputFilenameStyle" />
+            </mx:AddChild>
+        </mx:State>
+
+        <mx:State name="uploadSingle" basedOn="startSingle">
+            <mx:AddChild relativeTo="{browse_div}" position="after">
+                <mx:Button id="button_upload_single"
+                           toolTip="Upload"
+                           styleName="uploadButtonStyle"
+                           width="{cp.iconSize}"
+                           height="{cp.iconSize}"
+                           click="panel.uploadButtonClick()"
+                           hitArea="{button_upload_single}" />
+            </mx:AddChild>
+            <mx:AddChild relativeTo="{button_upload_single}" position="after">
+                <mx:VRule id="upload_div1" percentHeight="100" width="{cp.vRuleWidth}" />
+            </mx:AddChild>
+        </mx:State>
+
+        <mx:State name="uploadMultiple" basedOn="startMultiple">
+            <mx:AddChild relativeTo="{browse_div}" position="after">
+                <mx:Button id="button_upload_multiple"
+                           toolTip="Upload"
+                           styleName="uploadButtonStyle"
+                           width="{cp.iconSize}"
+                           height="{cp.iconSize}"
+                           click="panel.uploadButtonClick()"
+                           hitArea="{button_upload_multiple}" />
+            </mx:AddChild>
+            <mx:AddChild relativeTo="{button_upload_multiple}" position="after">
+                <mx:VRule id="upload_div2" percentHeight="100" width="{cp.vRuleWidth}" />
+            </mx:AddChild>
+            <mx:AddChild>
+                <mx:Spacer width="100%"/>
+            </mx:AddChild>
+            <mx:AddChild>
+                <mx:VRule id="input_div" percentHeight="100" width="{cp.vRuleWidth}" right="0" />
+            </mx:AddChild>
+            <mx:AddChild>
+                <mx:Button id="button_remove"
+                           toolTip="Remove Selection"
+                           styleName="trashButtonStyle"
+                           width="{cp.iconSize}"
+                           height="{cp.iconSize}"
+                           right="0"
+                           click="panel.removeFileButtonClick()"
+                           hitArea="{button_remove}" />
+            </mx:AddChild>
+        </mx:State>
+
+    </mx:states>
+
+</mx:HBox>

@@ -1,0 +1,103 @@
+<script type="text/javascript">
+function approve(id)
+{
+    $(("#"+ id + "_c2")).remove();
+    $("#content" + id).slideUp(1200);
+    
+}
+
+function reject(id)
+{
+    $(("#"+ id + "_c2")).remove();
+    $("#content" + id).slideUp(1200);
+}
+
+function remove(id)
+{
+    $("#"+ id + "_c2").remove();
+    $("#content" + id).slideUp(1200);
+                                        
+    /*$("#dialog_"+id).dialog({
+                            modal: true,
+                             buttons: {
+                                "OK": function() {
+                                        $("#"+ id + "_c2").remove();
+                                        $("#content" + id).slideUp(1200);
+                                        $(this).dialog("close");
+                                },
+                                "Cancel": function() {
+                                    $(this).dialog("close");
+                                }
+                                },
+                            overlay: { 
+                            opacity: 0.5, 
+                            background: "black"
+                                    },
+                            title: "Are you sure you'd like to remove this media?",
+                            draggable: false,
+                            resizable: false,
+                                }
+                                ).css({display: "inline",position: "fixed",left: "50%",top: "50%",zIndex: "-3100"});    
+    */
+}
+
+function confirmRemove(id)
+{
+    var agree=confirm("Are you sure you wish to delete this media?");
+    if(agree){remove(id);}
+    else{return false;}
+}
+</script>
+
+
+<h2>
+  Moderation Instance > <span id="instance_name" style="color: red;"><?= $this->instanceName ?></span> > Moderation Controls (?)
+</h2>
+<form>
+<fieldset id="instance">
+  <legend>Flagged Media</legend>
+        
+<div style="width: 800px;" padding: 0px;">
+    <div style="width: 140px; margin-right: 6px; float: left; border-bottom: 1px solid #CCC; font-weight: bold;">
+        <ul style="list-style:none;">
+            <li>Pending (40)</li>
+            <li>Approved (102)</li>
+            <li>Denied (19)</li>
+        </ul>
+    </div>
+
+    <div style="width: 600px; padding: 0px; padding-left: 8px; float: left; border-left: #CCC 1px solid;">
+  <? foreach($this->pending as $key => $value)
+        {
+            echo ' <!-- NUMBER '.$key.' -->
+                    <div style="float: left; width: 410px;">
+                        <div id="content'.$key.'" style="width: 400px; border: 1px solid #999; padding: 0px; margin-bottom: 10px; margin-left: 10p">
+                            <div style="width: 400px; background: #ebebeb; border-bottom: solid 1px #999; margin: 0px; padding: 0px; text-indent: 5px;">
+                                Component Name: <span style="color: red;">'.$value["component_instance_name"].'</span>
+                            </div>
+                            <div style="width: 400px; height: 300px; padding: 0px; margin: 0px;">
+                                <div  id="'.$key.'_c2" style="width: 400px; height: 300px; padding: 0px; margin: 0px; border-bottom: solid 1px #999;">
+                                    <object id="'.$key.'_c" width="400" height="300">
+                                        <param name="wmode" value="transparent"></param>
+                                        <param name="movie" value="http://www.youtube.com/v/sB_3YVh8reU&hl=en"></param>
+                                        <embed wmode=”transparent”
+                                                src="http://www.youtube.com/v/sB_3YVh8reU&hl=en" type="application/x-shockwave-flash"
+                                                width="400" height="300"></embed>
+                                    </object>
+                                </div>
+                            </div>
+                            <div style="width: 100%; height: 25px; margin-top: 5px;">
+                                <input type="button" value="Approve" id="ap1" onclick="approve('.$key.')"/>
+                                <input type="button" value="Reject" id="rj1" onclick="reject('.$key.')"/>
+                                <input type="button" value="Remove" id="rj1" onclick="confirmRemove('.$key.')"/>
+                                <div id="dialog_'.$key.'" style="display: none" />
+                            </div>
+                        </div>
+                    </div></div>';
+            
+        }
+        ?>
+</div>
+            
+</fieldset>
+</form>

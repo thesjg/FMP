@@ -1,0 +1,208 @@
+.controlPanelStyle {
+  verticalAlign: middle;
+  left: 0px;
+  right: 0px;
+}
+
+.miniScrubberStyle {
+  verticalAlign: middle;
+}
+
+.playButtonStyle,
+.pauseButtonStyle,
+.tagButtonStyle,
+.commentButtonStyle,
+.menuButtonStyle,
+.volumeButtonStyle {
+  skin: ClassReference('com.flixn.skins.FXButtonSkin');
+
+  left: 0;
+  right: 0;
+
+  borderThickness: 0;
+  cornerRadius: 0;
+  letterSpacing: 0;
+
+  highlightAlphas: 0.1, 0.2;
+  overHighlightAlphas: 0.7, 1.0;
+  downHighlightAlphas: 0.2, 0.4;
+}
+
+.playGiantButtonStyle {
+  skin: Embed(source='/assets/skin.swf', symbol='Button_Play_Giant_upSkin');
+}
+
+.warnGiantButtonStyle {
+  skin: Embed(source='/assets/skin.swf', symbol='Button_Warning_Icon');
+}
+
+.playButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Play_upSkin');
+}
+
+.pauseButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Pause_upSkin');
+}
+
+.tagButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Tag_upSkin');
+}
+
+.commentButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Comment_upSkin');
+}
+
+.menuButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Menu_upSkin');
+}
+
+.volumeButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_VolumeHigh_upSkin');
+}
+
+.volumeContainerStyle {
+  backgroundAlpha: 1.0;
+  backgroundColor: #333333;
+  cacheAsBitmap: true;
+}
+
+.menuStyle {
+  border: none;
+  backgroundAlpha: 0.85;
+  backgroundColor: #333333;
+  cacheAsBitmap: true;
+}
+
+.subMenuStyle {
+  border: none;
+  backgroundAlpha: 0.60;
+  backgroundColor: #333333;
+  cacheAsBitmap: true;
+}
+
+.infoContainerStyle {
+  color: #FFFFFF;
+  verticalAlign: middle;
+  paddingTop: 4px;
+  paddingLeft: 60px;
+  fontSize: 20px;
+}
+
+.emailButtonStyle,
+.embedButtonStyle,
+.shareButtonStyle,
+.infoButtonStyle,
+.smsButtonStyle,
+.closeMenuButtonStyle,
+.fullscreenButtonStyle,
+.popoutButtonStyle,
+.lowerlightsButtonStyle {
+  skin: ClassReference('com.flixn.skins.FXButtonSkin');
+
+  left: 0;
+  right: 0;
+
+  borderThickness: 0;
+  cornerRadius: 0;
+  letterSpacing: 0;
+
+  backgroundAlphas: 0, 0;
+  highlightAlphas: 0, 0;
+  overHighlightAlphas: 0, 0;
+  downHighlightAlphas: 0, 0;
+}
+
+.emailButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Email_upSkin');
+}
+
+.embedButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Embed_upSkin');
+}
+
+.shareButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Share_upSkin');
+}
+
+.infoButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Info_upSkin');
+}
+
+.smsButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_SMS_upSkin');
+}
+
+.closeMenuButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Close_upSkin');
+}
+
+.fullscreenButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Fullscreen_upSkin');
+}
+
+.popoutButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Popout_upSkin');
+}
+
+.lowerlightsButtonStyle {
+  icon: Embed(source='/assets/skin.swf', symbol='Button_Lights_upSkin');
+}
+
+.subPanelPrimaryLabel {
+  color: #FFFFFF;
+  fontFamily: conduitITCMedium;
+  fontSize: 20;
+}
+
+.subPanelLabel {
+  color: #FFFFFF;
+  fontFamily: conduitITCMedium;
+}
+
+.shareDeliciousButtonStyle {
+  skin: Embed(source='/assets/sharing.swf', symbol='Button_Delicious_upSkin');
+}
+
+.shareDiggButtonStyle {
+  skin: Embed(source='/assets/sharing.swf', symbol='Button_Digg_upSkin');
+}
+
+.shareFacebookButtonStyle {
+  skin: Embed(source='/assets/sharing.swf', symbol='Button_Facebook_upSkin');
+}
+
+.shareGoogleButtonStyle {
+  skin: Embed(source='/assets/sharing.swf', symbol='Button_Google_upSkin');
+}
+
+.shareLiveButtonStyle {
+  skin: Embed(source='/assets/sharing.swf', symbol='Button_Live_upSkin');
+}
+
+.shareMixxButtonStyle {
+  skin: Embed(source='/assets/sharing.swf', symbol='Button_Mixx_upSkin');
+}
+
+.shareMyspaceButtonStyle {
+  skin: Embed(source='/assets/sharing.swf', symbol='Button_Myspace_upSkin');
+}
+
+.shareNewsvineButtonStyle {
+  skin: Embed(source='/assets/sharing.swf', symbol='Button_Newsvine_upSkin');
+}
+
+.shareRedditButtonStyle {
+  skin: Embed(source='/assets/sharing.swf', symbol='Button_Reddit_upSkin');
+}
+
+.shareStumbleuponButtonStyle {
+  skin: Embed(source='/assets/sharing.swf', symbol='Button_StumbleUpon_upSkin');
+}
+
+.shareTechnoratiButtonStyle {
+  skin: Embed(source='/assets/sharing.swf', symbol='Button_Technorati_upSkin');
+}
+
+.shareYahooButtonStyle {
+  skin: Embed(source='/assets/sharing.swf', symbol='Button_Yahoo_upSkin');
+}

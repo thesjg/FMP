@@ -1,0 +1,46 @@
+CREATE TABLE widget_types (
+  id            SERIAL8 PRIMARY KEY,
+  name          VARCHAR(255) NOT NULL,
+  description   TEXT
+);
+INSERT INTO widget_types (name) VALUES ('f3_ugv');
+INSERT INTO widget_types (name) VALUES ('f3_uuv');
+INSERT INTO widget_types (name) VALUES ('f3_lc');
+
+CREATE TABLE widget_instances (
+  id            SERIAL8 PRIMARY KEY,
+  user_id       INT8 NOT NULL REFERENCES users,
+
+  widget_type_id INT8 NOT NULL REFERENCES widget_types,
+  widget_profile_id INT8 NOT NULL, -- References specific type table
+
+  widget_id     UUID UNIQUE NOT NULL DEFAULT uuid_generate_v1(),
+  widget_key    VARCHAR(255) NOT NULL, -- ?
+
+  name          VARCHAR(255) NOT NULL, -- name_f3_***.flixn.com/crossdomain.xml
+
+  restrict_domains  BOOLEAN NOT NULL DEFAULT FALSE,
+
+);
+
+CREATE TABLE widget_domains (
+  id            SERIAL8 PRIMARY KEY,
+  widget_instance INT8 NOT NULL REFERENCES widget_instances,
+  hostname      VARCHAR(255) NOT NULL
+);
+
+
+
+CREATE TABLE widget_f3_ugv_profiles (
+  id            SERIAL8 PRIMARY KEY,
+  name          VARCHAR(255) NOT NULL,
+  public        BOOLEAN NOT NULL DEFAULT False,
+  ...
+);
+
+CREATE TABLE widget_f3_uuv_profiles (
+  id            SERIAL8 PRIMARY KEY,
+  name          VARCHAR(255) NOT NULL,
+  public        BOOLEAN NOT NULL DEFAULT False,
+  ...
+);

@@ -1,0 +1,10 @@
+CREATE TABLE media (
+  id            SERIAL8 PRIMARY KEY,
+  user_id       INT8 NOT NULL REFERENCES users,
+  session_id    INT8 NOT NULL REFERENCES sessions,
+  media_type_id INT8 NOT NULL REFERENCES media_types,
+  state_id      INT8 NOT NULL REFERENCES media_states,
+  media_id      UUID UNIQUE NOT NULL
+);
+
+CREATE INDEX media_media_id_index ON media (media_id);

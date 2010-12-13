@@ -1,0 +1,7 @@
+CREATE TABLE storage_classes (
+  id            SERIAL8 PRIMARY KEY,
+  name          VARCHAR(63) UNIQUE NOT NULL
+);
+
+INSERT INTO storage_classes (name) VALUES ('FLIXN');
+INSERT INTO storage_classes (name) VALUES ('S3');

@@ -1,0 +1,159 @@
+<style type="text/css">
+
+#view_media {
+    padding: 0px;
+    overflow-x: hidden;
+}
+
+#content_wrap {
+    padding: 10px;
+    padding-top: 7px;
+    overflow-x: hidden;
+}
+
+#display_player {
+    background: #202b41;
+    padding: 12px;
+    width: 550px;
+    height: 280px;
+    margin: 0 17px;
+}
+
+.metadata_table {
+    width: 620px;
+    padding: 0;
+    font-size: .85em;
+    margin: 20px 0;
+    border: 3px solid #202b41;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+.metadata_table thead {
+    color: #fff;
+    background: url("/img/table_header.png") repeat-x;
+    height: 20px;
+    font-size: .9em;
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+.metadata_table tfoot {
+    color: #fff;
+    background: #202b41 url("/img/table_footer.png") repeat-x;
+    height: 14px;
+    text-align: center;
+}
+
+.metadata_table tbody tr th {
+    border-right: 1px solid #202b41;
+    width: 150px;
+    text-transform: capitalize;
+}
+
+.metadata_table tbody tr td {
+    padding-left: 10px;
+    text-align: center;
+}
+
+.metadata_table tbody tr {
+    border-bottom: 1px solid #202b41;
+}
+
+#save_button {
+    float: right;
+    text-align: right;
+}
+
+.notice {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    color: green;
+    font-weight: bold;
+    width: 600px;
+    font-size: .8em;
+    padding-left: 200px;
+}
+</style>
+
+
+
+<div id="view_media" title="View Media" class="window" wwidth="660" wheight="640" autoopen="true">
+    <form action="/media/view/id/<?= $this->media['media_id'] ?>" method="post">
+    <div id="content_wrap">
+        <div id="display_player">
+            <div id="player_placeholder">
+                &nbsp;
+            </div>
+        </div>
+        <? if(isset($this->notice): ?>
+        <span class="notice"><?= $this->notice ?></span>
+        <? endif; ?>
+        <table class="metadata_table">
+            <thead>
+                <tr><td colspan="2">Metadata for: <?= $this->media['media_id'] ?></td></tr>
+            </thead>
+            <tfoot>
+                <tr><td colspan="2">&nbsp;</td></tr>
+            </tfoot>
+            <tbody>
+                <tr><th>Name</th><td><input type="text" style="width: 430px;" name="name" value="<?= $this->name ?>" /></td></tr>
+                <tr><th>Description</th><td><textarea name="desc" rows="3" cols="35"><?= $this->desc ?></textarea></td></tr>
+                <tr><th>Tags (Comma-Seperated)</th><td><textarea name="tags" rows="3" cols="35"><?= $this->tags ?></textarea></td></tr>
+                <tr><th>Created At</th><td><?= substr($this->media_metadata_creation['timestamp'],0,19); ?></td></tr>
+                <? if($this->media_metadata_creation['url'] != "null"): ?>
+                    <tr><th>Originating URL</th><td><?= $this->media_metadata_creation['url']; ?></td></tr>
+                <? endif; ?>
+                <tr><th>Transcoded Copies</th><td><?= $this->media_stats['copies']; ?></td></tr>
+                <tr><th>Size on Disk</th><td><?= $this->media_stats['size']; ?></td></tr>
+                
+                <?
+                    foreach($this->media_metadata_internal as $media) {
+                        if ($media['value'] != "null" && $media['value'] != "" && $media['value'] != "0" && $media['key'] != "duration") {
+                            printf("<tr><th>%s</th><td>%s</td></tr>\n",str_replace("_"," ",$media['key']),$media['value']);
+                        }
+                    }
+                    
+                    foreach($this->media_metadata as $media) {
+                        if ($media['value'] != "null" && $media['value'] != "" && $media['value'] != "0" && $media['key'] != "duration"
+                            && $media['key'] != "name" && $media['key'] != "tags" && $media['key'] != "desc") {
+                            printf("<tr><th>%s</th><td>%s</td></tr>",str_replace("_"," ",$media['key']),$media['value']);
+                        }
+                    }
+                    
+                ?>
+            </tbody>
+        </table>
+        
+        <div id="save_button">
+            <input type="submit" name="submit" value=""/>
+        </div>
+        <!--
+        <table class="metadata_table">
+            <thead><tr><td>Moderate</td></tr></thead>
+            <tfoot><tr><td>&nbsp;</td></tr></tfoot>
+            <tbody><tr><td><a href="/media/moderate/id/</td></tr></tbody>
+        </table>
+    -->
+    </div>
+    </form>
+</div>
+
+<?
+/*
+    if ($this->media_stats['copies'] > 0) {
+        echo '<div class="window" id="transcoded_copies" title="Transcoded Copies" wheight="500">';
+        echo '\t<table id="transcoded_table">';
+        foreach (
+        echo '\t</table>';
+        echo '</div>';
+    }*/
+?>
+<script type="text/javascript">
+    swfobject.embedSWF('http://components.flixn.com/48afe3af-03fe-0001-a0d6-0ae2d217e63b.swf',
+                       'player_placeholder', '100%', '100%', '9.0.115',
+                       'http://components.flixn.com/expressinstall.swf',
+                       {mediaId: "<?= $this->media_id ?>"},
+                       { allowscriptaccess: 'always', allownetworking: 'all' }, {});
+</script>

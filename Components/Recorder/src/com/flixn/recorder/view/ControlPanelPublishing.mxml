@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<mx:HBox xmlns:mx="http://www.adobe.com/2006/mxml"
+         height="100%"
+         width="100%"
+         horizontalGap="0"
+		 creationComplete="init()">
+
+    <mx:Script>
+        <![CDATA[
+            import com.flixn.recorder.controller.Panel;
+
+            [Bindable]
+            public var panel:Panel;
+			
+            private function init():void
+            {
+                progress.setStyle('trackHeight', height);
+            }
+        ]]>
+    </mx:Script>
+
+    <mx:ProgressBar id="progress"
+                    width="100%"
+                    height="100%"
+                    left="0"
+                    right="0"
+                    alpha=".9"
+					direction="left"
+					labelPlacement="center"
+                    label="Publishing"
+                    mode="manual"/>
+<!--
+	<mx:VRule percentHeight="100" width="1" />
+
+    <mx:Button id="cancelButton"
+               label="Cancel"
+               styleName="cancelButtonStyle"
+               width="100%"
+               height="100%"
+               click="panel.cancelButtonClick();" />
+-->
+</mx:HBox>

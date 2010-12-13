@@ -1,0 +1,25 @@
+CREATE TABLE transcode_video_defaults (
+  id            SERIAL8 PRIMARY KEY,
+  media_video_format INT8 NOT NULL REFERENCES media_video_formats,
+  audio_id      INT8 NOT NULL REFERENCES transcode_audio,
+  width         INT4 NOT NULL,
+  height        INT4 NOT NULL,
+  framerate     INT4 NOT NULL,
+  bitrate       INT4 NOT NULL,
+  name		VARCHAR(63) NOT NULL,
+  priority	INT4 NOT NULL,
+  UNIQUE(audio_id, width, height, framerate, bitrate)
+);
+
+INSERT INTO transcode_video_defaults (media_video_format, audio_id, width, height, framerate, bitrate, name, priority)
+  VALUES (1, 1, 640, 480, 24, 1843200,'profile2', 0);
+INSERT INTO transcode_video_defaults (media_video_format, audio_id, width, height, framerate, bitrate, name, priority)
+  VALUES (1, 2, 448, 336, 24, 1228800,'profile2', 1);
+INSERT INTO transcode_video_defaults (media_video_format, audio_id, width, height, framerate, bitrate, name, priority)
+  VALUES (1, 2, 320, 240, 24, 819200, 'profile2', 2);
+INSERT INTO transcode_video_defaults (media_video_format, audio_id, width, height, framerate, bitrate, name, priority)
+  VALUES (1, 1, 768, 432, 24, 1843200, 'profile2', 3);
+INSERT INTO transcode_video_defaults (media_video_format, audio_id, width, height, framerate, bitrate, name, priority)
+  VALUES (1, 2, 512, 288, 24, 1228800, 'profile2', 4);
+INSERT INTO transcode_video_defaults (media_video_format, audio_id, width, height, framerate, bitrate, name, priority)
+  VALUES (1, 2, 384, 216, 24, 819200, 'profile2', 5);	

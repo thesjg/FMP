@@ -1,0 +1,8 @@
+CREATE TABLE media_metadata_creation (
+  id                    SERIAL8 PRIMARY KEY,
+  media_id              INT8 NOT NULL REFERENCES media,
+  component_id	        INT8 NOT NULL REFERENCES component_instances,
+  url		            TEXT NOT NULL,
+  timestamp             TIMESTAMP NOT NULL DEFAULT NOW()
+);
+CREATE INDEX media_metadata_creation_media_id_index ON media_metadata_creation (media_id);

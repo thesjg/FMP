@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<fxc:FXCanvas xmlns:fxc="com.flixn.containers.*"
+            xmlns:mx="http://www.adobe.com/2006/mxml"
+            xmlns:view="com.flixn.recorder.view.*"
+            creationComplete="init();"
+            styleName="controlPanelContainerStyle"
+            height="35"
+            width="100%"
+            bottom="0">
+
+    <mx:Script>
+        <![CDATA[
+			import com.flixn.media.Recorder;
+			import com.flixn.recorder.model.Settings;
+            import com.flixn.recorder.controller.Panel;
+            import com.flixn.recorder.controller.Playback;
+			import com.flixn.recorder.view.VideoView;
+
+            [Bindable]
+            public var playback:Playback;
+
+            [Bindable]
+            public var panel:Panel;
+
+			[Bindable]
+			public var videoView:VideoView;
+
+            [Bindable]
+            public var settings:Settings;
+
+            private function init():void
+            {
+                panel = new Panel(this);
+            }
+        ]]>
+    </mx:Script>
+
+    <fxc:states>
+
+        <mx:State name="recorderStart">
+        	<mx:AddChild>
+                <view:ControlPanelMain id="controlPanelMain"
+                                       panel="{panel}" />
+        	</mx:AddChild>
+        </mx:State>
+
+    	<mx:State name="recorderRecording">
+            <mx:AddChild>
+                <view:ControlPanelRecording id="controlPanelRecording"
+                                            panel="{panel}" />
+            </mx:AddChild>
+    	</mx:State>
+
+        <mx:State name="recorderReview">
+            <mx:AddChild>
+                <view:ControlPanelReview id="controlPanelReview"
+                                         panel="{panel}" />
+            </mx:AddChild>
+        </mx:State>
+		
+		<mx:State name="recorderPublishing">
+			<mx:AddChild>
+				<view:ControlPanelPublishing id="controlPanelPublishing"
+											 panel="{panel}" />
+			</mx:AddChild>
+		</mx:State>
+
+    </fxc:states>
+
+</fxc:FXCanvas>

@@ -1,0 +1,27 @@
+<script type="text/javascript">
+    swfobject.embedSWF('http://components.flixn.com/<?= $this->recorder_id ?>.swf',
+                       'flixn_component_<?= $this->recorder_id ?>_instance', '100%', '100%', '9.0.115',
+                       'http://components.flixn.com/expressinstall.swf',
+                       {}, { allowscriptaccess: 'always', allownetworking: 'all', menu: 'false', wmode: 'transparent'}, {});
+    
+    swfobject.embedSWF('http://components.flixn.com/<?= $this->uploader_id ?>.swf',
+                       'flixn_component_<?= $this->uploader_id ?>_instance', '100%', '100%', '9.0.115',
+                       'http://components.flixn.com/expressinstall.swf',
+                       {}, { allowscriptaccess: 'always', allownetworking: 'all', menu: 'false', wmode: 'transparent'}, {});
+    
+</script>
+
+
+<div class="window" title="Internal Media Ingestion" id="ingestion_window" wwidth="800" wheight="375" style="background: url('/img/ingestbg.png');">
+    
+
+    <div class="ingestion_left" id="flixn_component_<?= $this->recorder_id ?>">
+        <div id="flixn_component_<?= $this->recorder_id ?>_instance"></div>
+    </div>
+
+
+    <div class="ingestion_right" id="flixn_component_<?= $this->uploader_id ?>">
+        <div id="flixn_component_<?= $this->uploader_id ?>_instance"></div>
+    </div>
+
+</div>

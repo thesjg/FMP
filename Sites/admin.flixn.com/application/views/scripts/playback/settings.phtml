@@ -1,0 +1,467 @@
+<script type="text/javascript">
+  componentId = '<?= $this->componentId ?>';
+  instanceId = '<?= $this->instanceId ?>';
+</script>
+
+
+<script type="text/javascript">
+var moderationInstance;
+var styleId;
+
+function getPriority()
+{
+   var selectBox = document.getElementById("transcode_profile_select");
+   var priority = '';
+   for (var i = 0; i < selectBox.length; i++) {
+        priority += selectBox.options[i].value + ',';
+   }
+   return priority.substr(0, priority.length - 1);
+}
+
+function moveUp(object)
+{
+  var index = object.selectedIndex;
+  if (index != 0)
+  {
+   var text1 = object[index - 1].text;
+   var text2 = object[index].text;
+   var value1 = object[index - 1].value;
+   var value2 = object[index].value;
+   object[index].text = text1;
+   object[index].value = value1;
+   object[index - 1].text = text2;
+   object[index - 1].value = value2;
+   object.selectedIndex = index - 1;
+  }
+}
+
+function moveDown(object)
+{
+  var index = object.selectedIndex;
+  if (index != object.length - 1)
+  {
+
+   var text1 = object[index + 1].text;
+   var text2 = object[index].text;
+   var value1 = object[index + 1].value;
+   var value2 = object[index].value;
+   object[index].text = text1;
+   object[index].value = value1;
+   object[index + 1].text = text2;
+   object[index + 1].value = value2;
+   object.selectedIndex = index + 1;
+  }
+}
+
+
+function editField(a)
+{
+    var aspect;
+    switch($("input[@name='a_aspect']:checked").val())
+    {
+  <?
+  foreach($this->aspects as $a)
+    {
+      if ($a['name'] == 'Custom')
+        {
+          $a['width'] = 1;
+          $a['height'] = 1;
+          $custom = $a['id'];
+        }
+
+      echo "\n case '" . $a['id'] . "': \n";
+      echo "aspect = (".$a['width']."/".$a['height'].");\n";
+      echo "break;";
+    }
+?>
+
+    }
+    var custom = <?= $custom ?>;
+
+    if (a == 1 && ($("input[@name='a_aspect']:checked").val() != custom))
+    {
+        $("#component_height").val(Math.round(parseInt($("#component_width").val()) / aspect));
+    }
+    else if (a == 2  && ($("input[@name='a_aspect']:checked").val() != custom))
+    {
+        $("#component_width").val(Math.round(parseInt($("#component_height").val()) * aspect));
+    }
+
+    componentUpdatePreviews();
+}
+
+    var custom = <?= $custom ?>;
+
+function selectSChange()
+    {
+    moderationInstance = $('#moderation_profile_select').val();
+    transcodeProfile = $('#transcode_profile_select').val();
+    }
+function selectAChange(){styleId=$('#played_style').val();}
+function modEnableSelect() {
+    document.getElementById('moderation_profile_select').disabled = false;
+    moderationInstance = $('#moderation_profile_select').val();
+}
+function modDisableSelect() {document.getElementById('moderation_profile_select').disabled = true;}
+function transEnableSelect() {
+    document.getElementById('transcode_profile_select').disabled = false;
+    transcodeProfile = $('#transcode_profile_select').val();
+    }
+function transDisableSelect() {document.getElementById('transcode_profile_select').disabled = true;}
+
+styleId = $("#played_style").val();
+$(document).ready(function(){
+componentUpdatePreviews();
+moderationInstance = $("#moderation_profile_select").val();
+transcodeProfile = $('#transcode_profile_select').val();
+selectSChange();
+
+<? if($this->moderatedSelectDisable == 'checked="checked"')
+        echo "modDisableSelect();";
+?>
+
+$("#settings_submit_button").click (
+/*
+                    "&s_info="+$("input[@name='s_info']:checked").val()+
+                    "&s_auto="+$("input[@name='s_auto']:checked").val()+
+*/
+        function() {
+            $('#settings_submit_button').attr('disabled','true');
+            $.ajax({
+            type: "POST",
+            url: "<?= $this->baseUrl ?>/playback/ajax/instance/<?= $this->instance_id ?>",
+            data:   "s_name="+$("input[@name='s_name']").val()+
+                    "&s_full="+$("input[@name='s_full']:checked").val()+
+                    "&s_pop="+$("input[@name='s_pop']:checked").val()+
+                    "&s_light="+$("input[@name='s_light']:checked").val()+
+                    "&s_embed="+$("input[@name='s_embed']:checked").val()+
+                    "&s_share="+$("input[@name='s_share']:checked").val()+
+                    "&s_email="+$("input[@name='s_email']:checked").val()+
+                    "&s_sms="+$("input[@name='s_sms']:checked").val()+
+                    "&formMode=settings",
+            success: function(data, status){
+                    $('#settings_submit_button').removeAttr('disabled');
+                    $('#instance_selected').html($("input[@name='s_name']").val());
+                    $('#instance_name_top').html($("input[@name='s_name']").val());
+                    $('#s_settings_response').show();
+                    $('#s_settings_response').removeClass("response_pre")
+                            .stop()
+                            .addClass("response_post")
+                            .html("Your settings have been saved.")
+                            .fadeTo(4000,100).fadeOut(4000);
+                    },
+            error: function(XMLHttp, error) {
+                    $('#s_settings_response').removeClass("response_pre")
+                            .stop()
+                            .addClass("response_post")
+                            .html("An error occured. Please Try again.")
+                            .fadeTo(12000,100).fadeOut(5000);
+                    $('#settings_submit_button').removeAttr('disabled');
+                    }
+            });
+            
+            componentUpdatePreviews();
+        });
+
+    $("#appearance_submit_button").click (
+            function() {
+                $('#appearance_submit_button').attr('disabled','true');
+                $.ajax({
+                type: "POST",
+                url: "<?= $this->baseUrl ?>/playback/ajax/instance/<?= $this->instance_id ?>",
+                data:   "a_width="+$("input[@name='a_width']").val()+
+                        "&a_height="+$("input[@name='a_height']").val()+
+                        "&a_aspect="+$("input[@name='a_aspect']:checked").val()+
+                        "&formMode=appearance",
+                success: function(data, status){
+                        $('#appearance_submit_button').removeAttr('disabled');
+                        $('#style_response').show();
+                        $('#style_response').removeClass("response_pre")
+                                .stop()
+                                .addClass("response_post")
+                                .html("Your settings have been saved.")
+                                .fadeTo(4000,100).fadeOut(4000);
+                        },
+                error: function(XMLHttp, error) {
+                        $('#style_response').removeClass("response_pre")
+                                .stop()
+                                .addClass("response_post")
+                                .html("An error occured. Please Try again.")
+                                .fadeTo(12000,100).fadeOut(5000);
+                        $('#appearance_submit_button').removeAttr('disabled');
+                        }
+                });
+
+                componentUpdatePreviews();
+            });
+
+    $("#transcode_submit_button").click (
+            function() {
+                transcodePriority = getPriority();
+                $('#transcode_submit_button').attr('disabled','true');
+                $.ajax({
+                type: "POST",
+                url: "<?= $this->baseUrl ?>/playback/ajax/instance/<?= $this->instance_id ?>",
+                data:   "transcode_priority="+transcodePriority+
+                        "&formMode=transcode",
+                success: function(data, status){
+                        $('#transcode_submit_button').removeAttr('disabled');
+                        $('#transcode_settings_response').show();
+                        $('#transcode_settings_response').removeClass("response_pre")
+                                .stop()
+                                .addClass("response_post")
+                                .html("Your settings have been saved.")
+                                .fadeTo(4000,100).fadeOut(4000);
+                        },
+                error: function(XMLHttp, error) {
+                        $('#transcode_settings_response').removeClass("response_pre")
+                                .stop()
+                                .addClass("response_post")
+                                .html("An error occured. Please Try again.")
+                                .fadeTo(12000,100).fadeOut(5000);
+                        $('#transcode_submit_button').removeAttr('disabled');
+                        }
+                });
+            });
+
+    $('#domain_access_submit_button').click(function() {
+
+        var accessList = domainGetAccessList();
+        var accessListEnabled = $("input[@name='dal_enable']:checked").val();
+
+        $('#domain_access_submit_button').attr('disabled', 'true');
+        $.ajax({
+            type: 'POST',
+            url:  '/recorded/ajax/instance/' + instanceId,
+            data: 'domain_access_list=' + accessList +
+                  '&domain_access_enable=' + accessListEnabled +
+                  '&formMode=accesslist',
+            success: function(data, status) {
+                $('#domain_access_submit_button').removeAttr('disabled');
+                $('#domain_access_list_response').show();
+                $('#domain_access_list_response').removeClass('response_pre')
+                    .stop()
+                    .addClass('response_post')
+                    .html('Access list has been saved.')
+                    .fadeTo(4000,100).fadeOut(4000);
+            },
+            error: function(XMLHttp, error) {
+                $('#domain_access_list_response').removeClass('response_pre')
+                    .stop()
+                    .addClass('response_post')
+                    .html('An error occured. Please try again.')
+                    .fadeTo(12000,100).fadeOut(5000);
+                $('#domain_access_submit_button').removeAttr('disabled');
+            }
+        });
+    });
+
+});
+</script>
+
+    <div class="window pre" title="Settings" id="player_settings" autoopen="true" hposition="left" vposition="top" wheight="354" wwidth="408" style="overflow: hidden" >
+    <form id="player_settings" action="<?= $this->Path ?>" method="post">
+    <div class="spacer">&nbsp;</div>
+        <div class="row" id="player_name">
+            <span class="label">Player Name</span><span class="formw">
+            <input type="text" name="s_name" value="<?= $this->instanceName ?>" style="width: 180px;"/>
+            </span>
+        </div>
+
+        <div class="row" id="player_hq_enable">
+            <span class="label">Enable Embedding</span><span class="formw">
+            Enable <input type="radio" name="s_embed" value="enable" <?= $this->embedSelectEnable ?>/>
+            Disable <input type="radio" name="s_embed" value="disable" <?= $this->embedSelectDisable ?>/>
+            </span>
+        </div>
+        
+        <div class="row" id="player_share_enable">
+            <span class="label">Enable Sharing</span><span class="formw">
+            Enable <input type="radio" name="s_share" value="enable" <?= $this->shareSelectEnable ?>/>
+            Disable <input type="radio" name="s_share" value="disable" <?= $this->shareSelectDisable ?>/>
+            </span>
+        </div>
+
+        <div class="row" id="player_email_enable">
+            <span class="label">Enable Email</span><span class="formw">
+            Enable <input type="radio" name="s_email" value="enable" <?= $this->emailSelectEnable ?>/>
+            Disable <input type="radio" name="s_email" value="disable" <?= $this->emailSelectDisable ?>/>
+            </span>
+            </div>
+
+        <div class="row" id="player_sms_enable">
+            <span class="label">Enable SMS</span><span class="formw">
+            Enable <input type="radio" name="s_sms" value="enable" <?= $this->smsSelectEnable ?>/>
+            Disable <input type="radio" name="s_sms" value="disable" <?= $this->smsSelectDisable ?>/>
+            </span>
+        </div>
+
+<!--
+        <div class="row" id="player_info_enable">
+            <span class="label">Enable Info</span><span class="formw">
+            Enable <input type="radio" name="s_info" value="enable" <?= $this->infoSelectEnable ?>/>
+            Disable <input type="radio" name="s_info" value="disable" <?= $this->infoSelectDisable ?>/>
+            </span>
+        </div>
+-->
+        <div class="row" id="player_full_enable">
+            <span class="label">Enable Full-Screen</span><span class="formw">
+            Enable <input type="radio" name="s_full" value="enable" <?= $this->fullSelectEnable ?>/>
+            Disable <input type="radio" name="s_full" value="disable" <?= $this->fullSelectDisable ?>/>
+            </span>
+        </div>
+
+        <div class="row" id="player_pop_enable">
+            <span class="label">Enable Pop-Out</span><span class="formw">
+            Enable <input type="radio" name="s_pop" value="enable" <?= $this->popSelectEnable ?>/>
+            Disable <input type="radio" name="s_pop" value="disable" <?= $this->popSelectDisable ?>/>
+            </span>
+        </div>
+
+        <div class="row" id="player_light_enable">
+            <span class="label">Enable Lighting</span><span class="formw">
+            Enable <input type="radio" name="s_light" value="enable" <?= $this->lightSelectEnable ?>/>
+            Disable <input type="radio" name="s_light" value="disable" <?= $this->lightSelectDisable ?>/>
+            </span>
+        </div>
+<!--
+        <div class="row" id="player_auto_enable">
+            <span class="label">Enable Auto-Play</span><span class="formw">
+            Enable <input type="radio" name="s_auto" value="enable" <?= $this->autoSelectEnable ?>/>
+            Disable <input type="radio" name="s_auto" value="disable" <?= $this->autoSelectDisable ?>/>
+            </span>
+        </div>
+-->
+          <div class="spacer">&nbsp;</div>
+          <div class="row">
+            
+            <div class="f_submit"><div id="s_settings_response" class="response_pre"></div><input id="settings_submit_button" type="button" name="s_submit" class="save" value="" /></div></div>
+        </form>
+</div>
+    
+    <div class="window pre" title="Transcode" id="transcode_settings" wwidth="400" wheight="268" style="overflow: hidden">
+      <form id="transcode_settings" action="<?= $this->Path ?>" method="post" >
+          <div class="spacer">&nbsp;</div>
+          <div class="row" id="upload_moderation_profile">
+            <span class="label">Transcode Priority</span>
+             <span class="formw">
+                <select id="transcode_profile_select" multiple style="width: 65%; height: 100px;">
+                <?php
+                    foreach ($this->transcodeInstances as $instance) {
+                        echo '<option id="'.$instance->id.'" value="'.$instance->id.'">'.$instance->name.'</option>';
+                    }
+                ?>
+                </select>
+            <br />
+             <input id="up_button" type="button" class="move_up" value="" onclick="moveUp(document.getElementById('transcode_profile_select'))" />
+             <input id="down_button" type="button" value="" class="move_down" onclick="moveDown(document.getElementById('transcode_profile_select'))" />
+             </span>
+
+            </div>
+          
+          <div class="spacer">&nbsp;</div>
+          <div class="row">
+            <div id="transcode_settings_response" class="response_pre"></div>
+            <div class="f_submit"><input id="transcode_submit_button" type="button" name="s_submit" value="" class="save" /></div></div>
+        </form>
+</div>
+<div class="window pre" title="Appearance" id="appearance_settings" wwidth="450" wheight="238" style="overflow: hidden">
+    <form id="player_appearance" action="<?= $this->Path ?>" method="post">
+
+      <div class="spacer">&nbsp;</div>
+
+        <div class="row" id="player_aspect">
+            <span class="label">Player Aspect Ratio</span><span class="formw">
+            <?
+            foreach ($this->aspects as $a)
+            {
+                if($a['name'] != "Custom")
+                  $num = 1;
+                else
+                  $num = 3;
+
+                echo $a['name'] . " <input type='radio' name='a_aspect' value='".$a['id']."' ".$a['checked']." onclick='editField($num)' />\n";
+            }
+            ?>
+            </span>
+        </div>
+
+      <div class="row" id="a_width_text">
+            <span class="label">Player Width</span><span class="formw">
+            <input id="component_width" name="a_width" type="text" value="<?= $this->a_width ?>" onchange="editField(1)" /> Pixels
+            </span>
+        </div>
+      
+        <div class="row" id="a_height_text">
+          <span class="label">Player Height</span><span class="formw">
+            <input id="component_height" name="a_height" type="text" value="<?= $this->a_height ?>" onchange="editField(2)" /> Pixels
+          </span>
+        </div>
+        
+        <div class="row" id="a_style">
+          <span class="label">Player Skin</span><span class="formw">
+          <select id="a_style_select" name="a_style_select"><option value="0">Flixn Default</option></select>
+        </div>
+        
+        
+      <!--
+        <div class="row" id="player_skin">
+            <span class="label">Select Skin</span>
+             <span class="formw">
+                <select id="player_style" onchange="selectAChange()">
+                <? /*foreach ($this->styleInstances as $sInstance) {
+                    if($sInstance->id == $this->styleSelected)
+                        {echo '<option id="'.$sInstance->id.'" value="'.$sInstance->id.'" selected>'.$sInstance->name.'</option>';}
+                    else
+                        {echo '<option id="'.$sInstance->id.'" value="'.$sInstance->id.'">'.$sInstance->name.'</option>';}
+                }*/
+                ?>
+                </select>
+                </span>
+            </div>
+
+            <div class="row" id="player_theme">
+            <span class="label">Select Theme</span>
+             <span class="formw">
+                <select id="player_style" onchange="selectAChange()">
+                <? /* foreach ($this->themeInstances as $sInstance) {
+                    if($sInstance->id == $this->themeSelected)
+                        {echo '<option id="'.$sInstance->id.'" value="'.$sInstance->id.'" selected>'.$sInstance->name.'</option>';}
+                    else
+                        {echo '<option id="'.$sInstance->id.'" value="'.$sInstance->id.'">'.$sInstance->name.'</option>';}
+                } */
+                ?>
+                </select>
+                </span>
+            </div>
+      -->
+
+          
+          <div class="spacer">&nbsp;</div>
+          <div class="row">
+            <div class="f_submit">
+                <div id="style_response" class="response_pre"></div><input name="appearance_submit" type="button" value="" class="save" id="appearance_submit_button" />
+            </div>
+          </div>
+        </form>
+</div>
+
+<?php
+    print $this->partial('partials/component_domain_access_list.phtml',
+                         array('restrictDomainsList' => $this->restrictDomainsList,
+                               'restrictDomainsEnable' => $this->restrictDomainsEnable,
+                               'restrictDomainsDisable' => $this->restrictDomainsDisable));
+
+    print $this->partial('partials/component_embed_code.phtml',
+                         array('componentId' => $this->componentId,
+                               'componentWidth' => $this->a_width,
+                               'componentHeight' => $this->a_height));
+?>
+
+</div>
+
+<?php
+    print $this->partial('partials/component_preview.phtml',
+                         array('componentWidth' => $this->a_width,
+                               'componentHeight' => $this->a_height));
+?>
